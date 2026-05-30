@@ -1,0 +1,712 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cyber-bg: #070314;
+  --color-cyber-dark: #0d081f;
+  --color-cyber-accent: #00f3ff;
+  --color-cyber-magenta: #ff0055;
+  --color-cyber-green: #00ff66;
+  --color-cyber-orange: #ff7700;
+  --color-cyber-indigo: #4f46e5;
+  --color-cyber-glass: rgba(13, 8, 31, 0.65);
+
+  /* Cockpit Theme Colors */
+  --color-inverse-surface: #e1e0fb;
+  --color-tertiary-fixed: #72ff70;
+  --color-secondary: #ffb1c3;
+  --color-on-tertiary-fixed: #002203;
+  --color-surface-container-low: #191a2d;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-tertiary-container: #00fd40;
+  --color-on-primary: #00363a;
+  --color-on-tertiary: #003907;
+  --color-error: #ffb4ab;
+  --color-on-tertiary-container: #007016;
+  --color-primary: #e1fdff;
+  --color-primary-fixed-dim: #00dbe7;
+  --color-background: #111225;
+  --color-tertiary-fixed-dim: #00e639;
+  --color-on-error-container: #ffdad6;
+  --color-critical-red: #ff0055;
+  --color-on-secondary: #66002c;
+  --color-on-surface: #e1e0fb;
+  --color-surface-container-highest: #323348;
+  --color-on-background: #e1e0fb;
+  --color-inverse-primary: #00696f;
+  --color-on-secondary-fixed: #3f0019;
+  --color-primary-fixed: #74f5ff;
+  --color-on-secondary-container: #590026;
+  --color-outline: #849495;
+  --color-surface-variant: #323348;
+  --color-primary-container: #00f2ff;
+  --color-inverse-on-surface: #2e2f43;
+  --color-on-primary-container: #006a71;
+  --color-surface-grid: #1a1b2e;
+  --color-surface-bright: #37374d;
+  --color-secondary-fixed-dim: #ffb1c3;
+  --color-on-primary-fixed-variant: #004f54;
+  --color-surface-dim: #111225;
+  --color-on-primary-fixed: #002022;
+  --color-surface-tint: #00dbe7;
+  --color-tertiary: #e4ffdb;
+  --color-text-ghost: #f3f4f6;
+  --color-on-tertiary-fixed-variant: #00530e;
+  --color-on-secondary-fixed-variant: #8f0041;
+  --color-surface-container-high: #27283d;
+  --color-surface-container: #1d1e32;
+  --color-surface: #111225;
+  --color-outline-variant: #3a494b;
+  --color-secondary-container: #ff4b89;
+  --color-surface-container-lowest: #0b0c1f;
+  --color-secondary-fixed: #ffd9e0;
+  --color-on-surface-variant: #b9cacb;
+
+  /* Cockpit Theme Spacing */
+  --spacing-margin-desktop: 16px;
+  --spacing-margin-mobile: 8px;
+  --spacing-container-max: 100%;
+  --spacing-gutter: 12px;
+  --spacing-unit: 4px;
+  --spacing-panel-padding: 1rem;
+
+  /* Border Radius */
+  --radius-DEFAULT: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
+  /* Font Families */
+  --font-sans: 'Outfit', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-label-mono: 'JetBrains Mono', monospace;
+  --font-body-base: 'Space Grotesk', sans-serif;
+  --font-headline-md: 'Space Grotesk', sans-serif;
+  --font-headline-lg: 'Space Grotesk', sans-serif;
+  --font-headline-lg-mobile: 'Space Grotesk', sans-serif;
+  --font-body-md: 'Space Grotesk', sans-serif;
+  --font-headline-xl: 'Space Grotesk', sans-serif;
+  --font-mono-data: 'JetBrains Mono', monospace;
+  --font-label-caps: 'JetBrains Mono', monospace;
+
+  /* Font Sizes */
+  --text-label-mono: 12px;
+  --text-body-base: 14px;
+  --text-headline-md: 18px;
+  --text-headline-lg: 24px;
+  --text-headline-lg-mobile: 20px;
+  --text-body-md: 14px;
+  --text-headline-xl: 32px;
+  --text-mono-data: 12px;
+  --text-label-caps: 10px;
+
+  --shadow-neon-cyan: 0 0 8px rgba(0, 243, 255, 0.5), 0 0 16px rgba(0, 243, 255, 0.2);
+  --shadow-neon-magenta: 0 0 8px rgba(255, 0, 85, 0.5), 0 0 16px rgba(255, 0, 85, 0.2);
+  --shadow-neon-green: 0 0 8px rgba(0, 255, 102, 0.5), 0 0 16px rgba(0, 255, 102, 0.2);
+  --shadow-neon-orange: 0 0 8px rgba(255, 119, 0, 0.5), 0 0 16px rgba(255, 119, 0, 0.2);
+
+  --animate-glow-pulse: glow-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shake: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+  --animate-float: float 4s ease-in-out infinite;
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px rgba(0, 243, 255, 0.6)); }
+    50% { opacity: 0.7; filter: drop-shadow(0 0 12px rgba(0, 243, 255, 0.9)); }
+  }
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* TypeMaster Color System */
+  --color-tp-primary-50: #f0f7ff;
+  --color-tp-primary-100: #e0effe;
+  --color-tp-primary-200: #bae2fd;
+  --color-tp-primary-300: #7ccbfd;
+  --color-tp-primary-400: #38b0f8;
+  --color-tp-primary-500: #0ea0ea;
+  --color-tp-primary-600: #0280c7;
+  --color-tp-primary-700: #0366a1;
+  --color-tp-primary-800: #075685;
+  --color-tp-primary-900: #0c486e;
+  --color-tp-primary-950: #082f49;
+
+  --color-tp-success-50: #f0fdf4;
+  --color-tp-success-500: #22c55e;
+  --color-tp-success-600: #16a34a;
+
+  --color-tp-danger-50: #fef2f2;
+  --color-tp-danger-500: #ef4444;
+  --color-tp-danger-600: #dc2626;
+
+  --color-tp-kid-bg: #fffdf0;
+  --color-tp-kid-primary: #ff7b93;
+  --color-tp-kid-secondary: #ffbe0b;
+  --color-tp-kid-accent: #3a86c8;
+  --color-tp-kid-text: #4a3e3d;
+
+  --animate-tp-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-tp-key-press: keypress-tp 0.1s ease-out;
+  --animate-tp-shake: shake-tp 0.2s ease-in-out;
+  --animate-tp-bounce-light: bounce-light-tp 1.5s ease-in-out infinite;
+
+  @keyframes keypress-tp {
+    0% { transform: scale(0.95); filter: brightness(0.9); }
+    100% { transform: scale(1); filter: brightness(1); }
+  }
+  @keyframes shake-tp {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+  @keyframes bounce-light-tp {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+}
+
+@utility neon-text-cyan {
+  text-shadow: 0 0 4px rgba(0, 243, 255, 0.4), 0 0 12px rgba(0, 243, 255, 0.2);
+}
+@utility neon-text-magenta {
+  text-shadow: 0 0 4px rgba(255, 0, 85, 0.4), 0 0 12px rgba(255, 0, 85, 0.2);
+}
+@utility neon-text-green {
+  text-shadow: 0 0 4px rgba(0, 255, 102, 0.4), 0 0 12px rgba(0, 255, 102, 0.2);
+}
+@utility neon-text-orange {
+  text-shadow: 0 0 4px rgba(255, 119, 0, 0.4), 0 0 12px rgba(255, 119, 0, 0.2);
+}
+
+@utility glass-panel {
+  background: rgba(13, 8, 31, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 243, 255, 0.15);
+}
+@utility glass-panel-magenta {
+  background: rgba(13, 8, 31, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 0, 85, 0.2);
+}
+@utility glass-panel-green {
+  background: rgba(13, 8, 31, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 102, 0.2);
+}
+
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(7, 3, 20, 0.5);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 243, 255, 0.3);
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 243, 255, 0.6);
+  }
+}
+
+/* Cybernetic Grid Floor (Perspective) */
+.grid-floor {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  transform: perspective(300px) rotateX(60deg);
+  transform-origin: bottom;
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  right: -20%;
+  height: 50%;
+  z-index: 1;
+}
+
+/* CRT Scanlines Screen Effect */
+.crt-effect {
+  position: relative;
+}
+.crt-effect::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 9999;
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Glitch text effect on boss */
+.glitch-text {
+  position: relative;
+}
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff0055;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 #00f3ff;
+  clip: rect(85px, 450px, 140px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+/* Cockpit Design Custom Utilities */
+.glass-panel-glow {
+  box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 0 10px rgba(0, 242, 255, 0.1);
+}
+
+.neon-text-primary {
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.5), 0 0 20px rgba(0, 242, 255, 0.3);
+}
+
+.neon-text-secondary {
+  text-shadow: 0 0 10px rgba(255, 75, 137, 0.5), 0 0 20px rgba(255, 75, 137, 0.3);
+}
+
+.cyber-border {
+  position: relative;
+}
+
+.cyber-border::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 1px solid rgba(0, 242, 255, 0.3);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.cyber-border:hover::before, .cyber-border.active::before {
+  opacity: 1;
+  box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.2), 0 0 10px rgba(0, 242, 255, 0.5);
+  border-color: rgba(0, 242, 255, 1);
+}
+
+.hero-btn {
+  background: linear-gradient(135deg, #00f2ff, #ff4b89);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: linear-gradient(rgba(255,255,255,0.2), transparent, transparent);
+  transform: rotate(45deg);
+  animation: radar-sweep 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes radar-sweep {
+  0% { transform: rotate(45deg) translateY(-100%); }
+  100% { transform: rotate(45deg) translateY(100%); }
+}
+
+.segmented-progress {
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, #323348 2px, #323348 4px);
+}
+.segmented-progress-active {
+  background-image: repeating-linear-gradient(90deg, #00f2ff, #00f2ff 2px, transparent 2px, transparent 4px);
+}
+
+body {
+  background-color: var(--color-background) !important;
+  color: var(--color-on-background) !important;
+  background-image: 
+      linear-gradient(rgba(50, 51, 72, 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(50, 51, 72, 0.5) 1px, transparent 1px) !important;
+  background-size: 40px 40px !important;
+  background-attachment: fixed !important;
+  overflow-y: auto !important; /* Enable scroll by default */
+}
+
+body.word-battle-active {
+  overflow: hidden !important; /* Force no scroll in gameplay */
+}
+
+.jp-text {
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
+/* ==========================================================================
+   MAGICAL ADVENTURE (GIRL PASTEL) THEME OVERRIDES
+   ========================================================================== */
+body[data-theme="magical"] {
+  /* Pastel & Magical Theme Colors (from provided HTML/Tailwind spec) */
+  --color-background: #fff8f9;
+  --color-surface: #fff8f9;
+  --color-on-background: #1f1a1d;
+  --color-on-surface: #1f1a1d;
+  --color-primary: #854b71;
+  --color-primary-container: #ffb7e2;
+  --color-on-primary-container: #7c4468;
+  --color-secondary: #2f6574;
+  --color-secondary-container: #b5ebfc;
+  --color-on-secondary-container: #366c7a;
+  --color-tertiary: #47672f;
+  --color-tertiary-container: #b2d894;
+  --color-on-tertiary-container: #3f5f28;
+  --color-outline: #82737a;
+  --color-outline-variant: #d4c2ca;
+  --color-surface-container: #f6ebef;
+  --color-surface-container-low: #fcf1f4;
+  --color-surface-container-high: #f1e5e9;
+  --color-surface-container-highest: #ebe0e3;
+  --color-surface-dim: #e2d7db;
+  --color-surface-variant: #ebe0e3;
+  --color-on-surface-variant: #50434a;
+  --color-inverse-surface: #352f32;
+  --color-inverse-on-surface: #f9eef1;
+  --color-primary-fixed: #ffd8ec;
+  --color-primary-fixed-dim: #f8b1dc;
+  --color-on-primary-fixed: #36072a;
+  --color-on-primary-fixed-variant: #6a3458;
+
+  /* Cyber overrides for absolute consistency */
+  --color-cyber-bg: #fff8f9;
+  --color-cyber-dark: rgba(255, 255, 255, 0.9);
+  --color-cyber-accent: #854b71;
+  --color-cyber-magenta: #ba1a1a;
+  --color-cyber-green: #47672f;
+  --color-cyber-orange: #366c7a;
+  --color-cyber-indigo: #e0bbe4;
+  --color-cyber-glass: rgba(255, 255, 255, 0.9);
+
+  /* Spacing */
+  --spacing-panel-padding: 1.5rem;
+
+  /* Rounded bubble feel */
+  --radius-DEFAULT: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-full: 9999px;
+
+  /* Fonts */
+  --font-sans: 'Quicksand', sans-serif;
+  --font-display: 'Quicksand', sans-serif;
+  --font-body-base: 'Quicksand', sans-serif;
+  --font-body-md: 'Quicksand', sans-serif;
+  --font-headline-md: 'Quicksand', sans-serif;
+  --font-headline-lg: 'Quicksand', sans-serif;
+  --font-headline-xl: 'Quicksand', sans-serif;
+  --font-mono-data: 'Quicksand', sans-serif;
+  --font-label-caps: 'Quicksand', sans-serif;
+  --font-label-mono: 'Quicksand', sans-serif;
+
+  /* Soft Background Gradient */
+  background-image: linear-gradient(135deg, #fff8f9 0%, #E0BBE4 100%) !important;
+  background-size: auto !important;
+}
+
+/* Specific theme detail adjustments */
+body[data-theme="magical"] .crt-effect::after {
+  display: none !important;
+}
+body[data-theme="magical"] .grid-floor {
+  display: none !important;
+}
+
+/* Glass panel styling override to match white panels with pink borders in mockup */
+body[data-theme="magical"] .glass-panel {
+  background: #ffffff !important; /* solid white background */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 10px 30px rgba(224, 187, 228, 0.3) !important;
+  border: 2px solid var(--color-primary-container) !important; /* pink border #ffb7e2 */
+}
+
+body[data-theme="magical"] .glass-panel-glow {
+  box-shadow: 0 10px 30px rgba(224, 187, 228, 0.3) !important;
+}
+
+/* Neon text overrides to prevent illegible glowing effects on light background */
+body[data-theme="magical"] .neon-text-primary,
+body[data-theme="magical"] .neon-text-secondary,
+body[data-theme="magical"] .neon-text-cyan,
+body[data-theme="magical"] .neon-text-magenta,
+body[data-theme="magical"] .neon-text-green,
+body[data-theme="magical"] .neon-text-orange {
+  text-shadow: none !important;
+}
+
+/* Text color contrast overrides - CRITICAL FOR READABILITY */
+body[data-theme="magical"] .text-primary-container {
+  color: var(--color-primary) !important; /* dark berry #854b71 instead of pastel pink */
+}
+body[data-theme="magical"] .text-secondary-container {
+  color: var(--color-secondary) !important; /* dark teal/blue */
+}
+body[data-theme="magical"] .text-tertiary-container {
+  color: var(--color-tertiary) !important; /* dark green */
+}
+body[data-theme="magical"] .text-gray-400,
+body[data-theme="magical"] .glass-panel .text-gray-400 {
+  color: #50434a !important; /* dark slate gray instead of light gray */
+}
+body[data-theme="magical"] .text-white,
+body[data-theme="magical"] .glass-panel .text-white {
+  color: #1f1a1d !important; /* dark charcoal instead of white */
+}
+body[data-theme="magical"] .text-on-surface-variant {
+  color: #50434a !important; /* dark gray */
+}
+
+/* HUD and statistics colors in gameplay */
+body[data-theme="magical"] .text-cyber-orange {
+  color: #2f6574 !important; /* secondary dark blue, superb contrast! */
+}
+body[data-theme="magical"] .text-cyber-accent {
+  color: var(--color-primary) !important; /* dark berry #854b71 */
+}
+body[data-theme="magical"] .text-cyber-magenta {
+  color: #ba1a1a !important; /* solid error red */
+}
+body[data-theme="magical"] .text-cyber-green {
+  color: #47672f !important; /* dark green */
+}
+
+/* Play/Start button (Bubbly button styling) */
+body[data-theme="magical"] .hero-btn {
+  background: linear-gradient(180deg, #ffb7e2 0%, #f8b1dc 100%) !important;
+  box-shadow: 0 6px 0 var(--color-primary), 0 10px 20px rgba(133, 75, 113, 0.2) !important;
+  color: var(--color-on-primary-container) !important;
+  border-radius: 9999px !important;
+  border: 2px solid var(--color-primary) !important;
+  transition: all 0.1s !important;
+}
+
+body[data-theme="magical"] .hero-btn * {
+  color: var(--color-on-primary-container) !important; /* dark berry text for play button */
+}
+
+body[data-theme="magical"] .hero-btn::after {
+  display: none !important; /* hide radar-sweep animate */
+}
+
+body[data-theme="magical"] .hero-btn:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 0 0 var(--color-primary), 0 4px 10px rgba(133, 75, 113, 0.2) !important;
+}
+
+/* Cyber borders (Level selector buttons) */
+body[data-theme="magical"] .cyber-border::before {
+  display: none !important;
+}
+
+body[data-theme="magical"] .cyber-border {
+  border: 1px solid var(--color-outline-variant) !important; /* gray border */
+  background-color: #ffffff !important;
+  border-radius: 9999px !important; /* rounded-full bubbly styling from mockup */
+  transition: all 0.2s !important;
+  color: #50434a !important;
+}
+
+body[data-theme="magical"] .cyber-border:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 15px rgba(133, 75, 113, 0.15) !important;
+  border-color: var(--color-primary-container) !important;
+}
+
+body[data-theme="magical"] .cyber-border.active {
+  background: var(--color-primary-container) !important; /* full solid pink #ffb7e2 */
+  color: var(--color-on-primary-container) !important; /* dark pink #7c4468 */
+  border: 2px solid var(--color-primary) !important; /* berry border */
+  font-weight: 700 !important;
+}
+
+body[data-theme="magical"] .cyber-border.active * {
+  color: var(--color-on-primary-container) !important;
+}
+
+/* Gameplay: falling aircraft/words design and CRITICAL CONTRAST FIX */
+body[data-theme="magical"] [id^="aircraft-"] {
+  background: #ffffff !important; /* solid white card for falling word */
+  border: 2px solid var(--color-primary-container) !important; /* pink border */
+  box-shadow: 0 4px 15px rgba(133, 75, 113, 0.1) !important;
+  color: #1f1a1d !important; /* dark text default */
+}
+
+/* Locked falling word highlight */
+body[data-theme="magical"] [id^="aircraft-"][class*="border-2"] {
+  border: 2px solid var(--color-primary) !important; /* berry border */
+  background: var(--color-primary-fixed) !important; /* soft light pink background */
+  box-shadow: 0 4px 20px rgba(133, 75, 113, 0.25) !important;
+}
+
+/* Words falling font color contrast */
+body[data-theme="magical"] [id^="aircraft-"] .text-white {
+  color: #1f1a1d !important; /* forced dark charcoal instead of white (WAS INVISIBLE) */
+}
+
+body[data-theme="magical"] [id^="aircraft-"] .text-cyber-green {
+  color: #47672f !important; /* dark green for typed characters */
+  font-weight: 900 !important;
+}
+
+body[data-theme="magical"] [id^="aircraft-"] .text-gray-400 {
+  color: #82737a !important; /* warm gray for details/sub-labels */
+}
+
+body[data-theme="magical"] [id^="aircraft-"] .text-cyber-accent {
+  color: var(--color-primary) !important; /* dark berry */
+  text-shadow: none !important;
+}
+
+/* In-game shield health slider overrides */
+body[data-theme="magical"] .glass-panel .bg-gray-800 {
+  background-color: #ebe0e3 !important;
+  border-color: #d4c2ca !important;
+}
+body[data-theme="magical"] .glass-panel .bg-cyber-green {
+  background-color: #47672f !important;
+  box-shadow: none !important;
+}
+body[data-theme="magical"] .glass-panel .bg-cyber-magenta {
+  background-color: #ba1a1a !important;
+  box-shadow: none !important;
+}
+
+/* Settings sliders tracks and handles styling */
+body[data-theme="magical"] .segmented-progress {
+  background-image: none !important;
+  background-color: #ebe0e3 !important;
+}
+body[data-theme="magical"] .segmented-progress-active {
+  background-image: none !important;
+  background-color: #b5ebfc !important; /* pastel blue progress */
+}
+
+body[data-theme="magical"] input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-lemon-glow) !important; /* yellow handle #FFF2AD */
+  border: 2px solid var(--color-primary) !important;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* Scrollbars overrides */
+body[data-theme="magical"] .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(133, 75, 113, 0.3) !important;
+}
+body[data-theme="magical"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(133, 75, 113, 0.6) !important;
+}
+
+/* Material icons */
+body[data-theme="magical"] .material-symbols-outlined {
+  color: var(--color-primary) !important;
+}
+
+/* === TYPEMASTER MODULE SPECIFIC STYLES === */
+/* Glassmorphism Styles for Typing Practice */
+.typing-practice-module .tp-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark.typing-practice-module .tp-glass,
+.dark .typing-practice-module .tp-glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kid.typing-practice-module .tp-glass,
+.kid .typing-practice-module .tp-glass {
+  background: rgba(255, 253, 240, 0.855);
+  border: 2px solid #fef3c7;
+}
+
+/* Keyboard animations */
+@keyframes key-flash-success-tp {
+  0% { background-color: #22c55e; color: white; transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes key-flash-error-tp {
+  0% { background-color: #ef4444; color: white; transform: scale(0.95); }
+  50% { transform: scale(1.05) translateX(-2px); }
+  100% { transform: scale(1); }
+}
+
+.tp-key-success-pulse {
+  animation: key-flash-success-tp 0.15s ease-out;
+}
+
+.tp-key-error-pulse {
+  animation: key-flash-error-tp 0.15s ease-out;
+}
+
+/* Glow effects for target key */
+.tp-glow-primary {
+  box-shadow: 0 0 15px rgba(14, 160, 234, 0.5);
+}
+
+.tp-glow-success {
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+}
+
+.tp-glow-danger {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+/* Kid/Dark/Light Mode Overrides when inside Typing Practice */
+body.typing-practice-active {
+  background-color: #f8fafc !important; /* light slate background */
+  background-image: none !important;
+  color: #0f172a !important;
+}
+
+body.typing-practice-active.dark-mode-active {
+  background-color: #0c0a0f !important; /* deep dark slate background */
+  background-image: none !important;
+  color: #f8fafc !important;
+}
+
+body.typing-practice-active.kid-mode-active {
+  background-color: #fffdf0 !important; /* kid warm cream background */
+  background-image: none !important;
+  color: #4a3e3d !important;
+}
