@@ -46,7 +46,13 @@ export function drawGameBoardCanvas(
   if (state.lockedTargetId) {
     const target = state.aircrafts.find((a) => a.id === state.lockedTargetId && a.active);
     if (target) {
-      ctx.strokeStyle = 'rgba(0, 243, 255, 0.18)';
+      const targetColors = {
+        airplane: 'rgba(0, 243, 255, 0.18)',
+        tank: 'rgba(255, 119, 0, 0.18)',
+        butterfly: 'rgba(255, 0, 85, 0.18)',
+        turtle: 'rgba(244, 63, 94, 0.18)',
+      };
+      ctx.strokeStyle = targetColors[gameSettings.shooterType || 'airplane'] || 'rgba(0, 243, 255, 0.18)';
       ctx.lineWidth = 1;
       ctx.setLineDash([4, 4]);
       ctx.beginPath();

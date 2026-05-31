@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Settings, Volume2, Eye, Download, Upload, Trash2, HelpCircle } from 'lucide-react';
-import type { TypingPracticeSettings, TypingThemeType, FontSize } from '../stores/settingsStore';
+import type { TypingPracticeSettings, FontSize } from '../stores/settingsStore';
 import type { UserProgress } from '../stores/progressStore';
 
 interface SettingsPageProps {
@@ -66,34 +66,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       </div>
 
       <div className="w-full flex flex-col gap-5 mt-2">
-        <div className="tp-glass p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-sm flex flex-col gap-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Giao diện ứng dụng (Theme)
-          </h3>
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { id: 'light', name: '☀️ Sáng', desc: 'Đơn giản & dịu mắt' },
-              { id: 'dark', name: '🌙 Tối', desc: 'Hiện đại & bảo vệ mắt' },
-              { id: 'kid', name: '🎒 Học sinh', desc: 'Pastel vui tươi, chữ to' },
-            ].map((t) => (
-              <button
-                key={t.id}
-                onClick={() => onUpdateSettings({ theme: t.id as TypingThemeType })}
-                className={`p-3 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-center gap-1 ${
-                  settings.theme === t.id
-                    ? 'bg-tp-primary-500 text-white border-tp-primary-600 shadow-md font-bold scale-[1.02]'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800/80 text-slate-700 dark:text-slate-200 hover:border-tp-primary-300 dark:hover:border-tp-primary-800'
-                }`}
-              >
-                <span className="text-sm">{t.name}</span>
-                <span className={`text-[9px] opacity-75 ${settings.theme === t.id ? 'text-white/80' : 'text-slate-400'}`}>
-                  {t.desc}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         <div className="tp-glass p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-sm flex flex-col gap-4">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
             Cấu hình luyện gõ

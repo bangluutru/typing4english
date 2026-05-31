@@ -15,9 +15,10 @@ export type TypingPageType = 'home' | 'lessons' | 'practice' | 'result' | 'dashb
 interface TypingPracticeAppProps {
   onBackToHome: () => void;
   onGoToWordBattle?: (focusKeys?: string[]) => void;
+  appTheme?: 'cyberpunk' | 'magical';
 }
 
-export function TypingPracticeApp({ onBackToHome, onGoToWordBattle }: TypingPracticeAppProps) {
+export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: TypingPracticeAppProps) {
   const [settings, setSettings] = useSettings();
   const {
     progress,
@@ -52,6 +53,15 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle }: TypingPrac
       body.classList.remove('typing-practice-active', 'dark', 'kid', 'dark-mode-active', 'kid-mode-active');
     };
   }, [settings.theme]);
+
+  // Synchronize top-level appTheme with local settings
+  useEffect(() => {
+    if (appTheme === 'cyberpunk' && settings.theme !== 'dark') {
+      setSettings({ theme: 'dark' });
+    } else if (appTheme === 'magical' && settings.theme !== 'kid') {
+      setSettings({ theme: 'kid' });
+    }
+  }, [appTheme, settings.theme, setSettings]);
 
   // Track practice time
   useEffect(() => {

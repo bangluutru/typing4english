@@ -158,7 +158,7 @@ export interface TypingCoachSettings {
 
 export type VocabularyFilter = 'all' | 'starred' | 'exclude-mastered' | 'srs';
 
-export type ShooterType = 'airplane' | 'tank' | 'butterfly' | 'penguin';
+export type ShooterType = 'airplane' | 'tank' | 'butterfly' | 'turtle';
 
 export interface GameSettings {
   aircraftSpeedMultiplier: number;

@@ -444,13 +444,20 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             playLaser();
             const shipX = window.innerWidth / 2 - (gameSettings.typingCoach.enabled && gameSettings.typingCoach.position === 'right' ? 180 : 0);
             const shipY = window.innerHeight - gunYOffset;
+            const laserColor = {
+              airplane: '#00f3ff',
+              tank: '#ff7700',
+              butterfly: '#ff0077',
+              turtle: '#fbbf24',
+            }[gameSettings.shooterType || 'airplane'] || '#00f3ff';
+
             state.lasers.push({
               startX: shipX,
               startY: shipY,
               endX: target.x + target.width / 2,
               endY: target.y + target.height / 2,
               alpha: 1.0,
-              color: '#00f3ff',
+              color: laserColor,
               thickness: 3.5,
             });
 
@@ -504,13 +511,20 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           playLaser();
           const shipX = window.innerWidth / 2 - (gameSettings.typingCoach.enabled && gameSettings.typingCoach.position === 'right' ? 180 : 0);
           const shipY = window.innerHeight - gunYOffset;
+          const laserColor = {
+            airplane: '#00f3ff',
+            tank: '#ff7700',
+            butterfly: '#ff0077',
+            turtle: '#fbbf24',
+          }[gameSettings.shooterType || 'airplane'] || '#00f3ff';
+
           state.lasers.push({
             startX: shipX,
             startY: shipY,
             endX: chosen.x + chosen.width / 2,
             endY: chosen.y + chosen.height / 2,
             alpha: 1.0,
-            color: '#00f3ff',
+            color: laserColor,
             thickness: 3.5,
           });
 
@@ -1182,14 +1196,17 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             airplane: 'rgba(0, 243, 255, 0.8)',
             tank: 'rgba(255, 119, 0, 0.8)',
             butterfly: 'rgba(255, 0, 85, 0.8)',
-            penguin: 'rgba(0, 255, 102, 0.8)'
+            turtle: 'rgba(244, 63, 94, 0.8)'
           }[gameSettings.shooterType || 'airplane'] || 'rgba(0, 243, 255, 0.8)'})`
         }}
-        className="absolute w-14 h-14 z-30 pointer-events-none select-none"
+        className="absolute w-14 h-14 z-30 pointer-events-none select-none animate-float"
       >
         <img 
           src={`/assets/shooters/${gameSettings.shooterType || 'airplane'}.png`} 
-          className="w-full h-full object-contain"
+          onError={(e) => {
+            e.currentTarget.src = '/assets/shooters/airplane.png';
+          }}
+          className="w-full h-full object-contain max-w-full"
           alt="shooter"
         />
       </div>

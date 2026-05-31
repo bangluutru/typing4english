@@ -89,6 +89,20 @@ export const MainMenu: React.FC<MainMenuProps> = ({
 }) => {
   const t = useTranslation(gameSettings.uiLanguage);
 
+  // Preload shooter images for smooth gameplay loading
+  useEffect(() => {
+    const assets = [
+      '/assets/shooters/airplane.png',
+      '/assets/shooters/tank.png',
+      '/assets/shooters/butterfly.png',
+      '/assets/shooters/turtle.png',
+    ];
+    assets.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   const [selectedLevel, setSelectedLevel] = useState<Level>('Eiken 5 Kyu');
   const [selectedMode, setSelectedMode] = useState<GameMode>('endless');
   const [selectedLang, setSelectedLang] = useState<Language>('vi');
@@ -786,37 +800,76 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                   <span className="material-symbols-outlined text-[16px]">palette</span>
                   <h3 className="font-label-caps text-label-caps uppercase tracking-widest">{t('selectShooter')}</h3>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
-                  {[
-                    { id: 'airplane', name: t('shooterAirplane'), img: '/assets/shooters/airplane.png', glow: 'hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] border-cyber-accent', activeGlow: 'border-cyber-accent bg-cyber-accent/10 shadow-[0_0_15px_#00f3ff]' },
-                    { id: 'tank', name: t('shooterTank'), img: '/assets/shooters/tank.png', glow: 'hover:shadow-[0_0_12px_rgba(255,119,0,0.4)] border-cyber-orange', activeGlow: 'border-cyber-orange bg-cyber-orange/10 shadow-[0_0_15px_#ff7700]' },
-                    { id: 'butterfly', name: t('shooterButterfly'), img: '/assets/shooters/butterfly.png', glow: 'hover:shadow-[0_0_12px_rgba(255,0,85,0.4)] border-cyber-magenta', activeGlow: 'border-cyber-magenta bg-cyber-magenta/10 shadow-[0_0_15px_#ff0055]' },
-                    { id: 'penguin', name: t('shooterPenguin'), img: '/assets/shooters/penguin.png', glow: 'hover:shadow-[0_0_12px_rgba(255,75,137,0.4)] border-secondary-container', activeGlow: 'border-secondary-container bg-secondary-container/10 shadow-[0_0_15px_#ff4b89]' },
-                  ].map(s => {
-                    const isSelected = (gameSettings.shooterType || 'airplane') === s.id;
-                    return (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => {
-                          onInitAudio();
-                          onSetGameSettings({
-                            ...gameSettings,
-                            shooterType: s.id as ShooterType
-                          });
-                        }}
-                        className={`flex flex-col items-center justify-between p-2 rounded-xl border transition-all cursor-pointer ${
-                          isSelected ? s.activeGlow + ' scale-[1.03]' : 'border-outline-variant/30 bg-surface/50 opacity-60 ' + s.glow
-                        }`}
-                        title={s.name}
-                      >
-                        <div className="w-10 h-10 flex items-center justify-center mb-1">
-                          <img src={s.img} className="w-full h-full object-contain filter drop-shadow-[0_0_5px_rgba(255,255,255,0.2)]" alt={s.id} />
-                        </div>
-                        <span className="text-[7px] text-center font-bold tracking-tighter truncate w-full text-white uppercase">{s.name}</span>
-                      </button>
-                    );
-                  })}
+                <div className="flex flex-col gap-3">
+                  {/* Cyber Adventure Shooters Section */}
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-cyber-accent font-black tracking-wider uppercase font-mono">🛸 Phiêu lưu Không gian / Cyber Shooters</span>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: 'airplane', name: t('shooterAirplane'), img: '/assets/shooters/airplane.png', glow: 'hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] border-cyber-accent', activeGlow: 'border-cyber-accent bg-cyber-accent/10 shadow-[0_0_15px_#00f3ff]' },
+                        { id: 'tank', name: t('shooterTank'), img: '/assets/shooters/tank.png', glow: 'hover:shadow-[0_0_12px_rgba(255,119,0,0.4)] border-cyber-orange', activeGlow: 'border-cyber-orange bg-cyber-orange/10 shadow-[0_0_15px_#ff7700]' },
+                      ].map(s => {
+                        const isSelected = (gameSettings.shooterType || 'airplane') === s.id;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            onClick={() => {
+                              onInitAudio();
+                              onSetGameSettings({
+                                ...gameSettings,
+                                shooterType: s.id as ShooterType
+                              });
+                            }}
+                            className={`flex flex-col items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                              isSelected ? s.activeGlow + ' scale-[1.03]' : 'border-outline-variant/30 bg-surface/50 opacity-60 ' + s.glow
+                            }`}
+                            title={s.name}
+                          >
+                            <div className="w-10 h-10 flex items-center justify-center mb-1">
+                              <img src={s.img} className="w-full h-full object-contain filter drop-shadow-[0_0_5px_rgba(255,255,255,0.2)]" alt={s.id} />
+                            </div>
+                            <span className="text-[8px] text-center font-bold tracking-tighter truncate w-full text-white uppercase">{s.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Magical Adventure Shooters Section */}
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-cyber-magenta font-black tracking-wider uppercase font-mono">💖 Phiêu lưu Phép màu / Magical Shooters</span>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: 'butterfly', name: t('shooterButterfly'), img: '/assets/shooters/butterfly.png', glow: 'hover:shadow-[0_0_12px_rgba(255,0,85,0.4)] border-cyber-magenta', activeGlow: 'border-cyber-magenta bg-cyber-magenta/10 shadow-[0_0_15px_#ff0055]' },
+                        { id: 'turtle', name: t('shooterTurtle'), img: '/assets/shooters/turtle.png', glow: 'hover:shadow-[0_0_12px_rgba(244,63,94,0.4)] border-pink-400', activeGlow: 'border-pink-500 bg-pink-500/10 shadow-[0_0_15px_#f43f5e]' },
+                      ].map(s => {
+                        const isSelected = (gameSettings.shooterType || 'airplane') === s.id;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            onClick={() => {
+                              onInitAudio();
+                              onSetGameSettings({
+                                ...gameSettings,
+                                shooterType: s.id as ShooterType
+                              });
+                            }}
+                            className={`flex flex-col items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                              isSelected ? s.activeGlow + ' scale-[1.03]' : 'border-outline-variant/30 bg-surface/50 opacity-60 ' + s.glow
+                            }`}
+                            title={s.name}
+                          >
+                            <div className="w-10 h-10 flex items-center justify-center mb-1">
+                              <img src={s.img} className="w-full h-full object-contain filter drop-shadow-[0_0_5px_rgba(255,255,255,0.2)]" alt={s.id} />
+                            </div>
+                            <span className="text-[8px] text-center font-bold tracking-tighter truncate w-full text-white uppercase">{s.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
 

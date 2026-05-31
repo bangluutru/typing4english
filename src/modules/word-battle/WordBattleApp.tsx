@@ -43,17 +43,19 @@ function normalizeGameSettings(saved: unknown): GameSettings {
       keyboardOpacity: Number(s?.typingCoach?.keyboardOpacity) || 85,
     },
     vocabularyFilter: s?.vocabularyFilter ?? 'all',
-    shooterType: s?.shooterType ?? 'airplane',
-    theme: s?.theme ?? 'cyberpunk'
+    shooterType: (s?.shooterType as any) === 'penguin' ? 'turtle' : (s?.shooterType ?? 'airplane'),
+    theme: (typeof window !== 'undefined' ? (localStorage.getItem('typing_adventure_app_theme') as 'cyberpunk' | 'magical') : null) || s?.theme || 'cyberpunk'
   };
 }
 
 interface WordBattleAppProps {
   onBackToHome: () => void;
   initialLevel?: Level | null;
+  appTheme?: 'cyberpunk' | 'magical';
+  onSetAppTheme?: (theme: 'cyberpunk' | 'magical') => void;
 }
 
-export function WordBattleApp({ onBackToHome, initialLevel }: WordBattleAppProps) {
+export function WordBattleApp({ onBackToHome, initialLevel, appTheme, onSetAppTheme }: WordBattleAppProps) {
   // Synthesizer Audio hooks
   const {
     settings: soundSettings,
@@ -144,9 +146,47 @@ export function WordBattleApp({ onBackToHome, initialLevel }: WordBattleAppProps
   });
 
   const handleSetGameSettings = (settings: GameSettings) => {
-    setGameSettings(settings);
-    localStorage.setItem('typing_adventure_wb_settings', JSON.stringify(settings));
+    let finalSettings = { ...settings };
+    
+    // Auto-default shooter type if the theme changed from inside the game menu
+    if (settings.theme !== gameSettings.theme) {
+      if (settings.theme === 'cyberpunk') {
+        if (settings.shooterType === 'butterfly' || settings.shooterType === 'turtle') {
+          finalSettings.shooterType = 'airplane';
+        }
+      } else if (settings.theme === 'magical') {
+        if (settings.shooterType === 'airplane' || settings.shooterType === 'tank') {
+          finalSettings.shooterType = 'butterfly';
+        }
+      }
+      
+      // Notify SuiteApp
+      if (onSetAppTheme) {
+        onSetAppTheme(settings.theme || 'cyberpunk');
+      }
+    }
+
+    setGameSettings(finalSettings);
+    localStorage.setItem('typing_adventure_wb_settings', JSON.stringify(finalSettings));
   };
+
+  // Keep gameSettings.theme in sync when appTheme changes externally
+  useEffect(() => {
+    if (appTheme && appTheme !== gameSettings.theme) {
+      const updated = { ...gameSettings, theme: appTheme };
+      if (appTheme === 'cyberpunk') {
+        if (updated.shooterType === 'butterfly' || updated.shooterType === 'turtle') {
+          updated.shooterType = 'airplane';
+        }
+      } else if (appTheme === 'magical') {
+        if (updated.shooterType === 'airplane' || updated.shooterType === 'tank') {
+          updated.shooterType = 'butterfly';
+        }
+      }
+      setGameSettings(updated);
+      localStorage.setItem('typing_adventure_wb_settings', JSON.stringify(updated));
+    }
+  }, [appTheme, gameSettings.theme]);
 
   // Dynamic Theme syncer
   useEffect(() => {

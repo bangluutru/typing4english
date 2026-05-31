@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, Sliders, Keyboard, Gamepad2, Globe, ShieldAlert, Sparkles, Trash2 } from 'lucide-react';
 import { useSettings } from '../modules/typing-practice/stores/settingsStore';
 import { useProgress } from '../modules/typing-practice/stores/progressStore';
@@ -54,7 +54,12 @@ const DEFAULT_WB_SETTINGS: GameSettings = {
   theme: 'cyberpunk',
 };
 
-export const UnifiedSettingsPage: React.FC = () => {
+interface UnifiedSettingsPageProps {
+  appTheme?: 'cyberpunk' | 'magical';
+  onSetAppTheme?: (theme: 'cyberpunk' | 'magical') => void;
+}
+
+export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appTheme, onSetAppTheme }) => {
   const [activeTab, setActiveTab] = useState<'general' | 'typing' | 'battle'>('general');
   const [tpSettings, setTpSettings] = useSettings();
   const { resetProgress: resetTpProgress } = useProgress();
@@ -64,7 +69,12 @@ export const UnifiedSettingsPage: React.FC = () => {
     const saved = localStorage.getItem('typing_adventure_wb_settings');
     if (saved) {
       try {
-        return { ...DEFAULT_WB_SETTINGS, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        // Naming Migration penguin -> turtle
+        if (parsed.shooterType === 'penguin') {
+          parsed.shooterType = 'turtle';
+        }
+        return { ...DEFAULT_WB_SETTINGS, ...parsed };
       } catch {
         // ignore
       }
@@ -72,14 +82,21 @@ export const UnifiedSettingsPage: React.FC = () => {
     return DEFAULT_WB_SETTINGS;
   });
 
+  // Sync settings when appTheme changes externally
+  useEffect(() => {
+    if (appTheme && appTheme !== wbSettings.theme) {
+      setWbSettings(prev => ({ ...prev, theme: appTheme }));
+    }
+  }, [appTheme, wbSettings.theme]);
+
   const updateWbSettings = (updater: Partial<GameSettings>) => {
     const updated = { ...wbSettings, ...updater };
     setWbSettings(updated);
     localStorage.setItem('typing_adventure_wb_settings', JSON.stringify(updated));
     
     // Apply theme changes if general theme is changed
-    if (updater.theme) {
-      document.body.setAttribute('data-theme', updater.theme);
+    if (updater.theme && onSetAppTheme) {
+      onSetAppTheme(updater.theme);
     }
   };
 
@@ -187,8 +204,8 @@ export const UnifiedSettingsPage: React.FC = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { id: 'cyberpunk', name: '🌌 Cyberpunk (👦)', desc: 'Neon hiện đại & cá tính' },
-                  { id: 'magical', name: '💖 Magical (👧)', desc: 'Màu sắc tươi sáng, dễ thương' },
+                  { id: 'cyberpunk', name: '🌌 Phiêu lưu Không gian (Cyber)', desc: 'Neon hiện đại & năng động (Máy bay / Xe tăng)' },
+                  { id: 'magical', name: '💖 Phiêu lưu Phép màu (Magical)', desc: 'Sắc hồng dễ thương & ấm áp (Bướm / Rùa hồng)' },
                 ].map((theme) => (
                   <button
                     key={theme.id}
@@ -199,8 +216,8 @@ export const UnifiedSettingsPage: React.FC = () => {
                         : 'bg-cyber-dark/40 border-outline-variant/30 text-gray-400 hover:border-cyber-accent/50 hover:text-gray-200'
                     }`}
                   >
-                    <span className="text-sm">{theme.name}</span>
-                    <span className="text-[10px] opacity-75">{theme.desc}</span>
+                    <span className="text-xs sm:text-sm font-black">{theme.name}</span>
+                    <span className="text-[9px] opacity-75 leading-relaxed mt-0.5">{theme.desc}</span>
                   </button>
                 ))}
               </div>

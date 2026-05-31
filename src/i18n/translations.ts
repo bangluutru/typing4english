@@ -219,7 +219,7 @@ export const translations = {
     shooterAirplane: 'MÁY BAY',
     shooterTank: 'XE TĂNG',
     shooterButterfly: 'BƯƠM BƯỚM',
-    shooterPenguin: 'RÙA HỒNG',
+    shooterTurtle: 'RÙA HỒNG',
   },
   en: {
     // Main Menu
@@ -441,7 +441,7 @@ export const translations = {
     shooterAirplane: 'Cyber Fighter',
     shooterTank: 'Steel Tank (Boys 👦)',
     shooterButterfly: 'Neon Butterfly (Girls 👧)',
-    shooterPenguin: 'Cute Pink Turtle 🐢',
+    shooterTurtle: 'Cute Pink Turtle 🐢',
   },
   ja: {
     // Main Menu
@@ -663,6 +663,6 @@ export const translations = {
     shooterAirplane: 'サイバー戦闘機',
     shooterTank: 'スチール戦車 (男の子 👦)',
     shooterButterfly: 'ネオンの蝶 (女の子 👧)',
-    shooterPenguin: '可愛いピンクのウミガメ 🐢',
+    shooterTurtle: '可愛いピンクのウミガメ 🐢',
   },
 };
