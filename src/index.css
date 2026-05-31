@@ -713,7 +713,70 @@ body.typing-practice-active {
 body.typing-practice-active.dark-mode-active {
   background-color: #0c0a0f !important; /* deep dark slate background */
   background-image: none !important;
-  color: #f8fafc !important;
+  color: #e2e8f0 !important; /* light slate text primary */
+}
+
+/* Force high contrast text colors for Slate color utilities inside Typing Practice Cyber theme */
+body.typing-practice-active.dark-mode-active .text-slate-900,
+body.typing-practice-active.dark-mode-active .text-slate-800,
+body.typing-practice-active.dark-mode-active .text-slate-700 {
+  color: #f1f5f9 !important; /* slate-100 (almost white) */
+}
+
+body.typing-practice-active.dark-mode-active .text-slate-600,
+body.typing-practice-active.dark-mode-active .text-slate-500 {
+  color: #cbd5e1 !important; /* slate-300 (light gray) */
+}
+
+body.typing-practice-active.dark-mode-active .text-slate-400 {
+  color: #94a3b8 !important; /* slate-400 (medium light gray) */
+}
+
+/* Locked lesson card backgrounds and borders in Cyber theme */
+body.typing-practice-active.dark-mode-active .bg-slate-100\/50 {
+  background-color: rgba(13, 8, 31, 0.6) !important; /* deep dark cyber card */
+  border-color: rgba(0, 243, 255, 0.15) !important; /* cyber cyan border */
+}
+
+body.typing-practice-active.dark-mode-active .border-slate-200\/50 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.typing-practice-active.dark-mode-active .bg-slate-200 {
+  background-color: #1e293b !important; /* deep slate-800 for icon backdrop */
+  color: #94a3b8 !important;
+}
+
+/* Standard cards backgrounds and borders in Cyber theme */
+body.typing-practice-active.dark-mode-active .bg-white {
+  background-color: rgba(13, 8, 31, 0.8) !important;
+  border-color: rgba(0, 243, 255, 0.25) !important;
+}
+
+body.typing-practice-active.dark-mode-active .border-slate-200 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.typing-practice-active.dark-mode-active .bg-slate-50 {
+  background-color: rgba(13, 8, 31, 0.9) !important;
+}
+
+/* Header/Footer styling adjustments inside dark mode active */
+body.typing-practice-active.dark-mode-active header {
+  background: rgba(13, 8, 31, 0.8) !important;
+  border-color: rgba(0, 243, 255, 0.15) !important;
+}
+
+body.typing-practice-active.dark-mode-active footer {
+  background: rgba(13, 8, 31, 0.4) !important;
+  border-color: rgba(0, 243, 255, 0.1) !important;
+}
+
+/* Ensure glassmorphism inside dark mode is dark glass */
+body.typing-practice-active.dark-mode-active .tp-glass {
+  background: rgba(13, 8, 31, 0.7) !important;
+  border: 1px solid rgba(0, 243, 255, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.typing-practice-active.kid-mode-active {
