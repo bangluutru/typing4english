@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { GameMode, Language, Level, SoundSettings, GameSettings, UILanguage, CustomWordList, DictionaryEntry, TrainingMode, FingerId, ShooterType } from '../types/game';
+import type { GameMode, Language, Level, SoundSettings, GameSettings, CustomWordList, DictionaryEntry, TrainingMode, FingerId, ShooterType } from '../types/game';
 import { useTranslation } from '../i18n/useTranslation';
 import { CustomWordListManager } from './CustomWordListManager';
 import { KeyboardHandsOverlay } from '../typing-coach/components/KeyboardHandsOverlay';
@@ -361,12 +361,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
     }
   };
 
-  const handleSetUILang = (lang: UILanguage) => {
-    onSetGameSettings({
-      ...gameSettings,
-      uiLanguage: lang,
-    });
-  };
+
 
   const selectedCustomList = customWordLists.find(l => l.id === selectedCustomListId);
 
@@ -699,33 +694,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 </div>
               </div>
               
-              <div>
-                <div className="flex items-center gap-2 text-primary-container mb-2 border-b border-outline-variant pb-1">
-                  <span className="material-symbols-outlined text-[16px]">language</span>
-                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">{t('uiLanguage')}</h3>
-                </div>
-                <div className="flex gap-2 mb-4">
-                  {[
-                    { code: 'vi' as UILanguage, label: 'VI', emoji: '🇻🇳' },
-                    { code: 'en' as UILanguage, label: 'EN', emoji: '🇺🇸' },
-                    { code: 'ja' as UILanguage, label: 'JA', emoji: '🇯🇵' },
-                  ].map(lang => {
-                    const isSelected = gameSettings.uiLanguage === lang.code;
-                    return (
-                      <button
-                        key={lang.code}
-                        onClick={() => { onInitAudio(); handleSetUILang(lang.code); }}
-                        className={`cyber-border flex-1 rounded py-1.5 px-2 flex items-center justify-center gap-1 transition-all cursor-pointer ${
-                          isSelected ? 'bg-primary-container/10 active' : 'bg-surface/50 hover:bg-primary/5 opacity-60'
-                        }`}
-                      >
-                        <span className="text-[10px]">{lang.emoji}</span> 
-                        <span className={`font-mono-data text-[10px] font-bold ${isSelected ? 'text-primary-container' : 'text-on-surface-variant'}`}>{lang.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+
 
               <div className="border-t border-outline-variant/30 pt-3">
                 <div className="flex items-center gap-2 text-primary-container mb-2 border-b border-outline-variant pb-1">
