@@ -61,20 +61,20 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
       } else {
         const parsed = JSON.parse(importText);
         if (!Array.isArray(parsed)) {
-          throw new Error('Định dạng JSON phải là một mảng danh sách từ vựng');
+          throw new Error(t('errors.invalidJsonArray'));
         }
 
         parsed.forEach((item, idx) => {
           const validated = validateVocabularyEntry(item);
           if (!validated) {
-            throw new Error(`Phần tử thứ ${idx + 1} không hợp lệ (cần 'word' và ít nhất một nghĩa dịch)`);
+            throw new Error(t('customWords.importer.invalidRowIndex', { line: idx + 1 }));
           }
           entries.push(validated);
         });
       }
 
       if (entries.length === 0) {
-        throw new Error('Không tìm thấy dữ liệu từ vựng hợp lệ để nhập');
+        throw new Error(t('errors.noValidVocabulary'));
       }
 
       // Duplicate detection
@@ -95,7 +95,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
       const err = e as Error;
       setImportFeedback({
         success: false,
-        msg: err.message || 'Lỗi phân tích cú pháp dữ liệu nhập',
+        msg: err.message || t('errors.title'),
       });
     }
   };
@@ -126,7 +126,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
           const entries = parseCsvVocabulary(text);
           
           if (entries.length === 0) {
-            throw new Error('Không tìm thấy dữ liệu từ vựng hợp lệ để nhập');
+            throw new Error(t('errors.noValidVocabulary'));
           }
 
           // Duplicate detection
@@ -152,7 +152,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
           const error = err as Error;
           setFileFeedback({
             success: false,
-            msg: error.message || 'Lỗi phân tích cú pháp dữ liệu file CSV',
+            msg: error.message || t('errors.title'),
           });
         } finally {
           e.target.value = '';
@@ -162,7 +162,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
       reader.onerror = () => {
         setFileFeedback({
           success: false,
-          msg: 'Không thể đọc được file này',
+          msg: t('customWords.importer.cannotReadFile'),
         });
         e.target.value = '';
       };
@@ -178,7 +178,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
           const entries = await parseExcelVocabulary(data);
           
           if (entries.length === 0) {
-            throw new Error('Không tìm thấy dữ liệu từ vựng hợp lệ để nhập');
+            throw new Error(t('errors.noValidVocabulary'));
           }
 
           // Duplicate detection
@@ -204,7 +204,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
           const error = err as Error;
           setFileFeedback({
             success: false,
-            msg: error.message || 'Lỗi phân tích cú pháp dữ liệu file Excel',
+            msg: error.message || t('errors.title'),
           });
         } finally {
           e.target.value = '';
@@ -214,7 +214,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
       reader.onerror = () => {
         setFileFeedback({
           success: false,
-          msg: 'Không thể đọc được file này',
+          msg: t('customWords.importer.cannotReadFile'),
         });
         e.target.value = '';
       };
@@ -264,20 +264,16 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
                 </div>
                 {fileFeedback.details && (
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-1 text-[9px] text-gray-400 font-mono">
-                    <span>Số hàng đã đọc: {fileFeedback.details.rowsRead}</span>
-                    <span>Từ được thêm: {fileFeedback.details.wordsAdded}</span>
-                    <span>Từ bị trùng: {fileFeedback.details.duplicateWords}</span>
+                    <span>{t('rowsRead')}: {fileFeedback.details.rowsRead}</span>
+                    <span>{t('wordsAdded')}: {fileFeedback.details.wordsAdded}</span>
+                    <span>{t('duplicateWords')}: {fileFeedback.details.duplicateWords}</span>
                   </div>
                 )}
               </div>
             )}
 
             <div className="text-[10px] text-gray-400 leading-relaxed mb-3">
-              {uiLanguage === 'vi' 
-                ? 'Hỗ trợ tải lên file CSV hoặc Excel (.xlsx, .xls) chứa danh sách từ vựng. Đảm bảo cấu trúc file chứa ít nhất hai cột: cột 1 là "Từ vựng (English)", cột 2 là "Nghĩa tiếng Việt" hoặc "Nghĩa tiếng Nhật". Cột 3 có thể là độ khó (1-3).' 
-                : uiLanguage === 'ja'
-                  ? '単語帳をインポートするためのCSVまたはExcelファイル（.xlsx、.xls）のアップロードをサポートします。ファイル構造には、少なくとも2つの列（列1：「単語（英語）」、列2：「ベトナム語の意味」または「日本語の意味」）が含まれていることを確認してください。列3は難易度（1-3）です。'
-                  : 'Support uploading CSV or Excel files (.xlsx, .xls) containing vocabularies. Ensure the file structure has at least two columns: column 1 for "Word (English)", column 2 for "Vietnamese Meaning" or "Japanese Meaning". Column 3 can be difficulty (1-3).'}
+              {t('customWords.importer.uploadInstructions')}
             </div>
           </div>
 
@@ -294,7 +290,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
               className="w-full py-3 bg-cyber-accent/15 hover:bg-cyber-accent/35 border border-dashed border-cyber-accent/40 hover:border-cyber-accent/80 text-cyber-accent hover:text-white rounded-xl font-bold uppercase transition-all tracking-wider text-[10px] flex flex-col items-center justify-center gap-2 cursor-pointer"
             >
               <FileInput className="w-5 h-5 animate-pulse" />
-              <span>{uiLanguage === 'vi' ? 'Chọn Tập Tin' : uiLanguage === 'ja' ? 'ファイルを選択' : 'Choose File'}</span>
+              <span>{t('customWords.importer.chooseFile')}</span>
             </label>
           </div>
         </div>
@@ -315,7 +311,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
           )}
 
           <div className="flex items-center justify-between">
-            <label className="text-[9px] text-gray-400 uppercase tracking-wider">{uiLanguage === 'vi' ? 'Dán dữ liệu:' : uiLanguage === 'ja' ? 'データを貼り付け:' : 'Paste data:'}</label>
+            <label className="text-[9px] text-gray-400 uppercase tracking-wider">{t('customWords.importer.pasteData')}</label>
             <div className="flex gap-2">
               <label className="flex items-center gap-1 cursor-pointer text-[9px] text-gray-400">
                 <input 
@@ -345,8 +341,8 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
             onChange={(e) => setImportText(e.target.value)}
             placeholder={
               importType === 'csv' 
-                ? "word1,nghĩa Việt,nghĩa Nhật,difficulty\nword2,nghĩa Việt,nghĩa Nhật,difficulty..."
-                : '[\n  { "word": "hello", "meaning_vi": "xin chào", "meaning_ja": "こんにちは", "difficulty": 1 }\n]'
+                ? "word1,meaning_vi,meaning_ja,difficulty\nword2,meaning_vi,meaning_ja,difficulty..."
+                : '[\n  { "word": "hello", "meaning_vi": "hello_vietnamese", "meaning_ja": "hello_japanese", "difficulty": 1 }\n]'
             }
             rows={4}
             className="w-full bg-cyber-bg border border-cyber-accent/15 focus:border-cyber-accent rounded px-2.5 py-1.5 text-white text-xs outline-none transition-all font-mono resize-none flex-grow"
@@ -357,7 +353,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
             onClick={handleImport}
             className="w-full py-1.5 bg-cyber-accent/15 hover:bg-cyber-accent/35 border border-cyber-accent/30 hover:border-cyber-accent/60 text-cyber-accent hover:text-white rounded font-bold uppercase transition-all tracking-wider text-[10px] flex items-center justify-center gap-1 cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5" /> {uiLanguage === 'vi' ? 'Nhập Từ' : uiLanguage === 'ja' ? 'インポート' : 'Import Words'}
+            <Plus className="w-3.5 h-3.5" /> {t('customWords.importer.importWordsBtn')}
           </button>
         </div>
       )}
@@ -365,7 +361,7 @@ export const VocabularyImporter: React.FC<VocabularyImporterProps> = ({
       {/* Shareable Import Preview Area */}
       {importPreview.length > 0 && (
         <div className="bg-cyber-dark/40 border border-cyber-accent/10 rounded-xl p-2.5 flex-shrink-0 font-mono text-[9px] text-gray-400">
-          <span className="font-bold text-cyber-accent block mb-1 uppercase tracking-wide">Xem trước dữ liệu nhập:</span>
+          <span className="font-bold text-cyber-accent block mb-1 uppercase tracking-wide">{t('customWords.importer.previewLabel')}:</span>
           <div className="flex flex-col gap-1">
             {importPreview.map((item, idx) => (
               <div key={idx} className="truncate">

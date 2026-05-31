@@ -467,7 +467,7 @@ export function WordBattleApp({ onBackToHome, initialLevel, appTheme, onSetAppTh
       : [];
 
   return (
-    <ErrorBoundary uiLanguage={gameSettings.uiLanguage} module="word-battle">
+    <ErrorBoundary module="word-battle">
       <div className="relative w-full h-full select-none text-gray-100 font-sans antialiased crt-effect">
         {/* Dynamic scrolling universe backdrop */}
         <CyberSkyBackground />

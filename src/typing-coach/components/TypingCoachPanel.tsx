@@ -159,14 +159,14 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                       }`}
                     >
                       <Sliders className="w-2.5 h-2.5" />
-                      <span>{uiLanguage === 'vi' ? 'Cấu Hình' : uiLanguage === 'ja' ? 'キーボード設定' : 'Settings'}</span>
+                      <span>{t('settings.coachConfig')}</span>
                     </button>
                     <button
                       type="button"
                       onClick={toggleInstructions}
                       className="text-[9px] text-gray-400 hover:text-cyber-accent px-1.5 py-0.5 rounded border border-cyber-accent/20 hover:border-cyber-accent/60 bg-cyber-dark/30 hover:bg-cyber-accent/10 transition-all cursor-pointer flex items-center gap-1"
                     >
-                      <span>{uiLanguage === 'vi' ? 'Ẩn Hướng Dẫn' : uiLanguage === 'ja' ? '説明を隠す' : 'Hide Guide'}</span>
+                      <span>{t('settings.coachHideGuide')}</span>
                     </button>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                   <div className="flex flex-col gap-3 w-full p-2.5 bg-cyber-dark/50 border border-cyber-accent/15 rounded-xl mt-1.5 animate-fade-in text-left">
                     <div className="flex flex-col gap-1">
                       <div className="flex justify-between text-[9px] text-gray-300 font-mono">
-                        <span>{uiLanguage === 'vi' ? 'Kích thước bàn phím:' : uiLanguage === 'ja' ? 'キーボードサイズ:' : 'Keyboard Size:'}</span>
+                        <span>{t('settings.coachKeyboardSize')}</span>
                         <span className="text-cyber-accent font-bold">{(settings.keyboardSize ?? 100)}%</span>
                       </div>
                       <input
@@ -190,7 +190,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
 
                     <div className="flex flex-col gap-1">
                       <div className="flex justify-between text-[9px] text-gray-300 font-mono">
-                        <span>{uiLanguage === 'vi' ? 'Độ mờ bàn phím:' : uiLanguage === 'ja' ? 'キーボード透明 độ:' : 'Keyboard Opacity:'}</span>
+                        <span>{t('settings.coachKeyboardOpacity')}</span>
                         <span className="text-cyber-accent font-bold">{(settings.keyboardOpacity ?? 85)}%</span>
                       </div>
                       <input
@@ -208,7 +208,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                       <div className="pt-2 border-t border-cyber-accent/15 flex flex-col gap-2 mt-1 w-full text-left">
                         <div className="flex justify-between items-center w-full">
                           <span className="font-mono text-[9px] text-gray-300">
-                            {uiLanguage === 'vi' ? 'Phát âm khi bắn hạ:' : uiLanguage === 'ja' ? '破壊時の発音:' : 'Pronounce:'}
+                            {t('settings.pronounceOnDestroy')}
                           </span>
                           <button 
                             type="button" 
@@ -218,8 +218,8 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                             }`}
                           >
                             {soundSettings.pronounceOnDestroy 
-                              ? (uiLanguage === 'vi' ? 'Bật' : uiLanguage === 'ja' ? '有効' : 'On') 
-                              : (uiLanguage === 'vi' ? 'Tắt' : uiLanguage === 'ja' ? '無効' : 'Off')
+                              ? t('settings.active') 
+                              : t('settings.inactive')
                             }
                           </button>
                         </div>
@@ -227,7 +227,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                         {soundSettings.pronounceOnDestroy && (
                           <div className="flex justify-between items-center w-full animate-fade-in">
                             <span className="font-mono text-[9px] text-gray-400">
-                              {uiLanguage === 'vi' ? 'Giọng đọc:' : uiLanguage === 'ja' ? 'アクセント:' : 'Accent:'}
+                              {t('settings.accentLabel')}
                             </span>
                             <div className="flex gap-1">
                               {[
@@ -290,7 +290,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                   className="px-4 py-1.5 bg-cyber-accent/10 hover:bg-cyber-accent/25 border border-cyber-accent/20 hover:border-cyber-accent text-cyber-accent hover:text-white rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 mx-auto"
                 >
                   <HelpCircle className="w-3.5 h-3.5 animate-bounce" />
-                  {uiLanguage === 'vi' ? 'Hiện Hướng Dẫn Luyện Gõ' : uiLanguage === 'ja' ? 'タイピングガイドを表示' : 'Show Typing Guide'}
+                  {t('settings.coachShowGuide')}
                 </button>
               </div>
             )}
@@ -327,7 +327,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                 ? 'text-cyber-accent border-cyber-accent bg-cyber-accent/10'
                 : 'text-gray-400 border-cyber-accent/20 hover:border-cyber-accent bg-cyber-dark/30 hover:bg-cyber-accent/10'
             }`}
-            title={uiLanguage === 'vi' ? 'Cấu Hình' : uiLanguage === 'ja' ? 'キーボード設定' : 'Settings'}
+            title={t('settings.coachConfig')}
           >
             <Sliders className="w-3 h-3" />
           </button>
@@ -337,7 +337,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
           <div className="flex flex-col gap-3 w-full p-2 bg-cyber-dark/50 border border-cyber-accent/15 rounded-xl mt-1 animate-fade-in text-left">
             <div className="flex flex-col gap-1">
               <div className="flex justify-between text-[9px] text-gray-300 font-mono">
-                <span>{uiLanguage === 'vi' ? 'Kích thước:' : uiLanguage === 'ja' ? 'サイズ:' : 'Size:'}</span>
+                <span>{t('settings.coachSize')}</span>
                 <span className="text-cyber-accent font-bold">{(settings.keyboardSize ?? 100)}%</span>
               </div>
               <input
@@ -352,7 +352,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
 
             <div className="flex flex-col gap-1">
               <div className="flex justify-between text-[9px] text-gray-300 font-mono">
-                <span>{uiLanguage === 'vi' ? 'Độ mờ:' : uiLanguage === 'ja' ? '透明度:' : 'Opacity:'}</span>
+                <span>{t('settings.coachOpacity')}</span>
                 <span className="text-cyber-accent font-bold">{(settings.keyboardOpacity ?? 85)}%</span>
               </div>
               <input
@@ -370,7 +370,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
               <div className="pt-2 border-t border-cyber-accent/15 flex flex-col gap-2 mt-1 w-full text-left">
                 <div className="flex justify-between items-center w-full">
                   <span className="font-mono text-[9px] text-gray-300">
-                    {uiLanguage === 'vi' ? 'Phát âm:' : uiLanguage === 'ja' ? '発音:' : 'Pronounce:'}
+                    {t('settings.pronounceOnDestroy')}
                   </span>
                   <button 
                     type="button" 
@@ -380,8 +380,8 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                     }`}
                   >
                     {soundSettings.pronounceOnDestroy 
-                      ? (uiLanguage === 'vi' ? 'Bật' : uiLanguage === 'ja' ? '有効' : 'On') 
-                      : (uiLanguage === 'vi' ? 'Tắt' : uiLanguage === 'ja' ? '無効' : 'Off')
+                      ? t('settings.active') 
+                      : t('settings.inactive')
                     }
                   </button>
                 </div>
@@ -389,7 +389,7 @@ export const TypingCoachPanel: React.FC<TypingCoachPanelProps> = React.memo(({
                 {soundSettings.pronounceOnDestroy && (
                   <div className="flex justify-between items-center w-full animate-fade-in">
                     <span className="font-mono text-[9px] text-gray-400">
-                      {uiLanguage === 'vi' ? 'Giọng:' : uiLanguage === 'ja' ? 'アクセント:' : 'Accent:'}
+                      {t('settings.accentLabel')}
                     </span>
                     <div className="flex gap-1">
                       {[

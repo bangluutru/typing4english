@@ -1025,7 +1025,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         meaningText = getEntryMeaning(lookup, lang);
         emojiText = lookup.emoji;
       } else {
-        meaningText = lang === 'vi' ? 'Bá Chủ Không Phận' : '空の覇者';
+        meaningText = t('skyLord');
         emojiText = '🛸';
       }
     }

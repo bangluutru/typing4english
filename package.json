@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit:i18n": "node scripts/audit-i18n.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.40.0",

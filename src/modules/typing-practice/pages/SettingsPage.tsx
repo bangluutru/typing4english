@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Settings, Volume2, Eye, Download, Upload, Trash2, HelpCircle } from 'lucide-react';
 import type { TypingPracticeSettings, FontSize } from '../stores/settingsStore';
 import type { UserProgress } from '../stores/progressStore';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 interface SettingsPageProps {
   settings: TypingPracticeSettings;
@@ -19,6 +20,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   onResetProgress,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const t = useTranslation();
 
   const handleExport = () => {
     try {
@@ -30,7 +32,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       downloadAnchor.click();
       downloadAnchor.remove();
     } catch (e) {
-      alert('Không thể xuất dữ liệu sao lưu.');
+      alert(t('typingPractice.settings.exportError'));
     }
   };
 
@@ -44,9 +46,9 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       if (resultStr) {
         const success = onImportProgress(resultStr);
         if (success) {
-          alert('Khôi phục tiến trình học tập THÀNH CÔNG!');
+          alert(t('typingPractice.settings.importSuccess'));
         } else {
-          alert('Tệp tin sao lưu không hợp lệ. Vui lòng kiểm tra lại.');
+          alert(t('typingPractice.settings.importError'));
         }
       }
     };
@@ -58,17 +60,17 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       <div className="text-center flex flex-col gap-2">
         <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
           <Settings className="w-7 h-7 text-tp-primary-500" />
-          Cài đặt & Tùy chỉnh
+          {t('settings.title')}
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-          Cá nhân hóa môi trường học tập, giao diện và sao lưu dữ liệu của bạn.
+          {t('typingPractice.settings.subtitle')}
         </p>
       </div>
 
       <div className="w-full flex flex-col gap-5 mt-2">
         <div className="tp-glass p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-sm flex flex-col gap-4">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Cấu hình luyện gõ
+            {t('settings.practiceConfig')}
           </h3>
 
           <div className="flex flex-col gap-3">
@@ -76,8 +78,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               <div className="flex items-center gap-3">
                 <Volume2 className="w-5 h-5 text-slate-500" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Âm thanh gõ phím</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Phát tiếng Click khi nhấn phím</span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{t('settings.soundEnabled')}</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">{t('settings.soundEnabledDesc')}</span>
                 </div>
               </div>
               <input
@@ -92,8 +94,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               <div className="flex items-center gap-3">
                 <Eye className="w-5 h-5 text-slate-500" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Bàn tay động (Hand Guide)</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Hiện hình ngón tay hướng dẫn</span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{t('settings.handsEnabled')}</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">{t('settings.handsEnabledDesc')}</span>
                 </div>
               </div>
               <input
@@ -108,8 +110,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               <div className="flex items-center gap-3">
                 <HelpCircle className="w-5 h-5 text-slate-500" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Cho phép dùng [Backspace]</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Xóa ký tự gõ sai để sửa lỗi</span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{t('settings.backspaceEnabled')}</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400">{t('settings.backspaceEnabledDesc')}</span>
                 </div>
               </div>
               <input
@@ -122,7 +124,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           </div>
 
           <div className="flex flex-col gap-2 mt-1">
-            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">Cỡ chữ văn bản</span>
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">{t('settings.fontSize')}</span>
             <div className="grid grid-cols-4 gap-2">
               {(['sm', 'md', 'lg', 'xl'] as FontSize[]).map((size) => (
                 <button
@@ -134,10 +136,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                       : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800/80 text-slate-700 dark:text-slate-200'
                   }`}
                 >
-                  {size === 'sm' && 'Nhỏ'}
-                  {size === 'md' && 'Vừa'}
-                  {size === 'lg' && 'Lớn'}
-                  {size === 'xl' && 'Rất lớn'}
+                  {size === 'sm' && t('settings.fontSizeSm')}
+                  {size === 'md' && t('settings.fontSizeMd')}
+                  {size === 'lg' && t('settings.fontSizeLg')}
+                  {size === 'xl' && t('settings.fontSizeXl')}
                 </button>
               ))}
             </div>
@@ -146,10 +148,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 
         <div className="tp-glass p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-sm flex flex-col gap-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Dữ liệu & Sao lưu tiến trình
+            {t('typingPractice.settings.dataBackupTitle')}
           </h3>
           <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
-            TypeMaster ghi nhớ tiến trình học của bạn cục bộ trên thiết bị hiện tại. Hãy xuất sao lưu để tránh mất dữ liệu khi xóa cache trình duyệt.
+            {t('typingPractice.settings.dataBackupDesc')}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
@@ -158,7 +160,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               className="flex justify-center items-center gap-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-sm"
             >
               <Download className="w-4 h-4" />
-              <span>Xuất dữ liệu (.JSON)</span>
+              <span>{t('typingPractice.settings.exportBtn')}</span>
             </button>
 
             <button
@@ -166,7 +168,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               className="flex justify-center items-center gap-2 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold py-2.5 px-4 rounded-xl border border-slate-200 dark:border-slate-800 text-xs transition-colors shadow-sm"
             >
               <Upload className="w-4 h-4" />
-              <span>Khôi phục tiến trình</span>
+              <span>{t('typingPractice.settings.importBtn')}</span>
             </button>
             <input
               type="file"
@@ -180,22 +182,22 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 
         <div className="tp-glass p-5 rounded-3xl border border-red-200/40 dark:border-red-950/20 bg-red-500/5 shadow-sm flex flex-col gap-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-red-500">
-            Vùng nguy hiểm
+            {t('typingPractice.settings.dangerZone')}
           </h3>
           <p className="text-[10px] sm:text-xs text-red-700/80 dark:text-red-400/80 font-medium">
-            Hành động này sẽ xóa vĩnh viễn toàn bộ bài học đã hoàn thành, các kỷ lục gõ phím, heatmap lỗi gõ phím và thiết lập cài đặt của bạn.
+            {t('settings.dangerZoneTpDesc')}
           </p>
           <button
             onClick={() => {
-              if (confirm('Bạn có hoàn toàn chắc chắn muốn xóa sạch dữ liệu tiến trình học tập? Hành động này KHÔNG THỂ đảo ngược.')) {
+              if (confirm(t('settings.alertTpReset'))) {
                 onResetProgress();
-                alert('Đã reset toàn bộ dữ liệu.');
+                alert(t('settings.alertTpResetDone'));
               }
             }}
             className="flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-md"
           >
             <Trash2 className="w-4 h-4" />
-            <span>Reset vĩnh viễn dữ liệu của tôi</span>
+            <span>{t('settings.dangerZoneTpBtn')}</span>
           </button>
         </div>
       </div>

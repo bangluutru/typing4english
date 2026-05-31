@@ -1,7 +1,13 @@
 import { SuiteApp } from './SuiteApp';
+import { LanguageProvider } from './i18n/LanguageProvider';
 
 function App() {
-  return <SuiteApp />;
+  return (
+    <LanguageProvider>
+      <SuiteApp />
+    </LanguageProvider>
+  );
 }
 
 export default App;
+

@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { VirtualKeyboard } from './VirtualKeyboard';
 import { HandOverlay } from './HandOverlay';
 import { useKeyboardGeometry } from './useKeyboardGeometry';
-import { fingerMapping, fingerLabels } from '../../data/fingerMapping';
+import { fingerMapping } from '../../data/fingerMapping';
+import { useTranslation } from '../../../../i18n/useTranslation';
 
 interface KeyboardPracticeStageProps {
   targetChar: string;
@@ -11,6 +12,19 @@ interface KeyboardPracticeStageProps {
   showHands: boolean;
 }
 
+const fingerTranslationKeys: Record<string, string> = {
+  lp: 'leftPinky',
+  lr: 'leftRing',
+  lm: 'leftMiddle',
+  li: 'leftIndex',
+  lt: 'leftThumb',
+  rt: 'rightThumb',
+  ri: 'rightIndex',
+  rm: 'rightMiddle',
+  rr: 'rightRing',
+  rp: 'rightPinky'
+};
+
 export const KeyboardPracticeStage: React.FC<KeyboardPracticeStageProps> = ({
   targetChar,
   lastPressedKey,
@@ -18,25 +32,30 @@ export const KeyboardPracticeStage: React.FC<KeyboardPracticeStageProps> = ({
   showHands,
 }) => {
   const stageRef = useRef<HTMLDivElement>(null);
+  const t = useTranslation();
   
   // Call geometry measurement hook
   const { geometry, registerKey } = useKeyboardGeometry(stageRef);
 
-  // Generate friendly Vietnamese typing instructions dynamically from mapping
+  // Generate dynamic typing instructions based on selected language
   const getInstructionText = (): string => {
     const config = fingerMapping[targetChar];
-    if (!config) return `Gõ phím "${targetChar}" trên bàn phím`;
+    if (!config) return t('typingPractice.practice.instructionDefault', { char: targetChar });
 
     const { finger, requiresShift, hand } = config;
-    const label = fingerLabels[finger];
-    const displayChar = targetChar === ' ' ? 'dấu cách [Spacebar]' : `phím "${targetChar.toUpperCase()}"`;
+    const label = t(fingerTranslationKeys[finger]);
+    const displayChar = targetChar === ' ' 
+      ? t('typingPractice.practice.instructionSpacebar') 
+      : t('typingPractice.practice.instructionKey', { char: targetChar.toUpperCase() });
 
     if (requiresShift) {
-      const oppositeShift = hand === 'left' ? 'Shift phải (phải út)' : 'Shift trái (trái út)';
-      return `Giữ phím ${oppositeShift}, và dùng ${label.toLowerCase()} gõ ${displayChar}`;
+      const oppositeShift = hand === 'left' 
+        ? t('typingPractice.practice.shiftRight') 
+        : t('typingPractice.practice.shiftLeft');
+      return t('typingPractice.practice.instructionWithShift', { oppositeShift, finger: label, char: displayChar });
     }
 
-    return `Dùng ${label.toLowerCase()} gõ ${displayChar}`;
+    return t('typingPractice.practice.instructionNoShift', { finger: label, char: displayChar });
   };
 
   return (
@@ -46,7 +65,8 @@ export const KeyboardPracticeStage: React.FC<KeyboardPracticeStageProps> = ({
       <div className="bg-tp-primary-50 dark:bg-tp-primary-950/20 border border-tp-primary-200/40 dark:border-tp-primary-900/40 rounded-2xl px-5 py-3 text-center w-full shadow-sm flex items-center justify-center gap-2">
         <span className="text-base sm:text-lg animate-bounce-light">💡</span>
         <p className="text-xs sm:text-sm font-semibold text-tp-primary-700 dark:text-tp-primary-300">
-          Hướng dẫn đặt ngón: <span className="underline decoration-2 decoration-tp-primary-400 font-bold">{getInstructionText()}</span>
+          {t('typingPractice.practice.fingerGuideTitle')}{' '}
+          <span className="underline decoration-2 decoration-tp-primary-400 font-bold">{getInstructionText()}</span>
         </p>
       </div>
 

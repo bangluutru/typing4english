@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Settings, Sliders, Keyboard, Gamepad2, Globe, ShieldAlert, Sparkles, Trash2 } from 'lucide-react';
 import { useSettings } from '../modules/typing-practice/stores/settingsStore';
 import { useProgress } from '../modules/typing-practice/stores/progressStore';
+import { useAppLanguage } from '../i18n/LanguageProvider';
 
 // Destructure typing coach keys to read/write correctly
 interface GameSettings {
@@ -63,6 +64,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
   const [activeTab, setActiveTab] = useState<'general' | 'typing' | 'battle'>('general');
   const [tpSettings, setTpSettings] = useSettings();
   const { resetProgress: resetTpProgress } = useProgress();
+  const { language, setLanguage, t } = useAppLanguage();
 
   // Word Battle Settings
   const [wbSettings, setWbSettings] = useState<GameSettings>(() => {
@@ -74,12 +76,12 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
         if (parsed.shooterType === 'penguin') {
           parsed.shooterType = 'turtle';
         }
-        return { ...DEFAULT_WB_SETTINGS, ...parsed };
+        return { ...DEFAULT_WB_SETTINGS, ...parsed, uiLanguage: language };
       } catch {
         // ignore
       }
     }
-    return DEFAULT_WB_SETTINGS;
+    return { ...DEFAULT_WB_SETTINGS, uiLanguage: language };
   });
 
   // Sync settings when appTheme changes externally
@@ -88,6 +90,13 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
       setWbSettings(prev => ({ ...prev, theme: appTheme }));
     }
   }, [appTheme, wbSettings.theme]);
+
+  // Keep local uiLanguage state in sync with global language
+  useEffect(() => {
+    if (language !== wbSettings.uiLanguage) {
+      setWbSettings(prev => ({ ...prev, uiLanguage: language }));
+    }
+  }, [language, wbSettings.uiLanguage]);
 
   const updateWbSettings = (updater: Partial<GameSettings>) => {
     const updated = { ...wbSettings, ...updater };
@@ -108,12 +117,12 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
   };
 
   const handleResetWbData = () => {
-    if (confirm('Bạn có chắc muốn xóa sạch toàn bộ kỷ lục, từ vựng và số liệu ôn tập của Game Bắn Chữ?')) {
+    if (confirm(t('settings.alertWbReset'))) {
       localStorage.removeItem('typing_adventure_wb_word_stats');
       localStorage.removeItem('typing_adventure_wb_lifetime_stats');
       localStorage.removeItem('typing_adventure_wb_custom_lists');
       localStorage.removeItem('typing_adventure_wb_training_mode');
-      alert('Đã xóa sạch dữ liệu Game Bắn Chữ.');
+      alert(t('settings.alertWbResetDone'));
     }
   };
 
@@ -124,19 +133,19 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
       <div className="text-center flex flex-col gap-2">
         <h2 className="text-3xl font-black text-white flex items-center justify-center gap-2 font-display uppercase tracking-wider drop-shadow-[0_0_8px_rgba(0,242,255,0.3)]">
           <Settings className="w-7 h-7 text-cyber-accent" />
-          Cài đặt toàn bộ hệ thống
+          {t('settings.title')}
         </h2>
         <p className="text-xs sm:text-sm text-gray-400 font-medium">
-          Tùy chỉnh ngôn ngữ, cấu hình bài luyện gõ phím và hiệu năng trò chơi bắn chữ.
+          {t('settings.subtitle')}
         </p>
       </div>
 
       {/* Tabs list */}
       <div className="flex border-b border-outline-variant/30 gap-1 sm:gap-2">
         {[
-          { id: 'general', label: 'Cài Đặt Chung', icon: Globe },
-          { id: 'typing', label: 'Luyện Gõ (TypeMaster)', icon: Keyboard },
-          { id: 'battle', label: 'Bắn Chữ (Word Battle)', icon: Gamepad2 },
+          { id: 'general', label: t('settings.generalTab'), icon: Globe },
+          { id: 'typing', label: `${t('settings.typingTab')} (TypeMaster)`, icon: Keyboard },
+          { id: 'battle', label: `${t('settings.battleTab')} (Word Battle)`, icon: Gamepad2 },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -169,20 +178,23 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2 mb-1">
                 <Globe className="w-4 h-4 text-cyber-accent" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-primary-container">
-                  Ngôn ngữ hiển thị (UI Language)
+                  {t('settings.uiLanguage')} (UI Language)
                 </h3>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { id: 'vi', name: '🇻🇳 Tiếng Việt', desc: 'Mặc định' },
-                  { id: 'en', name: '🇺🇸 English', desc: 'English interface' },
-                  { id: 'ja', name: '🇯🇵 日本語', desc: '日本語インターフェース' },
+                  { id: 'vi', name: t('settings.langViName'), desc: t('settings.langViDesc') },
+                  { id: 'en', name: t('settings.langEnName'), desc: t('settings.langEnDesc') },
+                  { id: 'ja', name: t('settings.langJaName'), desc: t('settings.langJaDesc') },
                 ].map((lang) => (
                   <button
                     key={lang.id}
-                    onClick={() => updateWbSettings({ uiLanguage: lang.id as any })}
+                    onClick={() => {
+                      setLanguage(lang.id as any);
+                      updateWbSettings({ uiLanguage: lang.id as any });
+                    }}
                     className={`p-3 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                      wbSettings.uiLanguage === lang.id
+                      language === lang.id
                         ? 'bg-cyber-accent/15 border-cyber-accent text-white font-bold scale-[1.02]'
                         : 'bg-cyber-dark/40 border-outline-variant/30 text-gray-400 hover:border-cyber-accent/50 hover:text-gray-200'
                     }`}
@@ -199,13 +211,13 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2 mb-1">
                 <Sparkles className="w-4 h-4 text-cyber-magenta" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-primary-container">
-                  Giao diện chính (Theme)
+                  {t('settings.mainTheme')} (Theme)
                 </h3>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { id: 'cyberpunk', name: '🌌 Phiêu lưu Không gian (Cyber)', desc: 'Neon hiện đại & năng động (Máy bay / Xe tăng)' },
-                  { id: 'magical', name: '💖 Phiêu lưu Phép màu (Magical)', desc: 'Sắc hồng dễ thương & ấm áp (Bướm / Rùa hồng)' },
+                  { id: 'cyberpunk', name: `🌌 ${t('settings.themeCyber')}`, desc: t('settings.themeCyberDesc') },
+                  { id: 'magical', name: `💖 ${t('settings.themeMagical')}`, desc: t('settings.themeMagicalDesc') },
                 ].map((theme) => (
                   <button
                     key={theme.id}
@@ -235,7 +247,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
                 <Keyboard className="w-4 h-4 text-cyber-accent" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-primary-container">
-                  Cấu hình luyện ngón
+                  {t('settings.practiceConfig')}
                 </h3>
               </div>
 
@@ -244,8 +256,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Audio Switch */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyber-dark/30 border border-outline-variant/10">
                   <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-gray-200">Âm thanh gõ phím</span>
-                    <span className="text-[10px] text-gray-400">Phát âm thanh click phím của TypeMaster</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-200">{t('settings.soundEnabled')}</span>
+                    <span className="text-[10px] text-gray-400">{t('settings.soundEnabledDesc')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -258,8 +270,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Hand Guide Switch */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyber-dark/30 border border-outline-variant/10">
                   <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-gray-200">Bàn tay động (Hand Guide)</span>
-                    <span className="text-[10px] text-gray-400">Hiển thị ngón tay ảo hướng dẫn gõ đúng vị trí</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-200">{t('settings.handsEnabled')}</span>
+                    <span className="text-[10px] text-gray-400">{t('settings.handsEnabledDesc')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -272,8 +284,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Backspace Switch */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyber-dark/30 border border-outline-variant/10">
                   <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-gray-200">Cho phép dùng phím [Backspace]</span>
-                    <span className="text-[10px] text-gray-400">Cho phép xóa các chữ gõ sai để gõ lại</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-200">{t('settings.backspaceEnabled')}</span>
+                    <span className="text-[10px] text-gray-400">{t('settings.backspaceEnabledDesc')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -285,7 +297,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
 
                 {/* Font Size Option */}
                 <div className="flex flex-col gap-2 mt-1">
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Cỡ chữ văn bản tập gõ</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t('settings.fontSize')}</span>
                   <div className="grid grid-cols-4 gap-2">
                     {['sm', 'md', 'lg', 'xl'].map((size) => (
                       <button
@@ -297,10 +309,10 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                             : 'bg-cyber-dark/40 border-outline-variant/30 text-gray-400 hover:text-gray-200'
                         }`}
                       >
-                        {size === 'sm' && 'Nhỏ'}
-                        {size === 'md' && 'Vừa'}
-                        {size === 'lg' && 'Lớn'}
-                        {size === 'xl' && 'Rất lớn'}
+                        {size === 'sm' && t('settings.fontSizeSm')}
+                        {size === 'md' && t('settings.fontSizeMd')}
+                        {size === 'lg' && t('settings.fontSizeLg')}
+                        {size === 'xl' && t('settings.fontSizeXl')}
                       </button>
                     ))}
                   </div>
@@ -314,23 +326,23 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-red-500/20 pb-2">
                 <ShieldAlert className="w-4 h-4 text-red-500" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-red-400">
-                  Xóa dữ liệu luyện gõ
+                  {t('settings.dangerZoneTp')}
                 </h3>
               </div>
               <p className="text-[10px] sm:text-xs text-red-400/80 leading-relaxed font-medium">
-                Hành động này sẽ xóa vĩnh viễn toàn bộ bài học luyện gõ đã hoàn thành, heatmap phím lỗi và số liệu thống kê. Không thể đảo ngược!
+                {t('settings.dangerZoneTpDesc')}
               </p>
               <button
                 onClick={() => {
-                  if (confirm('Bạn có hoàn toàn chắc chắn muốn xóa sạch dữ liệu tiến trình học luyện gõ phím?')) {
+                  if (confirm(t('settings.alertTpReset'))) {
                     resetTpProgress();
-                    alert('Đã xóa dữ liệu luyện gõ.');
+                    alert(t('settings.alertTpResetDone'));
                   }
                 }}
                 className="w-full flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-md cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
-                <span>Reset vĩnh viễn dữ liệu luyện gõ</span>
+                <span>{t('settings.dangerZoneTpBtn')}</span>
               </button>
             </div>
 
@@ -346,7 +358,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
                 <Sliders className="w-4 h-4 text-cyber-magenta" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-primary-container">
-                  Cấu hình tốc độ bay & Hiển thị
+                  {t('settings.speedConfig')}
                 </h3>
               </div>
 
@@ -355,7 +367,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Aircraft Speed */}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex justify-between items-center text-xs font-semibold text-gray-300">
-                    <span>Tốc độ rơi của máy bay (Chữ tiếng Anh)</span>
+                    <span>{t('settings.speedLabel')}</span>
                     <span className="text-cyber-magenta">{wbSettings.aircraftSpeedMultiplier}x</span>
                   </div>
                   <input
@@ -368,16 +380,16 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                     className="w-full h-1.5 bg-cyber-dark rounded-full appearance-none cursor-pointer accent-cyber-magenta"
                   />
                   <div className="flex justify-between text-[9px] text-gray-500">
-                    <span>Chậm (Dễ)</span>
-                    <span>Chuẩn (1.0x)</span>
-                    <span>Nhanh (Khó)</span>
+                    <span>{t('settings.speedSlow')}</span>
+                    <span>{t('settings.speedNormal')}</span>
+                    <span>{t('settings.speedFast')}</span>
                   </div>
                 </div>
 
                 {/* Meaning Fade Speed */}
                 <div className="flex flex-col gap-1.5 mt-1">
                   <div className="flex justify-between items-center text-xs font-semibold text-gray-300">
-                    <span>Tốc độ mờ của nghĩa từ gợi ý</span>
+                    <span>{t('settings.speedFadeLabel')}</span>
                     <span className="text-cyber-magenta">{wbSettings.meaningFadeSpeedMultiplier}x</span>
                   </div>
                   <input
@@ -390,8 +402,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                     className="w-full h-1.5 bg-cyber-dark rounded-full appearance-none cursor-pointer accent-cyber-magenta"
                   />
                   <div className="flex justify-between text-[9px] text-gray-500">
-                    <span>Chậm gợi ý</span>
-                    <span>Nhanh gợi ý</span>
+                    <span>{t('settings.speedFadeSlow')}</span>
+                    <span>{t('settings.speedFadeFast')}</span>
                   </div>
                 </div>
 
@@ -403,7 +415,7 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-outline-variant/30 pb-2">
                 <Keyboard className="w-4 h-4 text-cyber-accent" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-primary-container">
-                  Hệ thống Typing Coach (Gợi ý phím game)
+                  {t('settings.coachTitle')}
                 </h3>
               </div>
 
@@ -412,8 +424,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Virtual Keyboard */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyber-dark/30 border border-outline-variant/10">
                   <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-gray-200">Hiển thị Bàn phím ảo trong game</span>
-                    <span className="text-[10px] text-gray-400">Hiện vị trí phím ảo gợi ý ở góc màn hình</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-200">{t('settings.coachVirtualKb')}</span>
+                    <span className="text-[10px] text-gray-400">{t('settings.coachVirtualKbDesc')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -426,8 +438,8 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
                 {/* Finger Guide */}
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyber-dark/30 border border-outline-variant/10">
                   <div className="flex flex-col">
-                    <span className="text-xs sm:text-sm font-bold text-gray-200">Gợi ý màu ngón tay (Finger Guide)</span>
-                    <span className="text-[10px] text-gray-400">Tô màu ngón tay ảo cần nhấn phím</span>
+                    <span className="text-xs sm:text-sm font-bold text-gray-200">{t('settings.coachFingerGuide')}</span>
+                    <span className="text-[10px] text-gray-400">{t('settings.coachFingerGuideDesc')}</span>
                   </div>
                   <input
                     type="checkbox"
@@ -445,18 +457,18 @@ export const UnifiedSettingsPage: React.FC<UnifiedSettingsPageProps> = ({ appThe
               <div className="flex items-center gap-2 border-b border-red-500/20 pb-2">
                 <ShieldAlert className="w-4 h-4 text-red-500" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-red-400">
-                  Xóa dữ liệu game Word Battle
+                  {t('settings.dangerZoneWb')}
                 </h3>
               </div>
               <p className="text-[10px] sm:text-xs text-red-400/80 leading-relaxed font-medium">
-                Xóa sạch các bộ từ vựng tự tạo, file Excel/CSV đã import, chỉ số thuộc lòng SRS và lịch sử điểm số của Game Bắn Chữ.
+                {t('settings.dangerZoneWbDesc')}
               </p>
               <button
                 onClick={handleResetWbData}
                 className="w-full flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors shadow-md cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
-                <span>Reset vĩnh viễn dữ liệu Word Battle</span>
+                <span>{t('settings.dangerZoneWbBtn')}</span>
               </button>
             </div>
 

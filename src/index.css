@@ -151,6 +151,9 @@
   --color-tp-kid-accent: #3a86c8;
   --color-tp-kid-text: #4a3e3d;
 
+  --color-app-text-primary: #e1e0fb;
+  --color-app-text-muted: #b9cacb;
+
   --animate-tp-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-tp-key-press: keypress-tp 0.1s ease-out;
   --animate-tp-shake: shake-tp 0.2s ease-in-out;
@@ -363,6 +366,10 @@ body.word-battle-active {
   font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
 }
 
+body[data-lang="ja"] {
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif !important;
+}
+
 /* ==========================================================================
    MAGICAL ADVENTURE (GIRL PASTEL) THEME OVERRIDES
    ========================================================================== */
@@ -406,6 +413,10 @@ body[data-theme="magical"] {
   --color-cyber-orange: #366c7a;
   --color-cyber-indigo: #e0bbe4;
   --color-cyber-glass: rgba(255, 255, 255, 0.9);
+
+  /* High contrast accessible text mappings */
+  --color-app-text-primary: #1f1a1d;
+  --color-app-text-muted: #50434a;
 
   /* Spacing */
   --spacing-panel-padding: 1.5rem;

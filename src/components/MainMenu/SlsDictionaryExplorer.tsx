@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Level, DictionaryEntry } from '../../types/game';
 import { fetchAllWords, fetchPhrases } from '../../data/api';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface SlsDictionaryExplorerProps {
   uiLanguage: string;
@@ -33,6 +34,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
   skippedCount,
   masteredCount,
 }) => {
+  const t = useTranslation(uiLanguage);
   const [dictSearch, setDictSearch] = useState('');
   const [dictLevelFilter, setDictLevelFilter] = useState<Level | 'All'>('All');
   const [dictFilterType, setDictFilterType] = useState<'all' | 'starred' | 'skipped' | 'mastered' | 'unmastered'>('all');
@@ -136,14 +138,10 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
           <span className="material-symbols-outlined text-primary text-[28px] drop-shadow-[0_0_8px_rgba(0,242,255,0.6)]" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
           <div>
             <h2 className="font-headline-md text-headline-md text-primary font-bold uppercase tracking-wider neon-text-primary">
-              {uiLanguage === 'vi' ? 'Từ Điển Luyện Tập Thông Minh (SLS)' : uiLanguage === 'ja' ? 'スマート学習システム (SLS) 辞書' : 'Smart Learning System (SLS) Dictionary'}
+              {t('smartLearningSystem')}
             </h2>
             <p className="text-[10px] text-gray-400">
-              {uiLanguage === 'vi' 
-                ? 'Khám phá từ vựng, quản lý danh sách gắn sao (Star) và bỏ qua (Skip) để tối ưu hóa quá trình học.'
-                : uiLanguage === 'ja'
-                  ? '単語を検索し、優先（Star）や非表示（Skip）を管理して学習プロセスを最適化します。'
-                  : 'Explore vocabulary, manage starred and skipped lists to optimize your learning path.'}
+              {t('smartLearningSystemDesc')}
             </p>
           </div>
         </div>
@@ -155,7 +153,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
             <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[16px] text-outline">search</span>
             <input
               type="text"
-              placeholder={uiLanguage === 'vi' ? 'Tìm kiếm từ vựng hoặc nghĩa Anh-Việt-Nhật...' : uiLanguage === 'ja' ? '英 và・英越・単語を検索...' : 'Search word or meaning...'}
+              placeholder={t('customWords.placeholderSearch') || "Search word or meaning..."}
               value={dictSearch}
               onChange={(e) => { setDictSearch(e.target.value); setDictPage(0); }}
               className="w-full bg-surface-dim border border-outline-variant rounded-lg pl-9 pr-3 py-2 text-xs text-primary focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
@@ -169,7 +167,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
               onChange={(e) => { setDictLevelFilter(e.target.value as Level | 'All'); setDictPage(0); }}
               className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-xs text-primary focus:border-primary outline-none transition-colors cursor-pointer"
             >
-              <option value="All">{uiLanguage === 'vi' ? 'Tất cả Cấp độ' : uiLanguage === 'ja' ? 'すべてのレベル' : 'All Levels'}</option>
+              <option value="All">{t('allLevels')}</option>
               <option value="Alphabet">Alphabet</option>
               <option value="Kids">Kids</option>
               <option value="Eiken 5 Kyu">Eiken 5 Kyu</option>
@@ -192,11 +190,11 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
               onChange={(e) => { setDictFilterType(e.target.value as 'all' | 'starred' | 'skipped' | 'mastered' | 'unmastered'); setDictPage(0); }}
               className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-xs text-primary focus:border-primary outline-none transition-colors cursor-pointer"
             >
-              <option value="all">{uiLanguage === 'vi' ? 'Tất cả trạng thái' : uiLanguage === 'ja' ? 'すべてのステータス' : 'All Status'}</option>
-              <option value="starred">⭐ {uiLanguage === 'vi' ? 'Đang ôn tập' : uiLanguage === 'ja' ? '要復習' : 'Reviewing'} ({starredCount})</option>
-              <option value="skipped">👁️ {uiLanguage === 'vi' ? 'Đã bỏ qua' : uiLanguage === 'ja' ? '非表示' : 'Skipped'} ({skippedCount})</option>
-              <option value="mastered">🎓 {uiLanguage === 'vi' ? 'Đã thành thạo' : uiLanguage === 'ja' ? '習得済み' : 'Mastered'} ({masteredCount})</option>
-              <option value="unmastered">📝 {uiLanguage === 'vi' ? 'Cần học tập' : uiLanguage === 'ja' ? '未習得' : 'Unmastered'}</option>
+              <option value="all">{t('allStatus')}</option>
+              <option value="starred">⭐ {t('settings.slsStarred', {count: starredCount})}</option>
+              <option value="skipped">👁️ {t('customWords.filterStarred') || 'Starred'} ({skippedCount})</option>
+              <option value="mastered">🎓 {t('settings.slsUnmastered', {count: masteredCount})}</option>
+              <option value="unmastered">📝 {t('customWords.noMatchingResults') || 'Unmastered'}</option>
             </select>
           </div>
         </div>
@@ -206,14 +204,14 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
           {loading ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
               <span className="material-symbols-outlined text-4xl text-primary animate-spin mb-2">sync</span>
-              <h4 className="text-sm font-bold text-primary uppercase">{uiLanguage === 'vi' ? 'Đang tải dữ liệu...' : 'Loading entries...'}</h4>
+              <h4 className="text-sm font-bold text-primary uppercase">{t('loadingData')}</h4>
             </div>
           ) : paginatedEntries.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
               <span className="material-symbols-outlined text-4xl text-outline-variant mb-2">find_in_page</span>
-              <h4 className="text-sm font-bold text-on-surface-variant uppercase">{uiLanguage === 'vi' ? 'Không tìm thấy từ vựng' : 'No words found'}</h4>
+              <h4 className="text-sm font-bold text-on-surface-variant uppercase">{t('noWordsFound')}</h4>
               <p className="text-xs text-on-surface-variant/70 max-w-md mt-1">
-                {uiLanguage === 'vi' ? 'Vui lòng điều chỉnh bộ lọc hoặc từ khóa tìm kiếm của bạn.' : 'Please adjust your search filters.'}
+                {t('adjustFilters')}
               </p>
             </div>
           ) : (
@@ -277,7 +275,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
                               ? 'border-yellow-500 bg-yellow-500/10 text-yellow-400' 
                               : 'border-outline-variant/40 hover:border-yellow-500 hover:text-yellow-400 text-outline'
                           }`}
-                          title={isStarred ? 'Bỏ đánh dấu ôn tập' : 'Đánh dấu ưu tiên ôn tập (Star)'}
+                          title={isStarred ? t('unstarWord') : t('starForReview')}
                         >
                           <span className="material-symbols-outlined text-[16px] leading-none" style={{ fontVariationSettings: isStarred ? "'FILL' 1" : undefined }}>star</span>
                         </button>
@@ -289,7 +287,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
                               ? 'border-red-500 bg-red-500/10 text-red-400' 
                               : 'border-outline-variant/40 hover:border-red-500 hover:text-red-400 text-outline'
                           }`}
-                          title={isSkipped ? 'Bỏ ẩn từ' : 'Ẩn từ này khỏi phòng chơi (Skip)'}
+                          title={isSkipped ? t('unskipWord') : t('skipWord')}
                         >
                           <span className="material-symbols-outlined text-[16px] leading-none">{isSkipped ? 'visibility_off' : 'visibility'}</span>
                         </button>
@@ -325,7 +323,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
                           <span>Correct: <b className="text-cyber-green">{Math.round((wStats.correctHits / (wStats.correctHits + wStats.mistakes || 1)) * 100)}%</b></span>
                         </div>
                       ) : (
-                        <span className="text-gray-500 italic">{uiLanguage === 'vi' ? 'Chưa luyện tập' : 'Not practiced'}</span>
+                        <span className="text-gray-500 italic">{t('notPracticed')}</span>
                       )}
                     </div>
                   </div>
@@ -338,11 +336,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
         {/* Pagination Controls Footer */}
         <div className="flex justify-between items-center border-t border-outline-variant pb-1 pt-3 flex-shrink-0 font-mono text-xs">
           <div className="text-on-surface-variant">
-            {uiLanguage === 'vi' ? (
-              <>Hiển thị <b className="text-primary">{paginatedEntries.length}</b>/{filteredDictEntries.length} từ vựng</>
-            ) : (
-              <>Showing <b className="text-primary">{paginatedEntries.length}</b>/{filteredDictEntries.length} words</>
-            )}
+            {t('showingWords', { showing: paginatedEntries.length, total: filteredDictEntries.length })}
           </div>
 
           <div className="flex items-center gap-2">
@@ -355,7 +349,7 @@ export const SlsDictionaryExplorer: React.FC<SlsDictionaryExplorerProps> = ({
               <span className="material-symbols-outlined text-[16px]">chevron_left</span>
             </button>
             <span className="text-on-surface-variant text-[11px]">
-              {uiLanguage === 'vi' ? <>Trang <b className="text-white">{dictPage + 1}</b> / {totalPages}</> : <>Page <b className="text-white">{dictPage + 1}</b> / {totalPages}</>}
+              {t('pageLabel', { current: dictPage + 1, total: totalPages })}
             </span>
             <button
               type="button"

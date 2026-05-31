@@ -6,6 +6,7 @@ import { KeyboardHandsOverlay } from '../typing-coach/components/KeyboardHandsOv
 import { SlsDictionaryExplorer } from './MainMenu/SlsDictionaryExplorer';
 import { SettingsPanel } from './MainMenu/SettingsPanel';
 import { fetchLevelData } from '../data/api';
+import { UserGuideModal } from './MainMenu/UserGuideModal';
 
 interface MainMenuProps {
   onStartGame: (level: Level, mode: GameMode, lang: Language, customListId?: string) => void;
@@ -125,11 +126,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({
           onPlayRandomWords(selected);
         }
       } else {
-        alert("Không có từ nào trong cấp độ này để lựa chọn!");
+        alert(t('errors.noWordsInLevel') || "No words in this level to choose!");
       }
     } catch (e) {
       console.error(e);
-      alert("Đã xảy ra lỗi khi chọn từ ngẫu nhiên!");
+      alert(t('errors.randomWordError') || "An error occurred while selecting random words!");
     } finally {
       setIsRandomSelecting(false);
     }
@@ -330,7 +331,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
   });
 
   const levels: { name: Level; desc: string }[] = [
-    { name: 'Alphabet', desc: gameSettings.uiLanguage === 'vi' ? 'Học vị trí bàn phím và luyện gõ 10 ngón cơ bản.' : gameSettings.uiLanguage === 'ja' ? 'キーボード配列とタッチタイピングの基礎を学習。' : 'Learn keyboard positions and touch typing basics.' },
+    { name: 'Alphabet', desc: t('alphabetDesc') },
     { name: 'Kids', desc: 'Simple Words' },
     { name: 'Eiken 5 Kyu', desc: 'Eiken Grade 5' },
     { name: 'Eiken 4 Kyu', desc: 'Eiken Grade 4' },
@@ -379,12 +380,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({
           <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Arcade Educational Combat</span>
         </div>
         <nav className="hidden md:flex gap-6 select-none">
-          <span className="font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container pb-1 tracking-widest uppercase cursor-default">Hangar</span>
+          <span className="font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container pb-1 tracking-widest uppercase cursor-default">{t('navigation.hangar') || 'Hangar'}</span>
           <span 
             onClick={handleOpenSlsDictionary}
             className="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-container px-2 py-0.5 rounded tracking-widest uppercase cursor-pointer transition-colors"
           >
-            Từ điển SLS ⭐️
+            {t('navigation.slsDictionary')}
           </span>
           <span 
             onClick={() => { onInitAudio(); setShowUserGuideModal(true); }}
@@ -398,7 +399,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               className="font-label-caps text-label-caps text-critical-red hover:text-red-300 px-2 py-0.5 rounded tracking-widest uppercase cursor-pointer transition-colors flex items-center gap-1 font-bold"
             >
               <span className="material-symbols-outlined text-[14px]">home</span>
-              Thoát game (Home)
+              {t('common.exitHome')}
             </span>
           )}
         </nav>
@@ -444,7 +445,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 {selectedCustomListId ? (
                   <span className="px-2 py-0.5 bg-cyber-magenta/15 border border-cyber-magenta/40 text-cyber-magenta rounded text-[9px] font-bold neon-text-magenta animate-pulse">
                     {selectedCustomListId === 'random-words'
-                      ? `Ngẫu nhiên ${randomWords?.length || 0} từ`
+                      ? t('randomWordsCount', { count: randomWords?.length || 0 })
                       : `${t('customBadge')} ${selectedCustomList?.name}`}
                   </span>
                 ) : (
@@ -484,9 +485,9 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5 text-xs text-primary-container font-mono-data font-bold">
                     <span className="material-symbols-outlined text-[14px]">casino</span>
-                    <span>LỰA CHỌN TỪ NGẪU NHIÊN</span>
+                    <span>{t('randomWordSelection')}</span>
                   </div>
-                  <span className="text-[9px] text-on-surface-variant font-mono">Từ {selectedLevel}</span>
+                  <span className="text-[9px] text-on-surface-variant font-mono">{t('fromLevel')} {selectedLevel}</span>
                 </div>
                 <div className="flex gap-2 items-center">
                   <select 
@@ -494,12 +495,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                     onChange={(e) => setRandomCount(Number(e.target.value))}
                     className="flex-grow bg-cyber-dark border border-outline-variant rounded p-1.5 text-xs text-primary focus:border-primary-container outline-none transition-colors"
                   >
-                    <option value={5}>5 từ ngẫu nhiên</option>
-                    <option value={10}>10 từ ngẫu nhiên</option>
-                    <option value={20}>20 từ ngẫu nhiên</option>
-                    <option value={30}>30 từ ngẫu nhiên</option>
-                    <option value={50}>50 từ ngẫu nhiên</option>
-                    <option value={100}>100 từ ngẫu nhiên</option>
+                    <option value={5}>{t('randomWordsCount', { count: 5 })}</option>
+                    <option value={10}>{t('randomWordsCount', { count: 10 })}</option>
+                    <option value={20}>{t('randomWordsCount', { count: 20 })}</option>
+                    <option value={30}>{t('randomWordsCount', { count: 30 })}</option>
+                    <option value={50}>{t('randomWordsCount', { count: 50 })}</option>
+                    <option value={100}>{t('randomWordsCount', { count: 100 })}</option>
                   </select>
                   <button
                     type="button"
@@ -508,7 +509,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                     className="px-4 py-1.5 bg-gradient-to-r from-cyber-accent to-cyber-indigo text-white font-bold font-mono-data text-[10px] uppercase rounded hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="material-symbols-outlined text-[12px]">{isRandomSelecting ? 'sync' : 'play_arrow'}</span>
-                    <span>{isRandomSelecting ? 'Đang chọn...' : 'Chọn Từ'}</span>
+                    <span>{isRandomSelecting ? t('selecting') : t('selectWordsBtn')}</span>
                   </button>
                 </div>
               </div>
@@ -519,7 +520,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               <div className="flex justify-between items-center border-b border-outline-variant pb-2 mb-3 flex-shrink-0">
                 <div className="flex items-center gap-2 text-primary-container">
                   <span className="material-symbols-outlined text-[16px]">add_circle</span>
-                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">Danh Sách Từ Riêng</h3>
+                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">{t('customWordLists')}</h3>
                 </div>
                 <span className="font-mono-data text-[10px] text-on-surface-variant">{customWordLists.length} Lists</span>
               </div>
@@ -539,7 +540,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                     <input 
                       name="listName"
                       className="flex-1 bg-surface-dim border border-outline-variant rounded p-1.5 text-xs text-primary focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-colors placeholder:text-outline" 
-                      placeholder="Tên danh sách..." 
+                      placeholder={t('listNamePlaceholder')} 
                       type="text"
                       required
                     />
@@ -553,8 +554,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 {customWordLists.length === 0 ? (
                   <div className="flex-grow border border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center p-4 text-center bg-surface/30">
                     <span className="material-symbols-outlined text-2xl text-outline-variant mb-2">help</span>
-                    <h4 className="font-mono-data text-[10px] text-on-surface-variant uppercase mb-1">Chưa có danh mục</h4>
-                    <p className="font-body-md text-[10px] text-on-surface-variant/70 leading-tight">Hãy tạo danh sách từ riêng bằng form phía trên.</p>
+                    <h4 className="font-mono-data text-[10px] text-on-surface-variant uppercase mb-1">{t('noLists')}</h4>
+                    <p className="font-body-md text-[10px] text-on-surface-variant/70 leading-tight">{t('createListInstruction')}</p>
                   </div>
                 ) : (
                   <div className="flex-grow overflow-y-auto custom-scrollbar pr-1 flex flex-col gap-1.5">
@@ -575,7 +576,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                             }}
                             className="flex-grow text-left font-mono-data text-xs text-primary truncate uppercase"
                           >
-                            {list.name} <span className="text-[10px] text-gray-500 font-sans">({list.entries.length} w)</span>
+                            {list.name} <span className="text-[10px] text-gray-500 font-sans">({list.entries.length} {t('wordsCount')})</span>
                           </button>
                           <button
                             type="button"
@@ -601,7 +602,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                   className="w-full py-2 bg-gradient-to-r from-primary-container to-secondary-container text-background font-bold font-mono-data text-[10px] tracking-wider uppercase rounded hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md flex-shrink-0"
                 >
                   <span className="material-symbols-outlined text-[14px]">settings</span>
-                  Quản lý & File Import
+                  {t('manageAndImport')}
                 </button>
               </div>
             </div>
@@ -729,12 +730,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               <div className="border-t border-outline-variant/30 pt-3">
                 <div className="flex items-center gap-2 text-primary-container mb-2 border-b border-outline-variant pb-1">
                   <span className="material-symbols-outlined text-[16px]">palette</span>
-                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">Giao diện (Theme)</h3>
+                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">{t('settings.mainTheme')}</h3>
                 </div>
                 <div className="flex gap-2 mb-4">
                   {[
-                    { id: 'cyberpunk', label: 'Cyberpunk (Bé trai 👦)', emoji: '🌌' },
-                    { id: 'magical', label: 'Magical (Bé gái 👧)', emoji: '💖' },
+                    { id: 'cyberpunk', label: t('settings.themeCyber'), emoji: '🌌' },
+                    { id: 'magical', label: t('settings.themeMagical'), emoji: '💖' },
                   ].map(themeOpt => {
                     const isSelected = (gameSettings.theme || 'cyberpunk') === themeOpt.id;
                     return (
@@ -803,7 +804,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                 <div className="flex flex-col gap-3">
                   {/* Cyber Adventure Shooters Section */}
                   <div className="flex flex-col gap-1">
-                    <span className="text-[9px] text-cyber-accent font-black tracking-wider uppercase font-mono">🛸 Phiêu lưu Không gian / Cyber Shooters</span>
+                    <span className="text-[9px] text-cyber-accent font-black tracking-wider uppercase font-mono">{t('settings.cyberShooters')}</span>
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { id: 'airplane', name: t('shooterAirplane'), img: '/assets/shooters/airplane.png', glow: 'hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] border-cyber-accent', activeGlow: 'border-cyber-accent bg-cyber-accent/10 shadow-[0_0_15px_#00f3ff]' },
@@ -838,7 +839,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
 
                   {/* Magical Adventure Shooters Section */}
                   <div className="flex flex-col gap-1">
-                    <span className="text-[9px] text-cyber-magenta font-black tracking-wider uppercase font-mono">💖 Phiêu lưu Phép màu / Magical Shooters</span>
+                    <span className="text-[9px] text-cyber-magenta font-black tracking-wider uppercase font-mono">{t('settings.magicalShooters')}</span>
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { id: 'butterfly', name: t('shooterButterfly'), img: '/assets/shooters/butterfly.png', glow: 'hover:shadow-[0_0_12px_rgba(255,0,85,0.4)] border-cyber-magenta', activeGlow: 'border-cyber-magenta bg-cyber-magenta/10 shadow-[0_0_15px_#ff0055]' },
@@ -876,7 +877,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
               <div className="border-t border-outline-variant/30 pt-3 mt-3">
                 <div className="flex items-center gap-2 text-primary-container mb-2 border-b border-outline-variant pb-1">
                   <span className="material-symbols-outlined text-[16px]">psychology</span>
-                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">Luyện Tập Thông Minh (SLS)</h3>
+                  <h3 className="font-label-caps text-label-caps uppercase tracking-widest">{t('smartLearningSystemTitle')}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-1.5 font-mono text-[9px]">
                   <button
@@ -891,8 +892,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                         : 'border-outline-variant/40 bg-surface/50 hover:bg-primary/5 text-gray-400'
                     }`}
                   >
-                    <span>🚀 TẤT CẢ TỪ VỰNG</span>
-                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">Chơi toàn bộ kho từ</span>
+                    <span>{t('settings.slsAll')}</span>
+                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{t('settings.slsAllDesc')}</span>
                   </button>
                   <button
                     type="button"
@@ -906,8 +907,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                         : 'border-outline-variant/40 bg-surface/50 hover:bg-primary/5 text-gray-400'
                     }`}
                   >
-                    <span>⭐ TỪ CẦN ÔN ({slsStats.starredCount})</span>
-                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">Chỉ luyện từ gắn sao</span>
+                    <span>{t('settings.slsStarred', {count: slsStats.starredCount})}</span>
+                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{t('settings.slsStarredDesc')}</span>
                   </button>
                   <button
                     type="button"
@@ -921,8 +922,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                         : 'border-outline-variant/40 bg-surface/50 hover:bg-primary/5 text-gray-400'
                     }`}
                   >
-                    <span>🎓 CHƯA THUỘC</span>
-                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{slsStats.masteredCount} từ đã gõ tốt</span>
+                    <span>{t('settings.slsUnmastered')}</span>
+                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{t('settings.slsUnmasteredDesc', {count: slsStats.masteredCount})}</span>
                   </button>
                   <button
                     type="button"
@@ -936,8 +937,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                         : 'border-outline-variant/40 bg-surface/50 hover:bg-primary/5 text-gray-400'
                     }`}
                   >
-                    <span>🧠 ÔN TẬP SRS ({slsStats.srsDueCount})</span>
-                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{slsStats.srsDueCount} từ đến hạn ôn</span>
+                    <span>{t('settings.slsSrs', {count: slsStats.srsDueCount})}</span>
+                    <span className="text-[7px] text-on-surface-variant/80 uppercase font-normal">{t('settings.slsSrsDesc', {count: slsStats.srsDueCount})}</span>
                   </button>
                 </div>
               </div>
@@ -1119,7 +1120,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
                      }}
                      className="px-5 py-2.5 bg-cyber-dark hover:bg-cyber-accent/15 border border-cyber-accent/30 text-cyber-accent rounded-xl hover:text-white transition-all text-xs font-bold uppercase cursor-pointer"
                    >
-                     Gõ lại
+                     {t('common.retry')}
                    </button>
                  </div>
                </div>
@@ -1177,195 +1178,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         )}
 
       {/* Interactive User Guide (Hướng Dẫn Sử Dụng) Glassmorphism Modal */}
-      {showUserGuideModal && (
-        <div className="fixed inset-0 bg-[#070314]/85 backdrop-blur-md z-[150] flex items-center justify-center p-4 animate-fade-in select-none">
-          <div className="glass-panel w-full max-w-4xl max-h-[85vh] rounded-2xl flex flex-col overflow-hidden border border-cyber-accent/40 shadow-[0_0_30px_rgba(0,242,255,0.2)] bg-cyber-dark/95">
-            {/* Header */}
-            <div className="p-4 border-b border-outline-variant/40 flex justify-between items-center bg-cyber-dark/80">
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-primary-container text-[24px]">menu_book</span>
-                <h2 className="font-headline-md text-headline-md text-primary font-bold uppercase tracking-wider drop-shadow-[0_0_8px_rgba(0,242,255,0.6)] neon-text-primary">
-                  {gameSettings.uiLanguage === 'vi' ? 'HƯỚNG DẪN SỬ DỤNG' : gameSettings.uiLanguage === 'ja' ? '使い方ガイド' : 'USER GUIDE'}
-                </h2>
-              </div>
-              <button 
-                onClick={() => setShowUserGuideModal(false)}
-                className="text-on-surface-variant hover:text-primary hover:bg-primary/10 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-[20px]">close</span>
-              </button>
-            </div>
-
-            {/* Scrollable Content */}
-            <div className="flex-grow overflow-y-auto p-6 custom-scrollbar text-on-surface-variant bg-cyber-dark/40 font-body-md leading-relaxed text-xs space-y-5">
-              {gameSettings.uiLanguage === 'vi' ? (
-                // 🇻🇳 VIETNAMESE GUIDE
-                <>
-                  <div className="bg-cyber-accent/10 border border-cyber-accent/30 rounded-xl p-3 flex gap-3 items-center">
-                    <span className="material-symbols-outlined text-cyber-accent text-2xl animate-pulse">warning</span>
-                    <div className="text-[11px] text-gray-300">
-                      <span className="text-cyber-accent font-bold uppercase font-mono-data">QUAN TRỌNG: </span> 
-                      Hãy <strong>TẮT BỘ GÕ TIẾNG VIỆT (Telex / Unikey / EVKey)</strong> trên máy tính của bạn (chuyển sang gõ Tiếng Anh - chữ <strong>E</strong>) để tránh các lỗi dính phím hoặc gõ sai ký tự!
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">sports_esports</span> 1. Quy tắc gõ phím & Khóa mục tiêu (Lock Target)
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li>Quan sát các từ vựng tiếng Anh (kèm nghĩa dịch) đang bay từ trên xuống.</li>
-                      <li><strong>Khóa mục tiêu 🎯:</strong> Gõ ký tự <strong>ĐẦU TIÊN</strong> của một từ bất kỳ đang rơi trên màn hình. Phi thuyền của bạn sẽ lập tức khóa tâm ngắm đỏ vào từ đó.</li>
-                      <li><strong>Nã đạn liên tiếp:</strong> Khi đã khóa mục tiêu, bạn <strong>phải gõ hoàn thành toàn bộ từ đó</strong> để tiêu diệt nó. Phi thuyền sẽ không nhận ký tự của từ khác cho tới khi mục tiêu hiện tại bị bắn hạ!</li>
-                      <li><strong>Bảo vệ căn cứ:</strong> Hãy bắn hạ các từ trước khi chúng chạm vào <strong>vạch đỏ cảnh báo</strong> dưới cùng. Mỗi từ lọt lưới sẽ làm giảm Khiên Chắn (Shield) của bạn. Khiên về 0% = Game Over!</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">school</span> 2. Huấn luyện gõ 10 ngón chuyên nghiệp (Typing Coach)
-                    </h3>
-                    <p className="mb-2 text-gray-300">Hệ thống hỗ trợ gõ 10 ngón thông minh giúp bạn gõ phím không cần nhìn bàn phím:</p>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li><strong>Đôi bàn tay ảo SVG 👋:</strong> Nhấp nháy chính xác ngón tay bạn cần dùng để gõ ký tự tiếp theo.</li>
-                      <li><strong>Bàn phím ảo:</strong> Hướng dẫn vị trí đặt ngón tay home row tiêu chuẩn (tay trái: <code>A S D F</code>, tay phải: <code>J K L ;</code>, ngón cái: <code>Space</code>).</li>
-                      <li><strong>Tập gõ Home Row nhanh:</strong> Nhấp vào nút <strong>"Tập gõ Home Row"</strong> tại cột giữa menu chính để rèn luyện cơ tay trước khi tham chiến.</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">settings</span> 3. Cài đặt tối ưu cho Trẻ em & Người mới bắt đầu
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li><strong>Chế độ Học tập (Learning Mode):</strong> Giảm 30% tốc độ rơi của từ (mặc định còn <code>0.7x</code>), mục tiêu phát sáng rõ nét và giảm 50% sát thương lọt lưới.</li>
-                      <li><strong>Tốc độ siêu chậm (0.3x Preset) 👶:</strong> Kéo thanh trượt tốc độ bay về mức <code>0.3x</code> hoặc <code>0.2x</code> để trẻ nhỏ tiểu học hoặc người mới bắt đầu tha hồ thời gian tìm phím.</li>
-                      <li><strong>Phát âm từ vựng 🔊:</strong> Bật "Phát âm từ khi bị tiêu diệt" tại cột bên phải để kết hợp học gõ và luyện nghe giọng chuẩn Anh (UK) hoặc Mỹ (US).</li>
-                      <li><strong>Nhân vật chiến cơ dễ thương 🐢:</strong> Ngoài Chiến cơ Cyber, Xe tăng thép 👦, Bướm Neon 👧, bạn có thể chọn <strong>Rùa hồng đáng yêu 🐢</strong> với mai rùa trái tim và tia bắn ma thuật hồng nhạt tuyệt đẹp.</li>
-                      <li><strong>Đổi giao diện (Theme):</strong> Đổi giữa <em>Cyberpunk (Bé trai 👦)</em> màu xanh neon cá tính và <em>Magical (Bé gái 👧)</em> màu hồng tím ngọt ngào.</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">menu_book</span> 4. Luyện tập thông minh & Từ vựng riêng
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li><strong>Luyện từ gắn sao (SLS) ⭐️:</strong> Ấn ngôi sao <code>⭐</code> bên cạnh từ khó trong từ điển hoặc nhật ký chiến trường để đưa vào hàng đợi ôn tập. Hệ thống Spaced Repetition sẽ lặp lại từ này thông minh.</li>
-                      <li><strong>Tự tạo danh sách từ riêng 📚:</strong> Dùng bảng <strong>"Quản lý & File Import"</strong> để tự nhập từ thủ công hoặc kéo thả file Excel / CSV bài học trên lớp để học bài cực vui!</li>
-                    </ul>
-                  </div>
-                </>
-              ) : gameSettings.uiLanguage === 'ja' ? (
-                // 🇯🇵 JAPANESE GUIDE
-                <>
-                  <div className="bg-cyber-accent/10 border border-cyber-accent/30 rounded-xl p-3 flex gap-3 items-center">
-                    <span className="material-symbols-outlined text-cyber-accent text-2xl animate-pulse">warning</span>
-                    <div className="text-[11px] text-gray-300">
-                      <span className="text-cyber-accent font-bold uppercase font-mono-data">重要: </span> 
-                      ゲームを始める前に、必ずPCの日本語入力入力を<strong>半角英数（English）</strong>に変更してください！ローマ字入力モードのままだと、正常にキー入力が反映されません。
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">sports_esports</span> 1. タイピングとターゲットロックの規則
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li>上空から降下してくる英単語（および訳語）をよく確認します。</li>
-                      <li><strong>ターゲットロックオン 🎯:</strong> 画面内のいずれかの単語の<strong>最初の文字</strong>をタイピングすると、赤い照準マークでロックオンされます。</li>
-                      <li><strong>連射撃破:</strong> ロックオン中は、その単語を<strong>最後までタイピングし終える</strong>必要があります。現在のターゲットを撃墜するまで、他の単語を入力することはできません。</li>
-                      <li><strong>防衛ライン:</strong> 下部の<strong>赤点線（警告ライン）</strong>を越える前に単語を撃破してください。侵入を許すとシールドが減少します。シールドが0%になるとゲームオーバーです。</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">school</span> 2. タッチタイピング・コーチ（Typing Coach）
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li><strong>バーチャルSVG両手 👋:</strong> 次に入力するキーをどの指で打つべきかを点滅してリアルタイムで指導します。</li>
-                      <li><strong>仮想キーボード:</strong> ホームポジション（左手: <code>A S D F</code>、右手: <code>J K L ;</code>、親指: <code>Space</code>）を分かりやすくガイド。</li>
-                      <li><strong>ホーム行練習モード:</strong> メインメニュー中央にある<strong>「ホーム行の練習」</strong>ボタンで、出撃前の指のウォーミングアップが可能です。</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">settings</span> 3. 子供・初心者向けの最適化設定
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li><strong>練習モード（Learning Mode）:</strong> 単語の降下速度が30%低下（デフォルト <code>0.7x</code>）し、ターゲットが明るく光り、シールドへのダメージが半減します。</li>
-                      <li><strong>超低速（0.3x 設定） 👶:</strong> 速度スライダーを一番左の <code>0.3x</code> または <code>0.2x</code> にセットすると、小学生や完全な初心者でもキーを探すのに十分な時間が生まれます。</li>
-                      <li><strong>音声発音 🔊:</strong> 右メニューの「撃破時に単語を発音する」を有効にすると、アメリカ英語（US）またはイギリス英語（UK）の発音を耳で学びながら遊べます。</li>
-                      <li><strong>愛らしいシューター 🐢:</strong> サイバー戦闘機、戦車、蝶のほか、ハートのマイとピンクの魔法レーザーを放つ<strong>可愛いウミガメ（Cute Pink Turtle）🐢</strong>が選択可能です。</li>
-                      <li><strong>テーマ切り替え 🎨:</strong> 男の子向けの <em>Cyberpunk (👦)</em> と、ピンクと紫がベースの女の子向け <em>Magical (👧)</em> の2つのテーマを自由に切り替えられます。</li>
-                    </ul>
-                  </div>
-                </>
-              ) : (
-                // 🇺🇸 ENGLISH GUIDE
-                <>
-                  <div className="bg-cyber-accent/10 border border-cyber-accent/30 rounded-xl p-3 flex gap-3 items-center">
-                    <span className="material-symbols-outlined text-cyber-accent text-2xl animate-pulse">warning</span>
-                    <div className="text-[11px] text-gray-300">
-                      <span className="text-cyber-accent font-bold uppercase font-mono-data">IMPORTANT: </span> 
-                      Ensure your system keyboard input method is set to **English** (turn off Telex/IME/Unikey) to avoid typing conflicts or double character insertions!
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">sports_esports</span> 1. Core Mechanics & Target Locking
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li>Observe the incoming vocabulary fighter jets flying from top to bottom.</li>
-                      <li><strong>Lock Target 🎯:</strong> Press the **FIRST letter** of any falling word. Your crosshair will lock onto that word.</li>
-                      <li><strong>Laser Fire:</strong> Once locked, you **must type the entire word to destroy it**. Your keyboard will ignore keys for other words until the active target is defeated!</li>
-                      <li><strong>Base Defense:</strong> Vaporize words before they reach the **red warning line** at the bottom. Leaked words damage your Shield. Shield at 0% = Game Over!</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">school</span> 2. Interactive Typing Coach
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li>**SVG Hand Overlays 👋**: Flashes exactly which finger to use for the next character, helping you learn touch typing without looking down.</li>
-                      <li>**Virtual Keyboard**: Visual guide on standard home row placement (left hand: `A S D F`, right hand: `J K L ;`, thumbs on `Space`).</li>
-                      <li>**Home Row Warm-up**: Click **"Practice Home Row"** on the main menu to build key muscle memory before deploying into battle.</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-primary-container font-bold text-sm mb-2 uppercase border-b border-primary-container/20 pb-1 flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">settings</span> 3. Kids & Beginner-Friendly Presets
-                    </h3>
-                    <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                      <li>**Learning Mode**: Reduces word speeds by 30% (`0.7x`), adds target glow assistance, and cuts leaked word damage by 50%.</li>
-                      <li>**Super Slow Speed (`0.3x` / `0.2x`) 👶**: Drag the speed slider to its lowest settings. Highly recommended for elementary children or keyboard beginners.</li>
-                      <li>**TTS Pronunciation 🔊**: Enable "Pronounce on Destroy" on the right console to hear spoken words in US or UK accent as you play.</li>
-                      <li>**Magical & Cute Skins 🐢**: Choose the adorable new **Cute Pink Turtle 🐢** with heart shells and magical pink lasers, alongside the cool Cyber Fighter, Steel Tank 👦, and Neon Butterfly 👧.</li>
-                      <li>**Dual Theme Support 🎨**: Switch between the neon-styled *Cyberpunk Theme (Boys 👦)* and the cozy, warm *Magical Theme (Girls 👧)*.</li>
-                    </ul>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="p-4 border-t border-outline-variant/30 flex justify-between items-center bg-cyber-dark/90 flex-shrink-0 text-[10px] font-mono text-gray-500">
-              <span>SUITE VERSION 1.1.0 (VERIFIED)</span>
-              <button 
-                onClick={() => setShowUserGuideModal(false)}
-                className="px-4 py-1.5 bg-gradient-to-r from-primary-container to-cyber-accent text-background font-bold uppercase rounded hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
-              >
-                {gameSettings.uiLanguage === 'vi' ? 'Đóng hướng dẫn' : gameSettings.uiLanguage === 'ja' ? '閉じる' : 'Close Guide'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <UserGuideModal
+        isOpen={showUserGuideModal}
+        onClose={() => setShowUserGuideModal(false)}
+        uiLanguage={gameSettings.uiLanguage}
+      />
 
      </div>
    );

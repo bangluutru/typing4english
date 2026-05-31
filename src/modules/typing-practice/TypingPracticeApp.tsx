@@ -9,6 +9,7 @@ import { ResultPage } from './pages/ResultPage';
 import { ProgressDashboard } from './components/ProgressDashboard';
 import { SettingsPage } from './pages/SettingsPage';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { useTranslation } from '../../i18n/useTranslation';
 
 export type TypingPageType = 'home' | 'lessons' | 'practice' | 'result' | 'dashboard' | 'settings';
 
@@ -36,6 +37,8 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
     timeSpent: number;
     errors: Record<string, number>;
   } | null>(null);
+
+  const t = useTranslation();
 
   // Sync settings theme to body class list
   useEffect(() => {
@@ -123,14 +126,14 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
         );
       case 'dashboard':
         return (
-          <div className="flex flex-col items-center gap-4 py-4 w-full">
+          <div className="flex flex-col items-center gap-4 py-4 w-full animate-tp-pulse-slow">
             <div className="text-center flex flex-col gap-2 mb-2">
-              <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
+              <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2 font-display uppercase tracking-wider">
                 <BarChart2 className="w-7 h-7 text-tp-primary-500" />
-                Tiến trình Học tập của bạn
+                {t('typingPractice.nav.dashboard')}
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                Xem thống kê chi tiết, streak học và phân tích phím gõ lỗi.
+                {t('typingPractice.dashboard.noProgressYet')}
               </p>
             </div>
             <ProgressDashboard
@@ -166,17 +169,17 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
               <div className="p-2 rounded-xl bg-tp-primary-500 text-white shadow-md shadow-tp-primary-500/20 group-hover:scale-105 transition-transform">
                 <Keyboard className="w-5 h-5" />
               </div>
-              <span className="font-black text-lg sm:text-xl tracking-tight text-slate-800 dark:text-slate-100">
-                Type<span className="text-tp-primary-500">Master</span>
+              <span className="font-black text-lg sm:text-xl tracking-tight text-slate-800 dark:text-slate-100 font-display">
+                Type<span className="text-tp-primary-500 font-extrabold">Master</span>
               </span>
             </div>
 
             <nav className="flex items-center gap-1 sm:gap-2">
               {[
-                { id: 'home', label: 'Home', icon: HomeIcon },
-                { id: 'lessons', label: 'Lộ trình', icon: Award },
-                { id: 'dashboard', label: 'Báo cáo', icon: BarChart2 },
-                { id: 'settings', label: 'Cài đặt', icon: SettingsIcon },
+                { id: 'home', label: t('navigation.home'), icon: HomeIcon },
+                { id: 'lessons', label: t('typingPractice.lessons.title'), icon: Award },
+                { id: 'dashboard', label: t('typingPractice.nav.dashboard'), icon: BarChart2 },
+                { id: 'settings', label: t('navigation.settings'), icon: SettingsIcon },
               ].map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id || (item.id === 'lessons' && currentPage === 'practice') || (item.id === 'lessons' && currentPage === 'result');
@@ -202,7 +205,7 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-200 border border-red-500/20 ml-2"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Thoát</span>
+                <span>{t('common.exit')}</span>
               </button>
             </nav>
           </div>
@@ -219,10 +222,10 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
               <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               <span>for English learners.</span>
             </div>
-            <div className="flex gap-4">
-              <span className="hover:text-tp-primary-500 cursor-pointer" onClick={() => setCurrentPage('lessons')}>Lộ trình học tập</span>
+            <div className="flex gap-4 font-semibold">
+              <span className="hover:text-tp-primary-500 cursor-pointer" onClick={() => setCurrentPage('lessons')}>{t('typingPractice.lessons.title')}</span>
               <span>•</span>
-              <span className="hover:text-tp-primary-500 cursor-pointer" onClick={() => setCurrentPage('settings')}>Xuất sao lưu</span>
+              <span className="hover:text-tp-primary-500 cursor-pointer" onClick={() => setCurrentPage('settings')}>{t('settings.exportDataBtn')}</span>
             </div>
           </div>
         </footer>
@@ -230,3 +233,4 @@ export function TypingPracticeApp({ onBackToHome, onGoToWordBattle, appTheme }: 
     </ErrorBoundary>
   );
 }
+

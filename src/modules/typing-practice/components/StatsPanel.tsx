@@ -1,6 +1,7 @@
 import React from 'react';
 import { Zap, Target, AlertCircle, Clock } from 'lucide-react';
 import { formatTime } from '../utils/typingMetrics';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 interface StatsPanelProps {
   wpm: number;
@@ -20,6 +21,7 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({
   totalLength,
 }) => {
   const completionPercent = Math.min(100, Math.round((currentIndex / totalLength) * 100));
+  const t = useTranslation();
 
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -53,7 +55,7 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({
         <div className="tp-glass p-3 rounded-2xl flex flex-col justify-center items-center gap-1 text-center shadow-sm border border-slate-200/50 dark:border-slate-800/50">
           <div className="flex items-center gap-1.5 text-tp-success-500">
             <Target className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">Chính xác</span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">{t('typingPractice.result.accuracyLabel')}</span>
           </div>
           <span className="text-lg sm:text-2xl font-black text-slate-800 dark:text-slate-100">
             {accuracy}%
@@ -64,7 +66,7 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({
         <div className="tp-glass p-3 rounded-2xl flex flex-col justify-center items-center gap-1 text-center shadow-sm border border-slate-200/50 dark:border-slate-800/50">
           <div className="flex items-center gap-1.5 text-tp-danger-500">
             <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">Lỗi gõ</span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">{t('typingPractice.result.mistakesLabel')}</span>
           </div>
           <span className="text-lg sm:text-2xl font-black text-slate-800 dark:text-slate-100">
             {errorCount}
@@ -75,7 +77,7 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({
         <div className="tp-glass p-3 rounded-2xl flex flex-col justify-center items-center gap-1 text-center shadow-sm border border-slate-200/50 dark:border-slate-800/50">
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
             <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">Thời gian</span>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60">{t('typingPractice.result.timeLabel')}</span>
           </div>
           <span className="text-lg sm:text-2xl font-black text-slate-800 dark:text-slate-100">
             {formatTime(elapsedTime)}

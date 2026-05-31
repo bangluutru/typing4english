@@ -211,13 +211,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
 
   const handleClearList = () => {
     if (!activeListId || !onClearList) return;
-    const confirmClear = window.confirm(
-      uiLanguage === 'vi' 
-        ? 'Bạn có chắc chắn muốn xóa toàn bộ từ vựng trong danh sách này?' 
-        : uiLanguage === 'ja'
-          ? 'この単語帳のすべての単語をクリアしてもよろしいですか？'
-          : 'Are you sure you want to clear all words in this list?'
-    );
+    const confirmClear = window.confirm(t('customWords.confirmClearAll'));
     if (confirmClear) {
       onClearList(activeListId);
     }
@@ -389,11 +383,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                 {t('backupRestore')}
               </h3>
               <p className="text-[9px] text-gray-500 leading-normal">
-                {uiLanguage === 'vi' 
-                  ? 'Sao lưu toàn bộ danh sách từ, thống kê và cấu hình của bạn.' 
-                  : uiLanguage === 'ja'
-                    ? 'すべての単語帳、統計、設定をバックアップします。'
-                    : 'Backup all word lists, stats, and settings globally.'}
+                {t('customWords.backupDescription')}
               </p>
               
               <div className="flex flex-col gap-2">
@@ -471,7 +461,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                       className="px-2.5 py-1 text-[9px] bg-red-950/20 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/60 text-cyber-magenta hover:text-white rounded font-bold uppercase transition-all tracking-wider flex items-center gap-1 cursor-pointer"
                     >
                       <Trash2 className="w-3 h-3" />
-                      {uiLanguage === 'vi' ? 'XÓA SẠCH' : uiLanguage === 'ja' ? 'すべて削除' : 'CLEAR ALL'}
+                      {t('customWords.clearAllBtn').toUpperCase()}
                     </button>
                   )}
                   <span className="px-2 py-0.5 bg-cyber-accent/10 border border-cyber-accent/30 rounded text-[10px] text-cyber-accent font-bold">
@@ -515,7 +505,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                             type="text"
                             value={meaningVi}
                             onChange={(e) => setMeaningVi(e.target.value)}
-                            placeholder="xin chào..."
+                            placeholder={t('placeholderVi')}
                             className="w-full bg-cyber-bg border border-cyber-accent/10 focus:border-cyber-accent rounded px-2 py-1 text-white text-xs outline-none transition-all font-sans"
                           />
                         </div>
@@ -525,7 +515,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                             type="text"
                             value={meaningJa}
                             onChange={(e) => setMeaningJa(e.target.value)}
-                            placeholder="こんにちは..."
+                            placeholder={t('placeholderJa')}
                             className="w-full bg-cyber-bg border border-cyber-accent/10 focus:border-cyber-accent rounded px-2 py-1 text-white text-xs outline-none transition-all font-sans"
                           />
                         </div>
@@ -588,7 +578,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={uiLanguage === 'vi' ? 'Tìm kiếm từ vựng...' : uiLanguage === 'ja' ? '単語を検索...' : 'Search word lists...'}
+                      placeholder={t('customWords.placeholderSearch')}
                       className="w-full bg-cyber-bg/70 border border-cyber-accent/20 focus:border-cyber-accent rounded-lg pl-9 pr-3 py-1.5 text-white text-xs outline-none transition-all"
                     />
                   </div>
@@ -601,10 +591,10 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                       onChange={(e) => setFilterDifficulty(e.target.value)}
                       className="bg-cyber-bg border border-cyber-accent/20 rounded px-2 py-1 text-[10px] text-gray-300 outline-none cursor-pointer hover:border-cyber-accent/40"
                     >
-                      <option value="all">{uiLanguage === 'vi' ? 'Mọi độ khó' : uiLanguage === 'ja' ? 'すべての難易度' : 'All Difficulty'}</option>
-                      <option value="1">{uiLanguage === 'vi' ? 'Độ khó: Dễ' : uiLanguage === 'ja' ? '難易度: 簡単' : 'Easy (1)'}</option>
-                      <option value="2">{uiLanguage === 'vi' ? 'Độ khó: Vừa' : uiLanguage === 'ja' ? '難易度: 普通' : 'Medium (2)'}</option>
-                      <option value="3">{uiLanguage === 'vi' ? 'Độ khó: Khó' : uiLanguage === 'ja' ? '難易度: 困難' : 'Hard (3)'}</option>
+                      <option value="all">{t('customWords.filterDifficulty')}</option>
+                      <option value="1">{t('difficultyEasy')}</option>
+                      <option value="2">{t('difficultyMedium')}</option>
+                      <option value="3">{t('difficultyHard')}</option>
                     </select>
                     
                     <select
@@ -614,8 +604,8 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                     >
                       <option value="alphabet-asc">A - Z</option>
                       <option value="alphabet-desc">Z - A</option>
-                      <option value="diff-asc">{uiLanguage === 'vi' ? 'Độ khó tăng dần' : uiLanguage === 'ja' ? '難易度 昇順' : 'Difficulty: Low-High'}</option>
-                      <option value="diff-desc">{uiLanguage === 'vi' ? 'Độ khó giảm dần' : uiLanguage === 'ja' ? '難易度 降順' : 'Difficulty: High-Low'}</option>
+                      <option value="diff-asc">{t('customWords.sortDifficultyAsc')}</option>
+                      <option value="diff-desc">{t('customWords.sortDifficultyDesc')}</option>
                     </select>
                   </div>
                 </div>
@@ -625,8 +615,8 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                   {processedEntries.length === 0 ? (
                     <div className="text-[10px] text-gray-500 italic text-center py-8">
                       {searchQuery.trim() 
-                        ? (uiLanguage === 'vi' ? 'Không tìm thấy kết quả phù hợp.' : 'No matching words found.')
-                        : t('customWordListPlaceholder')
+                        ? t('customWords.noMatchingResults')
+                        : t('customWords.selectCategoryDesc')
                       }
                     </div>
                   ) : (
@@ -655,7 +645,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                               </div>
                               {/* Vi meaning */}
                               <div className="sm:col-span-3 flex flex-col gap-0.5">
-                                <label className="text-[8px] text-gray-400">Nghĩa Việt</label>
+                                <label className="text-[8px] text-gray-400">{t('customWords.vietnameseTranslation')}</label>
                                 <input
                                   type="text"
                                   value={editMeaningVi}
@@ -665,7 +655,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                               </div>
                               {/* Ja meaning */}
                               <div className="sm:col-span-3 flex flex-col gap-0.5">
-                                <label className="text-[8px] text-gray-400">Nghĩa Nhật</label>
+                                <label className="text-[8px] text-gray-400">{t('customWords.japaneseTranslation')}</label>
                                 <input
                                   type="text"
                                   value={editMeaningJa}
@@ -761,7 +751,7 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
                               <button
                                 type="button"
                                 onClick={() => {
-                                  if (window.confirm(uiLanguage === 'vi' ? `Bạn có chắc chắn muốn xóa từ "${entry.word}"?` : `Are you sure you want to delete "${entry.word}"?`)) {
+                                  if (window.confirm(t('customWords.confirmDeleteWord', { word: entry.word }))) {
                                     if (activeListId) onDeleteWord(activeListId, originalIndex);
                                   }
                                 }}
@@ -783,9 +773,9 @@ export const CustomWordListManager: React.FC<CustomWordListManagerProps> = ({
           ) : (
             <div className="flex flex-col justify-center items-center h-full text-center py-16 border-2 border-dashed border-cyber-accent/10 rounded-2xl bg-cyber-dark/20 text-gray-500">
               <HelpCircle className="w-10 h-10 mb-2 text-cyber-accent/30 animate-pulse" />
-              <p className="text-xs uppercase tracking-wider font-bold">Vui lòng chọn một Danh mục từ riêng</p>
+              <p className="text-xs uppercase tracking-wider font-bold">{t('customWords.selectCategory')}</p>
               <p className="text-[10px] text-gray-600 mt-1 max-w-sm leading-normal">
-                Nhấp chọn một danh mục từ danh sách bên trái hoặc tạo danh mục mới để chỉnh sửa, thêm từ, import CSV/JSON.
+                {t('customWords.selectCategoryDesc')}
               </p>
             </div>
           )}

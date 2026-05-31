@@ -76,7 +76,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           </div>
           <div className="flex gap-1 mb-2">
             {[
-              { label: uiLanguage === 'vi' ? 'Tập gõ 👶' : uiLanguage === 'ja' ? '練習 👶' : 'Beginner 👶', val: 0.3 },
+              {label: t('settings.beginnerSpeed'), val: 0.3},
               { label: t('speedSlow'), val: 0.7 },
               { label: t('speedNormal'), val: 1.0 },
               { label: t('speedFast'), val: 1.3 },
@@ -272,7 +272,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         <div className="pt-2 border-t border-outline-variant/35 flex flex-col gap-2">
           <div className="flex justify-between items-center">
             <span className="font-mono-data text-[11px] text-primary uppercase">
-              {uiLanguage === 'vi' ? 'Phát âm khi bắn hạ:' : uiLanguage === 'ja' ? '破壊時の発音:' : 'Pronounce on destroy:'}
+              {t('settings.pronounceOnDestroy')}
             </span>
             <button 
               type="button" 
@@ -282,8 +282,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               }`}
             >
               {soundSettings.pronounceOnDestroy 
-                ? (uiLanguage === 'vi' ? 'Bật' : uiLanguage === 'ja' ? '有効' : 'On') 
-                : (uiLanguage === 'vi' ? 'Tắt' : uiLanguage === 'ja' ? '無効' : 'Off')
+                ? t('settings.active')
+                : t('settings.inactive')
               }
             </button>
           </div>
@@ -291,12 +291,12 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           {soundSettings.pronounceOnDestroy && (
             <div className="flex justify-between items-center animate-fade-in">
               <span className="font-mono-data text-[10px] text-on-surface-variant/80">
-                {uiLanguage === 'vi' ? 'Giọng đọc (Accent):' : uiLanguage === 'ja' ? 'アクセント:' : 'Accent:'}
+                {t('settings.accentLabel')}
               </span>
               <div className="flex gap-1">
                 {[
-                  { label: 'US (Mỹ)', val: 'us' },
-                  { label: 'UK (Anh)', val: 'uk' },
+                  { label: 'US', val: 'us' },
+                  { label: 'UK', val: 'uk' },
                 ].map(acc => {
                   const isActive = (soundSettings.pronunciationAccent ?? 'us') === acc.val;
                   return (
@@ -332,7 +332,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             gameSettings.typingCoach.enabled ? 'border-primary-container text-primary-container bg-primary-container/10 font-bold' : 'border-outline-variant text-on-surface-variant'
           }`}
         >
-          {gameSettings.typingCoach.enabled ? 'Active' : 'Inactive'}
+          {gameSettings.typingCoach.enabled ? t('settings.active') : t('settings.inactive')}
         </button>
       </div>
 

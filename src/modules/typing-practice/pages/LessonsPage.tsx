@@ -3,6 +3,7 @@ import { Lock, CheckCircle2, ChevronRight, Trophy, Bookmark } from 'lucide-react
 import { lessons } from '../data/lessons';
 import type { Lesson } from '../data/lessons';
 import type { UserProgress } from '../stores/progressStore';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 interface LessonsPageProps {
   progress: UserProgress;
@@ -16,6 +17,7 @@ export const LessonsPage: React.FC<LessonsPageProps> = ({
   onSelectLesson,
 }) => {
   const { completedLessons } = progress;
+  const t = useTranslation();
 
   const isLessonUnlocked = (index: number): boolean => {
     if (index === 0) return true;
@@ -52,10 +54,10 @@ export const LessonsPage: React.FC<LessonsPageProps> = ({
       <div className="text-center flex flex-col gap-2">
         <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
           <Trophy className="w-7 h-7 text-amber-500 fill-amber-500/10" />
-          Lộ trình Luyện gõ 10 ngón
+          {t('typingPractice.lessons.roadmapTitle')}
         </h2>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-          Hoàn thành từng bài gõ đạt tối thiểu <strong>90% độ chính xác</strong> để tự động mở khóa các thử thách tiếp theo.
+          {t('typingPractice.lessons.roadmapDesc', { minAccuracy: 90 })}
         </p>
       </div>
 
@@ -67,7 +69,7 @@ export const LessonsPage: React.FC<LessonsPageProps> = ({
                 L{levelNum}
               </span>
               <h3 className="text-lg font-black text-slate-800 dark:text-slate-200">
-                {group.name}
+                {t(`typingPractice.lessons.${group.name === 'Keyboard Basics' ? 'keyboardHomeRow' : group.name === 'Top Row' ? 'keyboardTopRow' : group.name === 'Bottom Row' ? 'keyboardBottomRow' : group.name === 'Numbers' ? 'keyboardNumbers' : 'keyboardAllKeys'}`)}
               </h3>
               <div className="flex-1 h-[1px] bg-slate-200 dark:bg-slate-800" />
             </div>
@@ -79,13 +81,13 @@ export const LessonsPage: React.FC<LessonsPageProps> = ({
 
                 return (
                   <div
-                    key={lesson.id}
-                    onClick={() => handleLessonClick(lesson, unlocked)}
-                    className={`p-4 rounded-2xl border transition-all duration-200 relative flex justify-between items-center gap-4 ${
-                      unlocked
-                        ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800/80 hover:border-tp-primary-400 dark:hover:border-tp-primary-500/50 hover:shadow-md cursor-pointer hover:-translate-y-0.5'
-                        : 'bg-slate-100/50 dark:bg-slate-950/30 border-slate-200/50 dark:border-slate-900/60 opacity-60'
-                    }`}
+                      key={lesson.id}
+                      onClick={() => handleLessonClick(lesson, unlocked)}
+                      className={`p-4 rounded-2xl border transition-all duration-200 relative flex justify-between items-center gap-4 ${
+                        unlocked
+                          ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800/80 hover:border-tp-primary-400 dark:hover:border-tp-primary-500/50 hover:shadow-md cursor-pointer hover:-translate-y-0.5'
+                          : 'bg-slate-100/50 dark:bg-slate-950/30 border-slate-200/50 dark:border-slate-900/60 opacity-60'
+                      }`}
                   >
                     <div className="flex items-start gap-3">
                       <div className="mt-0.5">
@@ -106,18 +108,18 @@ export const LessonsPage: React.FC<LessonsPageProps> = ({
 
                       <div className="flex flex-col gap-0.5">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                          Bài số {index + 1}
+                          {t('typingPractice.lessons.lessonNumber', { number: index + 1 })}
                         </span>
                         <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 leading-tight">
-                          {lesson.name}
+                          {t(lesson.name)}
                         </h4>
                         <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                          Mục tiêu: {lesson.minAccuracy}% chính xác, {lesson.minWpm} WPM
+                          {t('typingPractice.lessons.lessonObjective', { accuracy: lesson.minAccuracy, wpm: lesson.minWpm })}
                         </p>
 
                         {isCompleted && (
                           <div className="flex items-center gap-2 mt-1.5 text-[10px] font-black text-tp-success-600 dark:text-success-400 bg-tp-success-500/5 px-2 py-0.5 rounded-md w-max">
-                            <span>🚀 Tốt nhất: {result.wpm} WPM</span>
+                            <span>{t('typingPractice.lessons.bestResult', { wpm: result.wpm })}</span>
                             <span>•</span>
                             <span>🎯 {result.accuracy}%</span>
                           </div>

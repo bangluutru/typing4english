@@ -1,19 +1,34 @@
 import React from 'react';
 import { Award, TrendingUp, Calendar, Zap, AlertCircle, RefreshCw, BarChart2 } from 'lucide-react';
-import { fingerMapping, fingerLabels } from '../data/fingerMapping';
+import { fingerMapping } from '../data/fingerMapping';
 import { formatTime } from '../utils/typingMetrics';
 import type { UserProgress } from '../stores/progressStore';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 interface ProgressDashboardProps {
   progress: UserProgress;
   onReset: () => void;
 }
 
+const fingerTranslationKeys: Record<string, string> = {
+  lp: 'leftPinky',
+  lr: 'leftRing',
+  lm: 'leftMiddle',
+  li: 'leftIndex',
+  lt: 'leftThumb',
+  rt: 'rightThumb',
+  ri: 'rightIndex',
+  rm: 'rightMiddle',
+  rr: 'rightRing',
+  rp: 'rightPinky'
+};
+
 export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
   progress,
   onReset,
 }) => {
   const { completedLessons, totalPracticeTime, errorHeatmap, dailyHistory, streak } = progress;
+  const t = useTranslation();
 
   const completedCount = Object.keys(completedLessons).length;
 
@@ -40,7 +55,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
       return (
         <div className="h-32 flex flex-col justify-center items-center text-slate-400 dark:text-slate-500 text-xs gap-1 py-4">
           <BarChart2 className="w-8 h-8 opacity-40 animate-pulse" />
-          <span>Luyện tập từ 2 ngày trở lên để xem biểu đồ tiến trình</span>
+          <span>{t('typingPractice.dashboard.chartNoData')}</span>
         </div>
       );
     }
@@ -105,8 +120,8 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">Ngày học Streak</span>
-            <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{streak} ngày</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">{t('typingPractice.dashboard.streakLabel')}</span>
+            <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{streak} {t('typingPractice.dashboard.days')}</span>
           </div>
         </div>
 
@@ -115,8 +130,8 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <Award className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">Đã hoàn thành</span>
-            <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{completedCount} bài</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">{t('typingPractice.dashboard.completedLabel')}</span>
+            <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{completedCount} {t('typingPractice.dashboard.lessonsUnit')}</span>
           </div>
         </div>
 
@@ -125,7 +140,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <Zap className="w-5 h-5 sm:w-6 sm:h-6 fill-teal-500/10" />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">WPM Tốt nhất</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">{t('typingPractice.dashboard.bestWpmLabel')}</span>
             <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{bestWpm} WPM</span>
           </div>
         </div>
@@ -135,7 +150,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">Chính xác trung bình</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider opacity-50 block">{t('typingPractice.dashboard.avgAccuracyLabel')}</span>
             <span className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">{avgAccuracy}%</span>
           </div>
         </div>
@@ -146,9 +161,9 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           <div className="flex justify-between items-center border-b border-slate-200/40 dark:border-slate-800/40 pb-3">
             <h3 className="font-black text-sm sm:text-base text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-tp-primary-500" />
-              Biểu đồ Tiến trình Tốc độ (WPM)
+              {t('typingPractice.dashboard.chartTitle')}
             </h3>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">7 ngày gần nhất</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('typingPractice.dashboard.last7Days')}</span>
           </div>
           
           <div className="bg-slate-50/50 dark:bg-slate-950/20 p-2 sm:p-4 rounded-2xl border border-slate-200/20 dark:border-slate-800/10">
@@ -156,8 +171,8 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           </div>
 
           <div className="flex justify-between items-center text-xs opacity-70">
-            <span>Tổng thời gian học gõ: <strong>{formatTime(totalPracticeTime)}</strong></span>
-            <span>Tổng số bài luyện: <strong>{Object.keys(completedLessons).length}</strong></span>
+            <span>{t('typingPractice.dashboard.totalTime', { time: '' })}<strong>{formatTime(totalPracticeTime)}</strong></span>
+            <span>{t('typingPractice.dashboard.totalLessons', { count: '' })}<strong>{Object.keys(completedLessons).length}</strong></span>
           </div>
         </div>
 
@@ -165,7 +180,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
           <div className="flex justify-between items-center border-b border-slate-200/40 dark:border-slate-800/40 pb-3">
             <h3 className="font-black text-sm sm:text-base text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-tp-danger-500" />
-              Phân tích các phím hay gõ sai nhất
+              {t('typingPractice.dashboard.weakKeysTitle')}
             </h3>
           </div>
 
@@ -173,7 +188,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             <div className="flex flex-col gap-3">
               {weakKeys.map(([key, count], index) => {
                 const config = fingerMapping[key];
-                const fingerName = config ? fingerLabels[config.finger] : 'Không rõ';
+                const fingerName = config ? t(fingerTranslationKeys[config.finger]) : t('typingPractice.result.unknownKey');
                 
                 return (
                   <div key={key} className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/70 dark:bg-slate-900/30 border border-slate-200/20 dark:border-slate-800/20">
@@ -191,7 +206,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
 
                     <div className="flex items-center gap-1.5 font-bold text-xs sm:text-sm text-tp-danger-500">
                       <span>{count}</span>
-                      <span className="text-[10px] font-medium opacity-60">lỗi</span>
+                      <span className="text-[10px] font-medium opacity-60">{t('typingPractice.dashboard.mistakesUnit')}</span>
                     </div>
                   </div>
                 );
@@ -200,15 +215,15 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
               <div className="mt-2 bg-tp-primary-50 dark:bg-tp-primary-950/20 border border-tp-primary-100 dark:border-tp-primary-900/30 rounded-2xl p-3 flex gap-2">
                 <span className="text-lg">💡</span>
                 <p className="text-xs text-tp-primary-700 dark:text-tp-primary-300 font-medium">
-                  <strong>Khuyên dùng:</strong> Hãy mở phần <strong>Cài đặt</strong> và bật chế độ bàn tay ảo <strong>(Hand Guide)</strong> để rèn luyện trí nhớ cơ, tập trung đặt tay đúng Home Row để giảm thiểu lỗi đáng kể.
+                  <strong>{t('typingPractice.dashboard.recommendationLabel')}</strong> {t('typingPractice.dashboard.recommendationDesc')}
                 </p>
               </div>
             </div>
           ) : (
             <div className="flex-1 flex flex-col justify-center items-center text-slate-400 dark:text-slate-500 text-xs gap-2 py-10">
               <span className="text-3xl">🎯</span>
-              <span className="font-semibold">Tuyệt vời! Bạn chưa gõ sai phím nào.</span>
-              <span className="opacity-60 text-[10px]">Hãy bắt đầu luyện tập một bài học để phân tích phím gõ.</span>
+              <span className="font-semibold">{t('typingPractice.dashboard.noErrors')}</span>
+              <span className="opacity-60 text-[10px]">{t('typingPractice.dashboard.noErrorsDesc')}</span>
             </div>
           )}
         </div>
@@ -217,14 +232,14 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
       <div className="flex justify-end mt-4">
         <button
           onClick={() => {
-            if (confirm('Bạn có chắc chắn muốn RESET toàn bộ tiến trình học tập không? Dữ liệu đã xóa không thể khôi phục.')) {
+            if (confirm(t('typingPractice.dashboard.resetConfirm'))) {
               onReset();
             }
           }}
           className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-tp-danger-600 hover:bg-tp-danger-50 dark:text-danger-400 dark:hover:bg-danger-950/30 transition-colors border border-transparent hover:border-danger-200/40"
         >
           <RefreshCw className="w-3.5 h-3.5" />
-          Xóa toàn bộ tiến trình học
+          {t('typingPractice.dashboard.resetBtn')}
         </button>
       </div>
     </div>

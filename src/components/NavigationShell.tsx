@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, Keyboard, Gamepad2, Settings, Sparkles } from 'lucide-react';
+import { useTranslation } from '../i18n/useTranslation';
 
 interface NavigationShellProps {
   currentMode: 'home' | 'typing-practice' | 'word-battle' | 'settings';
@@ -9,6 +10,7 @@ interface NavigationShellProps {
 
 export const NavigationShell: React.FC<NavigationShellProps> = ({ currentMode, onSelectMode, appTheme = 'cyberpunk' }) => {
   const isMagical = appTheme === 'magical';
+  const t = useTranslation();
 
   return (
     <header className={`w-full px-4 sm:px-8 py-3 flex justify-between items-center z-50 flex-shrink-0 sticky top-0 backdrop-blur-xl shadow-lg select-none transition-all duration-300 ${
@@ -43,10 +45,10 @@ export const NavigationShell: React.FC<NavigationShellProps> = ({ currentMode, o
           : 'bg-background/50 border-outline-variant/30'
       }`}>
         {[
-          { id: 'home', label: 'Home', icon: Home, cyberColor: 'text-cyber-accent', magicalColor: 'text-pink-500' },
-          { id: 'typing-practice', label: 'Luyện Gõ', icon: Keyboard, cyberColor: 'text-cyber-accent', magicalColor: 'text-pink-500' },
-          { id: 'word-battle', label: 'Bắn Chữ', icon: Gamepad2, cyberColor: 'text-cyber-magenta', magicalColor: 'text-purple-500' },
-          { id: 'settings', label: 'Cài Đặt', icon: Settings, cyberColor: 'text-secondary-fixed-dim', magicalColor: 'text-slate-500' },
+          { id: 'home', label: t('navigation.home'), icon: Home, cyberColor: 'text-cyber-accent', magicalColor: 'text-pink-500' },
+          { id: 'typing-practice', label: t('navigation.typingPractice'), icon: Keyboard, cyberColor: 'text-cyber-accent', magicalColor: 'text-pink-500' },
+          { id: 'word-battle', label: t('navigation.wordBattle'), icon: Gamepad2, cyberColor: 'text-cyber-magenta', magicalColor: 'text-purple-500' },
+          { id: 'settings', label: t('navigation.settings'), icon: Settings, cyberColor: 'text-secondary-fixed-dim', magicalColor: 'text-slate-500' },
         ].map((item) => {
           const Icon = item.icon;
           const isActive = currentMode === item.id;
@@ -77,9 +79,10 @@ export const NavigationShell: React.FC<NavigationShellProps> = ({ currentMode, o
         isMagical ? 'text-pink-400/80' : 'text-gray-500'
       }`}>
         <Sparkles className={`w-3.5 h-3.5 animate-pulse ${isMagical ? 'text-pink-400' : 'text-cyber-accent'}`} />
-        <span>{isMagical ? 'TYPING ADVENTURE 🌟' : 'POWERED BY ANTIGRAVITY'}</span>
+        <span>{isMagical ? t('navigation.brandTaglineMagical') : t('navigation.brandTaglineCyber')}</span>
       </div>
 
     </header>
   );
 };
+

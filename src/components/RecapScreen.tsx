@@ -119,7 +119,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
     .sort((a, b) => a.averageResponseMs - b.averageResponseMs)
     .slice(0, 1)[0] || null;
 
-  const meaningLabel = gameSettings.uiLanguage === 'vi' ? 'Nghĩa' : gameSettings.uiLanguage === 'ja' ? '意味' : 'Meaning';
+  const meaningLabel = t('common.meaning') || 'Meaning';
 
   return (
     <div className="relative w-full min-h-screen flex flex-col justify-center items-center px-4 py-8 z-10 overflow-y-auto">
@@ -127,7 +127,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
       {/* mission title status */}
       <div className="text-center mb-6 select-none font-mono">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 mb-2 bg-cyber-magenta/10 border border-cyber-magenta/30 rounded-full text-xs text-cyber-magenta uppercase tracking-widest neon-text-magenta">
-          Mission report complete
+          {t('reportComplete') || 'Mission report complete'}
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold font-display uppercase tracking-tight text-white select-none">
           {t('recapTitle')}
@@ -153,7 +153,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
             </div>
             
             <span className="text-sm font-bold text-white tracking-wide">{rank.desc}</span>
-            <span className="text-[10px] text-gray-400 font-mono mt-1">Based on typing speed and accuracy</span>
+            <span className="text-[10px] text-gray-400 font-mono mt-1">{t('basedOnTyping') || 'Based on typing speed and accuracy'}</span>
           </div>
 
           {/* Core Metrics Grids */}
@@ -199,7 +199,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
                 {mostMissed && (
                   <div className="flex items-center justify-between p-2 rounded-xl bg-red-950/10 border border-red-500/20">
                     <span className="text-gray-400 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5 text-cyber-magenta" /> {t('mostMissedWords')}:</span>
-                    <span className="font-extrabold text-white uppercase text-xs">{mostMissed.word} <span className="text-[10px] text-cyber-magenta font-normal">({mostMissed.mistakes} {gameSettings.uiLanguage === 'vi' ? 'lỗi' : gameSettings.uiLanguage === 'ja' ? 'ミス' : 'errors'})</span></span>
+                    <span className="font-extrabold text-white uppercase text-xs">{mostMissed.word} <span className="text-[10px] text-cyber-magenta font-normal">({mostMissed.mistakes} {t('typingPractice.dashboard.mistakesUnit')})</span></span>
                   </div>
                 )}
 
@@ -267,7 +267,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
                               ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_0_4px_rgba(250,204,21,0.5)]'
                               : 'text-gray-500 hover:text-yellow-400'
                           }`}
-                          title={gameSettings.uiLanguage === 'vi' ? 'Luyện tập từ khó này' : 'Star this word for focus review'}
+                          title={t('starForReview') || 'Star this word for focus review'}
                         >
                           <Star className="w-3.5 h-3.5" />
                         </button>
@@ -278,7 +278,7 @@ export const RecapScreen: React.FC<RecapScreenProps> = ({
                               ? 'text-cyber-magenta opacity-80'
                               : 'text-gray-500 hover:text-cyber-accent'
                           }`}
-                          title={gameSettings.uiLanguage === 'vi' ? 'Bỏ qua từ này (đã biết)' : 'Skip this word (already known)'}
+                          title={t('skipWord') || 'Skip this word (already known)'}
                         >
                           {statsMap[item.word.toLowerCase()]?.isSkipped ? (
                             <EyeOff className="w-3.5 h-3.5" />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Keyboard, Gamepad2, Zap, Sparkles, BookOpen } from 'lucide-react';
+import { useTranslation } from '../i18n/useTranslation';
 
 interface SuiteHomePageProps {
   onSelectModule: (module: 'typing-practice' | 'word-battle') => void;
@@ -8,6 +9,7 @@ interface SuiteHomePageProps {
 
 export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, appTheme = 'cyberpunk' }) => {
   const isMagical = appTheme === 'magical';
+  const t = useTranslation();
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8 md:py-16 select-none flex flex-col gap-10 md:gap-16">
@@ -20,7 +22,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
             : 'bg-cyber-accent/10 border-cyber-accent/30 text-cyber-accent'
         }`}>
           <Sparkles className="w-3.5 h-3.5" />
-          <span>{isMagical ? 'Phiêu lưu Phép màu' : 'Phiêu lưu Không gian'}</span>
+          <span>{isMagical ? t('home.magicalTitle') : t('home.cyberTitle')}</span>
         </div>
         <h1 className={`text-5xl sm:text-7xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r tracking-tight uppercase leading-none ${
           isMagical 
@@ -32,7 +34,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
         <p className={`max-w-xl text-sm sm:text-base font-medium leading-relaxed mt-2 ${
           isMagical ? 'text-slate-600' : 'text-gray-300'
         }`}>
-          Bệ phóng chinh phục kỹ năng gõ phím 10 ngón điêu luyện và làm chủ vốn từ vựng tiếng Anh qua trải nghiệm game học tập đỉnh cao.
+          {t('home.heroDesc')}
         </p>
       </div>
 
@@ -68,7 +70,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                   ? 'bg-pink-50/80 border-pink-100 text-pink-500' 
                   : 'bg-cyber-accent/15 border-cyber-accent/30 text-cyber-accent'
               }`}>
-                Luyện ngón chuẩn
+                {t('settings.typingTab')}
               </span>
             </div>
             
@@ -79,12 +81,12 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                   ? 'text-slate-800 group-hover:text-pink-500' 
                   : 'text-gray-100 group-hover:text-cyber-accent'
               }`}>
-                Luyện Gõ 10 Ngón
+                {t('home.typingTitle')}
               </h2>
               <p className={`text-xs sm:text-sm font-medium leading-relaxed ${
                 isMagical ? 'text-slate-500' : 'text-gray-400'
               }`}>
-                Học gõ phím cơ bản theo lộ trình chuẩn. Hướng dẫn trực quan với mô phỏng vị trí ngón tay động, phân tích heatmap phím lỗi và báo cáo học tập chi tiết.
+                {t('home.typingDesc')}
               </p>
             </div>
           </div>
@@ -93,16 +95,16 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
           <div className="flex flex-col gap-4 mt-2">
             <div className={`flex flex-col gap-2 text-xs font-medium ${isMagical ? 'text-slate-500' : 'text-gray-400'}`}>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
-                <span>30+ bài học lộ trình từ phím Cơ bản đến nâng cao</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
+                <span>{t('home.typingFeature1')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
-                <span>Bàn tay động hướng dẫn đặt ngón thông minh</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
+                <span>{t('home.typingFeature2')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
-                <span>Báo cáo WPM, Accuracy, Heatmap lỗi gõ chi tiết</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-pink-500' : 'text-cyber-accent'}`} />
+                <span>{t('home.typingFeature3')}</span>
               </div>
             </div>
 
@@ -111,7 +113,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                 ? 'bg-gradient-to-r from-pink-500 to-pink-600 hover:opacity-95 text-white' 
                 : 'bg-cyber-accent hover:bg-cyber-accent/90 text-background'
             }`}>
-              Bắt đầu luyện tập
+              {t('home.startTrainingBtn')}
             </button>
           </div>
         </div>
@@ -145,7 +147,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                   ? 'bg-purple-50/80 border-purple-100 text-purple-500' 
                   : 'bg-cyber-magenta/15 border-cyber-magenta/30 text-cyber-magenta'
               }`}>
-                Đấu trường từ vựng
+                {t('navigation.wordBattle')}
               </span>
             </div>
 
@@ -156,12 +158,12 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                   ? 'text-slate-800 group-hover:text-purple-500' 
                   : 'text-gray-100 group-hover:text-cyber-magenta'
               }`}>
-                Game Bắn Chữ Học Từ
+                {t('home.gameTitle')}
               </h2>
               <p className={`text-xs sm:text-sm font-medium leading-relaxed ${
                 isMagical ? 'text-slate-500' : 'text-gray-400'
               }`}>
-                Chinh phục từ vựng tiếng Anh qua đấu trường arcade vũ trụ. Nhập file từ vựng tùy chỉnh, nghe phát âm chuẩn bản xứ, và phản xạ siêu nhanh cùng Typing Coach.
+                {t('home.gameDesc')}
               </p>
             </div>
           </div>
@@ -170,16 +172,16 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
           <div className="flex flex-col gap-4 mt-2">
             <div className={`flex flex-col gap-2 text-xs font-medium ${isMagical ? 'text-slate-500' : 'text-gray-400'}`}>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
-                <span>12+ Cấp độ phong phú (TOEIC, IELTS, TOEFL, Eiken...)</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
+                <span>{t('home.battleFeature1')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
-                <span>Hệ thống i18n hỗ trợ 3 ngôn ngữ giao diện (EN/JA/VI)</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
+                <span>{t('home.battleFeature2')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Zap className={`w-3.5 h-3.5 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
-                <span>Import từ Excel/CSV, lưu từ yêu thích, ôn SRS thông minh</span>
+                <Zap className={`w-3.5 h-3.5 flex-shrink-0 ${isMagical ? 'text-purple-500' : 'text-cyber-magenta'}`} />
+                <span>{t('home.battleFeature3')}</span>
               </div>
             </div>
 
@@ -188,7 +190,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
                 ? 'bg-gradient-to-r from-purple-500 to-indigo-500 hover:opacity-95 text-white' 
                 : 'bg-cyber-magenta hover:bg-cyber-magenta/90 text-white'
             }`}>
-              Gia nhập đấu trường
+              {t('home.joinArenaBtn')}
             </button>
           </div>
         </div>
@@ -204,7 +206,7 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
         <div className={`flex items-center gap-2.5 ${isMagical ? 'text-pink-500' : 'text-primary-container'}`}>
           <BookOpen className="w-5 h-5" />
           <h3 className="font-display font-black text-sm sm:text-base uppercase tracking-wider">
-            Lộ trình học tập khuyên dùng
+            {t('home.learningPathTitle')}
           </h3>
         </div>
         
@@ -215,9 +217,9 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
             <div className={`absolute -top-3 -left-3 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow ${
               isMagical ? 'bg-pink-500 text-white' : 'bg-cyber-accent text-background'
             }`}>1</div>
-            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>Bước 1: Luyện Phím Chuẩn</h4>
+            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>{t('home.step1Title')}</h4>
             <p className={`text-[11px] leading-relaxed font-medium ${isMagical ? 'text-slate-500' : 'text-gray-400'}`}>
-              Truy cập module <b>Luyện Gõ 10 Ngón</b> để làm quen với vị trí phím, đặt ngón tay chuẩn xác, tăng độ chính xác lên 95%+.
+              {t('home.step1Desc')}
             </p>
           </div>
 
@@ -227,9 +229,9 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
             <div className={`absolute -top-3 -left-3 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow ${
               isMagical ? 'bg-purple-500 text-white' : 'bg-secondary-container text-background'
             }`}>2</div>
-            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>Bước 2: Phản Xạ Từ Vựng</h4>
+            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>{t('home.step2Title')}</h4>
             <p className={`text-[11px] leading-relaxed font-medium ${isMagical ? 'text-slate-500' : 'text-gray-400'}`}>
-              Vào module <b>Bắn Chữ Học Từ</b> ở chế độ <b>Học Tập (Learning Mode)</b> để nhớ mặt chữ và nghĩa của từ vựng tiếng Anh.
+              {t('home.step2Desc')}
             </p>
           </div>
 
@@ -239,9 +241,9 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
             <div className={`absolute -top-3 -left-3 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow ${
               isMagical ? 'bg-indigo-500 text-white' : 'bg-cyber-magenta text-white'
             }`}>3</div>
-            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>Bước 3: Thực Chiến Tăng Tốc</h4>
+            <h4 className={`font-bold text-xs mt-1 uppercase ${isMagical ? 'text-slate-800' : 'text-gray-200'}`}>{t('home.step3Title')}</h4>
             <p className={`text-[11px] leading-relaxed font-medium ${isMagical ? 'text-slate-500' : 'text-gray-400'}`}>
-              Bật chế độ <b>Sinh Tồn (Battle Mode)</b>, tăng tốc độ rơi của chữ và chinh phục điểm số kỷ lục để nâng cao tốc độ phản xạ WPM.
+              {t('home.step3Desc')}
             </p>
           </div>
         </div>
@@ -250,3 +252,4 @@ export const SuiteHomePage: React.FC<SuiteHomePageProps> = ({ onSelectModule, ap
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-import { fingerMapping, fingerLabels } from '../data/fingerMapping';
+import { fingerMapping } from '../data/fingerMapping';
 
 // Calculate Words Per Minute (WPM)
 export const calculateWPM = (correctChars: number, startTime: number | null): number => {
@@ -18,30 +18,32 @@ export const calculateAccuracy = (correctKeystrokes: number, totalKeystrokes: nu
   return Math.round(acc * 10) / 10; // Keep 1 decimal place
 };
 
-// Simple auto comments generator based on metrics
-export const generateFeedback = (wpm: number, accuracy: number, weakKeys: string[]): string => {
+// Simple auto comments generator based on metrics returning translation keys and params
+export const generateFeedback = (wpm: number, accuracy: number, weakKeys: string[]): { key: string; params?: Record<string, string | number> } => {
   if (accuracy < 85) {
-    return 'Tốc độ của bạn khá tốt nhưng độ chính xác còn thấp. Hãy gõ chậm lại và tập trung đặt đúng ngón tay vào vị trí Home Row nhé!';
+    return { key: 'typingPractice.feedback.lowAccuracy' };
   }
   
   if (wpm < 15 && accuracy >= 95) {
-    return 'Độ chính xác của bạn rất tuyệt vời! Bây giờ, bạn có thể tăng nhịp điệu gõ nhanh hơn một chút mà không cần lo lắng quá nhiều.';
+    return { key: 'typingPractice.feedback.goodAccuracy' };
   }
 
   if (weakKeys.length > 0) {
     const key = weakKeys[0];
     const mapping = fingerMapping[key];
     if (mapping) {
-      const fingerLabel = fingerLabels[mapping.finger];
-      return `Bạn thường gõ sai phím "${key.toUpperCase()}" do ${fingerLabel} phụ trách. Hãy luyện tập nhấn phím này một vài lần để tạo trí nhớ cơ nhé!`;
+      return { 
+        key: 'typingPractice.feedback.weakKey', 
+        params: { key: key === ' ' ? 'Space' : key.toUpperCase(), finger: mapping.finger } 
+      };
     }
   }
 
   if (wpm >= 40 && accuracy >= 95) {
-    return 'Xuất sắc! Bạn đã gõ cực kỳ điêu luyện với tốc độ và độ chính xác của một chuyên gia gõ 10 ngón. Hãy tiếp tục duy trì nhé!';
+    return { key: 'typingPractice.feedback.excellent' };
   }
 
-  return 'Kết quả rất tốt! Hãy tiếp tục luyện tập bài học tiếp theo để tăng phản xạ của các ngón tay khác.';
+  return { key: 'typingPractice.feedback.default' };
 };
 
 // Format elapsed seconds to mm:ss

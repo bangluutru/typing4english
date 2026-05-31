@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { RotateCcw, ArrowRight, Home, BarChart2, AlertTriangle, CheckCircle } from 'lucide-react';
 import { lessons } from '../data/lessons';
-import { fingerMapping, fingerLabels } from '../data/fingerMapping';
+import { fingerMapping } from '../data/fingerMapping';
 import { generateFeedback, formatTime } from '../utils/typingMetrics';
+import { useTranslation } from '../../../i18n/useTranslation';
 
 interface ResultPageProps {
   lessonId: string;
@@ -17,6 +18,19 @@ interface ResultPageProps {
   onGoToWordBattle?: (focusKeys?: string[]) => void;
 }
 
+const fingerTranslationKeys: Record<string, string> = {
+  lp: 'leftPinky',
+  lr: 'leftRing',
+  lm: 'leftMiddle',
+  li: 'leftIndex',
+  lt: 'leftThumb',
+  rt: 'rightThumb',
+  ri: 'rightIndex',
+  rm: 'rightMiddle',
+  rr: 'rightRing',
+  rp: 'rightPinky'
+};
+
 export const ResultPage: React.FC<ResultPageProps> = ({
   lessonId,
   result,
@@ -25,6 +39,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
   onGoToWordBattle,
 }) => {
   const lesson = lessons.find((l) => l.id === lessonId) || lessons[0];
+  const t = useTranslation();
 
   useEffect(() => {
     if (result && result.accuracy >= 90) {
@@ -36,9 +51,9 @@ export const ResultPage: React.FC<ResultPageProps> = ({
     return (
       <div className="flex flex-col items-center gap-4 py-20 text-slate-400">
         <AlertTriangle className="w-12 h-12 text-amber-500" />
-        <span>Chưa tìm thấy kết quả luyện tập nào</span>
+        <span>{t('typingPractice.result.noResult')}</span>
         <button onClick={() => onNavigate('home')} className="bg-tp-primary-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow">
-          Trở về trang chủ
+          {t('typingPractice.result.backToHome')}
         </button>
       </div>
     );
@@ -53,6 +68,11 @@ export const ResultPage: React.FC<ResultPageProps> = ({
     .map(([key]) => key);
 
   const feedback = generateFeedback(wpm, accuracy, weakKeys);
+  const localizedParams = feedback.params ? { ...feedback.params } : undefined;
+  if (localizedParams && localizedParams.finger) {
+    localizedParams.finger = t(fingerTranslationKeys[localizedParams.finger as string]);
+  }
+  const feedbackText = t(feedback.key, localizedParams);
 
   const currentIdx = lessons.findIndex((l) => l.id === lessonId);
   const nextLesson = currentIdx !== -1 && currentIdx + 1 < lessons.length
@@ -116,52 +136,52 @@ export const ResultPage: React.FC<ResultPageProps> = ({
         )}
 
         <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100">
-          {isPassed ? 'Hoàn thành Xuất sắc!' : 'Cần cố gắng thêm một chút'}
+          {isPassed ? t('typingPractice.result.excellent') : t('typingPractice.result.needImprovement')}
         </h2>
         <span className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">
-          {lesson.name}
+          {t(lesson.name)}
         </span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full mt-2">
         <div className="tp-glass p-4 rounded-2xl flex flex-col items-center border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tốc độ</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('typingPractice.result.speed')}</span>
           <span className="text-2xl font-black text-tp-primary-500 mt-1">{wpm} WPM</span>
         </div>
 
         <div className="tp-glass p-4 rounded-2xl flex flex-col items-center border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Chính xác</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('typingPractice.result.accuracyLabel')}</span>
           <span className="text-2xl font-black text-tp-success-500 mt-1">{accuracy}%</span>
         </div>
 
         <div className="tp-glass p-4 rounded-2xl flex flex-col items-center border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Thời gian</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('typingPractice.result.timeLabel')}</span>
           <span className="text-2xl font-black text-slate-700 dark:text-slate-300 mt-1">{formatTime(timeSpent)}</span>
         </div>
 
         <div className="tp-glass p-4 rounded-2xl flex flex-col items-center border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Lỗi gõ</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('typingPractice.result.mistakesLabel')}</span>
           <span className="text-2xl font-black text-tp-danger-500 mt-1">{Object.values(errors).reduce((a,b)=>a+b, 0)}</span>
         </div>
       </div>
 
       <div className="w-full tp-glass p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-sm flex flex-col gap-3">
         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-          Nhận xét thông minh từ Giáo viên ảo
+          {t('typingPractice.result.virtualCoachFeedback')}
         </h4>
         <p className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-          {feedback}
+          {feedbackText}
         </p>
 
         {weakKeys.length > 0 && (
           <div className="flex flex-col gap-2 mt-2 pt-3 border-t border-slate-200/40 dark:border-slate-800/40">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              Các phím bạn gõ sai nhiều nhất bài này:
+              {t('typingPractice.result.mostMissedKeys')}
             </span>
             <div className="flex flex-wrap gap-2.5">
               {weakKeys.map((key) => {
                 const config = fingerMapping[key];
-                const label = config ? fingerLabels[config.finger] : 'Không rõ';
+                const label = config ? t(fingerTranslationKeys[config.finger]) : t('typingPractice.result.unknownKey');
                 return (
                   <div key={key} className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50">
                     <kbd className="font-mono font-bold text-xs bg-white dark:bg-slate-800 px-1 rounded shadow-sm border border-slate-200 dark:border-slate-700">
@@ -181,7 +201,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
           onClick={() => onGoToWordBattle(lesson.focusKeys)}
           className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-cyber-accent to-cyber-magenta text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition-all transform hover:-translate-y-0.5 hover:shadow-cyber-accent/30 cursor-pointer text-xs sm:text-sm uppercase tracking-wider border border-cyber-accent/20"
         >
-          <span>🎮 Luyện tập phản xạ với Game Bắn Chữ →</span>
+          <span>{t('typingPractice.result.playWordBattle')}</span>
         </button>
       )}
 
@@ -191,7 +211,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
             onClick={handleNextLesson}
             className="flex-1 flex justify-center items-center gap-2 bg-tp-primary-500 hover:bg-tp-primary-600 text-white font-bold py-3 px-6 rounded-2xl shadow transition-all transform hover:-translate-y-0.5"
           >
-            <span>Bài tiếp theo</span>
+            <span>{t('typingPractice.result.nextLessonBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
@@ -200,7 +220,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
             className="flex-1 flex justify-center items-center gap-2 bg-tp-primary-500 hover:bg-tp-primary-600 text-white font-bold py-3 px-6 rounded-2xl shadow transition-all transform hover:-translate-y-0.5"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Luyện lại bài này</span>
+            <span>{t('typingPractice.result.retryBtn')}</span>
           </button>
         )}
 
@@ -209,7 +229,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
           className="flex-1 flex justify-center items-center gap-2 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold py-3 px-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all transform hover:-translate-y-0.5"
         >
           <Home className="w-4 h-4" />
-          <span>Lộ trình học</span>
+          <span>{t('typingPractice.result.learningPathBtn')}</span>
         </button>
 
         <button
@@ -217,7 +237,7 @@ export const ResultPage: React.FC<ResultPageProps> = ({
           className="flex-1 flex justify-center items-center gap-2 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold py-3 px-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm transition-all transform hover:-translate-y-0.5"
         >
           <BarChart2 className="w-4 h-4" />
-          <span>Báo cáo</span>
+          <span>{t('typingPractice.result.reportBtn')}</span>
         </button>
       </div>
     </div>

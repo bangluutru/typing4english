@@ -181,7 +181,7 @@ export const parseExcelVocabulary = async (data: ArrayBuffer): Promise<Dictionar
 
   const workbook = XLSX.read(data, { type: 'array' });
   if (workbook.SheetNames.length === 0) {
-    throw new Error('File excel không chứa bất kỳ sheet nào');
+    throw new Error('errors.emptyExcelSheet');
   }
 
   const firstSheetName = workbook.SheetNames[0];
@@ -191,7 +191,7 @@ export const parseExcelVocabulary = async (data: ArrayBuffer): Promise<Dictionar
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[];
   if (jsonData.length === 0) {
-    throw new Error('Dữ liệu file trống');
+    throw new Error('errors.emptyFile');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -217,7 +217,7 @@ export const parseExcelVocabulary = async (data: ArrayBuffer): Promise<Dictionar
 
   // Validation: word column is absolutely required
   if (colMap['word'] === undefined) {
-    throw new Error('Thiếu cột bắt buộc "word", "english" hoặc "en" ở dòng đầu tiên');
+    throw new Error('errors.missingWordColumn');
   }
 
   const entries: DictionaryEntry[] = [];
