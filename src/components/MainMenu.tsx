@@ -379,7 +379,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
           <span className="material-symbols-outlined text-primary-container text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>gamepad</span>
           <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Arcade Educational Combat</span>
         </div>
-        <nav className="hidden md:flex gap-6 select-none">
+        <nav className="hidden md:flex items-center gap-6 select-none">
           <span className="font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container pb-1 tracking-widest uppercase cursor-default">{t('navigation.hangar') || 'Hangar'}</span>
           <span 
             onClick={handleOpenSlsDictionary}
