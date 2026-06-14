@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fingerMapping } from '../../data/fingerMapping';
+import { fingerMapping, shiftToBaseKey } from '../../data/fingerMapping';
 import type { KeyboardGeometry } from './useKeyboardGeometry';
 import type { FingerType } from '../../data/fingerMapping';
 
@@ -79,7 +79,11 @@ export const HandOverlay: React.FC<HandOverlayProps> = ({
   // Resolve target mapping configuration
   const targetConfig = fingerMapping[targetChar] || null;
   const activeFinger = targetConfig ? targetConfig.finger : null;
-  const targetKeyId = targetConfig ? targetConfig.key : targetChar.toLowerCase();
+  const requiresShift = targetConfig ? targetConfig.requiresShift : false;
+  // For shift characters, resolve to the physical base key for geometry lookup
+  const targetKeyId = requiresShift
+    ? (shiftToBaseKey[targetChar] || targetChar.toLowerCase())
+    : (targetConfig ? targetConfig.key : targetChar.toLowerCase());
 
   // HOME KEY REFERENCE NODES
   const rectA = geometry['a'];

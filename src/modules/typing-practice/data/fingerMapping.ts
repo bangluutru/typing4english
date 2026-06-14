@@ -96,6 +96,22 @@ mappingSetup.forEach(({ finger, keys, shiftKeys, hand }) => {
 // Specially map spacebar
 fingerMapping[' '] = { key: ' ', finger: 'rt', requiresShift: false, hand: 'right' };
 
+/**
+ * Maps a shifted character to its physical base key on US QWERTY keyboard.
+ * Used by VirtualKeyboard and HandOverlay to highlight the correct physical key
+ * when the target character requires Shift.
+ * E.g., '?' → '/', '!' → '1', '"' → "'", 'A' → 'a'
+ */
+export const shiftToBaseKey: Record<string, string> = {
+  '~': '`', '!': '1', '@': '2', '#': '3', '$': '4', '%': '5',
+  '^': '6', '&': '7', '*': '8', '(': '9', ')': '0', '_': '-', '+': '=',
+  '{': '[', '}': ']', '|': '\\', ':': ';', '"': "'", '<': ',', '>': '.', '?': '/',
+  // Uppercase letters → lowercase base keys
+  ...Object.fromEntries(
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(c => [c, c.toLowerCase()])
+  ),
+};
+
 // Map finger names to Vietnamese readable labels
 export const fingerLabels: Record<FingerType, string> = {
   lp: 'Ngón út tay trái',

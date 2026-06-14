@@ -1,6 +1,6 @@
 import React from 'react';
 import { VirtualKey } from './VirtualKey';
-import { fingerMapping } from '../../data/fingerMapping';
+import { fingerMapping, shiftToBaseKey } from '../../data/fingerMapping';
 import { row1Keys, row2Keys, row3Keys, row4Keys } from './keyboardLayout';
 
 interface VirtualKeyboardProps {
@@ -26,14 +26,17 @@ export const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({
   const cleanLastPressed = lastPressedKey ? getCleanKey(lastPressedKey) : null;
 
   const targetConfig = fingerMapping[targetChar] || null;
-  const targetKey = targetConfig ? targetConfig.key : targetChar.toLowerCase();
   const requiresShift = targetConfig ? targetConfig.requiresShift : false;
   const targetHand = targetConfig ? targetConfig.hand : 'left';
+  // For shift characters, resolve to the physical base key (e.g., '?' → '/', 'A' → 'a')
+  const targetBaseKey = requiresShift
+    ? (shiftToBaseKey[targetChar] || targetChar.toLowerCase())
+    : (targetConfig ? targetConfig.key : targetChar.toLowerCase());
 
   const checkIsTarget = (keyLabel: string): boolean => {
     const cleanLabel = keyLabel.toLowerCase();
     
-    if (cleanLabel === targetKey) return true;
+    if (cleanLabel === targetBaseKey) return true;
     
     if (requiresShift) {
       if (cleanLabel === 'shift-right' && targetHand === 'left') return true;
