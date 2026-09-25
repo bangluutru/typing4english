@@ -31,3 +31,4 @@ typemaster-10-fingers-main.zip
 *.png
 !public/assets/shooters/*.png
 
+.aider*
