@@ -33,7 +33,7 @@ export function readKey(e: KeyboardEvent): TypedKey {
 }
 
 /** Should the page swallow this key so Space doesn't scroll and "/" doesn't open find? */
-export const shouldPrevent = (e: KeyboardEvent) =>
+const shouldPrevent = (e: KeyboardEvent) =>
   !e.ctrlKey && !e.metaKey && !e.altKey && (e.key.length === 1 || e.key === 'Backspace' || e.key === "'" || e.key === '/');
 
 export interface LineStats {

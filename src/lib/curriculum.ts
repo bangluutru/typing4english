@@ -12,7 +12,7 @@ import { shuffle } from './vocab';
    Late stages type example sentences from 英級アップ.
    -------------------------------------------------------------------------- */
 
-export type LessonKind = 'keys' | 'words' | 'shift' | 'sentences';
+type LessonKind = 'keys' | 'words' | 'shift' | 'sentences';
 
 export interface Lesson {
   id: string;

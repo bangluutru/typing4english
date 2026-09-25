@@ -89,8 +89,8 @@ function load<T>(file: string): Promise<T> {
   return p as Promise<T>;
 }
 
-export const loadGrade = (g: GradeId) => load<Word[]>(`${g}.json`);
-export const loadIndex = () => load<VocabIndex>('index.json');
+const loadGrade = (g: GradeId) => load<Word[]>(`${g}.json`);
+const loadIndex = () => load<VocabIndex>('index.json');
 
 export function useGrade(g: GradeId | null) {
   const [state, setState] = useState<{ grade: GradeId | null; words: Word[] | null; error: boolean }>({ grade: null, words: null, error: false });
@@ -113,7 +113,7 @@ export function useVocabIndex() {
   return idx;
 }
 
-export const SET_SIZE = 8;
+const SET_SIZE = 8;
 
 /** Split a topic's words (in eikyu-up's teaching order) into small study sets. */
 export function topicSets(words: Word[], topic: string): Word[][] {

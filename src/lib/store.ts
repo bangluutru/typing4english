@@ -9,7 +9,7 @@ import { useSyncExternalStore } from 'react';
 export type UiLang = 'ja' | 'vi' | 'en';
 export type MeaningLang = 'ja' | 'vi';
 export type KeyboardLayoutId = 'jis' | 'us';
-export type ThemePref = 'light' | 'dark' | 'system';
+type ThemePref = 'light' | 'dark' | 'system';
 export type GradeId = '5' | '4' | '3' | 'pre2' | '2' | 'pre1' | '1';
 
 export interface Settings {
@@ -25,11 +25,11 @@ export interface Settings {
   grade: GradeId;
 }
 
-export interface LessonRecord { stars: number; bestKpm: number; bestAcc: number; plays: number }
+interface LessonRecord { stars: number; bestKpm: number; bestAcc: number; plays: number }
 export interface KeyStat { hit: number; miss: number }
 /** Leitner box 0..5; `due` is a day number (days since epoch, local time). */
-export interface WordRecord { box: number; due: number; right: number; wrong: number }
-export interface DayRecord { sec: number; keys: number; words: number }
+interface WordRecord { box: number; due: number; right: number; wrong: number }
+interface DayRecord { sec: number; keys: number; words: number }
 
 export interface Progress {
   lessons: Record<string, LessonRecord>;
@@ -49,7 +49,7 @@ function detectLang(): UiLang {
   return 'ja';
 }
 
-export const defaultSettings = (): Settings => {
+const defaultSettings = (): Settings => {
   const uiLang = detectLang();
   return {
     uiLang,
@@ -160,7 +160,7 @@ export function recordLesson(id: string, stars: number, kpm: number, acc: number
 }
 
 /** Days until the next review for each Leitner box. */
-export const BOX_INTERVALS = [0, 1, 2, 4, 7, 15];
+const BOX_INTERVALS = [0, 1, 2, 4, 7, 15];
 export const MASTERED_BOX = 4;
 
 /** Update spaced-repetition state after the child recalls (or fails) a word. */

@@ -14,7 +14,7 @@ import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
 import type { GradeId } from './lib/store';
 
-export const CHOTTO_URL = 'https://chottoday.com';
+const CHOTTO_URL = 'https://chottoday.com';
 
 const NAV: { path: string; icon: ReactNode; key: TKey; color: string }[] = [
   { path: '', icon: <Home size={20} />, key: 'nav.home', color: 'teal' },

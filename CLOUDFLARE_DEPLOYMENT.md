@@ -64,31 +64,7 @@ npx wrangler pages deploy dist --project-name=typing4english
 
 ---
 
-## 🔄 Cách 3: Hướng Dẫn Sử Dụng Cloudflare Tunnel (Truy Cập Local Qua Internet)
-
-Nếu bạn muốn chạy ứng dụng của mình ở local (`npm run dev`) nhưng muốn cho người khác truy cập và kiểm thử thông qua một đường dẫn Internet an toàn mà không cần mở port modem (Port Forwarding), bạn hãy sử dụng `/cloudflare-tunnel`:
-
-1. Khởi động local dev server:
-   ```bash
-   npm run dev
-   ```
-2. Mở một terminal mới và chạy lệnh tạo Cloudflare Tunnel:
-   ```bash
-   npx wrangler tunnel --url http://localhost:5173
-   ```
-3. Cloudflare sẽ tạo ra một đường dẫn ngẫu nhiên có dạng `https://xxxx.cfargotunnel.com` trỏ trực tiếp về máy tính của bạn. Bạn có thể gửi link này cho bạn bè hoặc đối tác để họ trải nghiệm trực tiếp!
-
----
-
 ## ⚠️ Lưu Ý Khi Hoạt Động Trên Cloudflare Pages
 
-1. **Vấn đề Route SPA (Lỗi 404 khi F5)**:
-   Nếu ứng dụng của bạn sử dụng React Router để phân trang và bạn truy cập trực tiếp vào các đường dẫn con (ví dụ: `/settings`), Cloudflare Pages sẽ báo lỗi `404 Not Found` khi bạn F5 tải lại trang.
-   
-   *Cách khắc phục:* Tạo một file tên là `_redirects` nằm bên trong thư mục `public/` (sẽ được tự động copy vào `dist/` khi build) với nội dung sau:
-   ```text
-   /*    /index.html   200
-   ```
-   *(Hiện tại ứng dụng Typing4English sử dụng cấu trúc State-based Routing nên không bị ảnh hưởng bởi lỗi này, nhưng đây là một lưu ý rất hữu ích nếu bạn nâng cấp lên Client-side Routing sau này).*
-
-Chúc bạn triển khai ứng dụng thành công và đạt hiệu năng tối ưu trên đám mây Cloudflare! ⚡🌐🚀
+- **Không cần file `_redirects`.** App dùng hash routing (`#/typing/1-1`), nên tải lại trang ở bất kỳ màn hình nào cũng không bị lỗi 404.
+- **Audio phát âm** được lấy trực tiếp từ eikyu-up (`https://eiken-compass.pages.dev`). Nếu eikyu-up đổi domain, thêm biến môi trường `VITE_EIKYU_BASE` trong phần build settings.
