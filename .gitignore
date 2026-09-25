@@ -23,11 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Stale zip files and source folders
-english-air-battle-main/
-english-air-battle-main.zip
-typemaster-10-fingers-main/
-typemaster-10-fingers-main.zip
 *.png
 !public/assets/shooters/*.png
 
