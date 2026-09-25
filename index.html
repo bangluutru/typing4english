@@ -1,38 +1,31 @@
 <!doctype html>
-<html lang="vi" class="dark">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌨️</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- SEO Optimization -->
-    <title>Typing4English — Luyện Gõ 10 Ngón & Học Từ Vựng</title>
-    <meta name="description" content="Ứng dụng học tiếng Anh qua luyện gõ 10 ngón và game bắn chữ đỉnh cao. Hỗ trợ bài học gõ phím chuẩn và đấu trường từ vựng phong phú cho người học tiếng Anh." />
-    
-    <!-- Google Fonts & Material Symbols -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Outfit:wght@100..900&family=Space+Grotesk:wght@300..700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Ambient styles to prevent background white flash -->
-    <style>
-      html, body {
-        background-color: #070314;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 100%;
-        min-height: 100%;
-        user-select: none;
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Typing4English — タイピングで英語をおぼえよう</title>
+    <meta name="description" content="小学生・中学生のための英語タイピング練習。10本指のタッチタイピングと英検5級〜1級の単語を、音声つきで楽しく学べます。" />
+    <meta name="theme-color" content="#FBF9F5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Apply the saved theme before first paint so the page never flashes the wrong colours. -->
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('t4e:settings') || '{}');
+        var dark = s.theme === 'dark' || (s.theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        if (s.uiLang) document.documentElement.lang = s.uiLang;
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
       }
-    </style>
+    </script>
   </head>
-  <body class="bg-cyber-bg text-gray-100 font-sans selection:bg-cyber-accent/30 selection:text-cyber-accent">
-    <div id="root" class="w-full h-full"></div>
+  <body>
+    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

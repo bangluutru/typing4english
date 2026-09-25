@@ -1,69 +1,64 @@
-# 🛸 Typing Air Battle — Arcade Educational Space Combat
+# Typing4English
 
-[![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?style=flat&logo=vite)](https://vite.dev/)
-[![React](https://img.shields.io/badge/React-19.x-61DAFB?style=flat&logo=react)](https://react.dev/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.x-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+Ứng dụng luyện gõ 10 ngón và học từ vựng tiếng Anh cho học sinh tiểu học và THCS ở Nhật. Đây là một công cụ nhỏ trong hệ sinh thái [Chotto](https://chottoday.com). Từ vựng và audio lấy từ **英級アップ (eikyu-up)**.
 
-An advanced, game-based learning platform built to help children, teenagers, and beginners master English vocabulary and perfect their **10-finger touch typing** through an engaging space-invaders style arcade shooting experience.
+Giao diện có 3 ngôn ngữ: tiếng Nhật (có furigana), tiếng Việt và tiếng Anh. Bảng màu theo bộ nhận diện Chotto.
 
----
+## Lộ trình học
 
-## 📖 Hướng Dẫn Sử Dụng (User Guide)
+| Bước | Màn hình | Nội dung |
+|---|---|---|
+| 1 | **Gõ phím** `#/typing` | 28 bài chia 6 chặng: hàng cơ sở (F J → G H), hàng trên, hàng dưới, Shift/dấu câu, chữ số, và thử thách gõ câu ví dụ Eiken. Mỗi lần chơi, bài tập được sinh mới từ những phím đã học. Từ khi đủ chữ cái, bài tập dùng từ tiếng Anh thật. |
+| 2 | **Từ vựng** `#/words` | Học theo cấp Eiken (5 → 1), theo chủ đề và theo bộ 8 từ. Học một bộ gồm hai bước: *xem, nghe rồi gõ*, sau đó *nhớ lại và gõ*. Ôn tập theo hộp Leitner. |
+| 3 | **Trò chơi** `#/game` | "Bóng bay từ vựng": gõ đúng từ để làm nổ bóng. Có chế độ Dễ (hiện cả từ) và Trí nhớ (chỉ hiện nghĩa và chữ cái đầu). |
+| – | **Thành tích** `#/progress` | Chuỗi ngày học, thời gian luyện, tốc độ, phím hay gõ sai (heatmap), số từ đã học và đã thuộc theo từng cấp. |
 
-Để xem hướng dẫn chi tiết cách chơi, cài đặt các chế độ siêu chậm cho trẻ em tiểu học, cách nạp từ vựng tự động từ Excel/CSV, và mẹo đạt điểm cao, vui lòng đọc:
+Một số điểm dành riêng cho học sinh ở Nhật:
+- Khi bộ gõ đang ở chế độ かな hoặc Caps Lock đang bật, app hiện cảnh báo thay vì tính là gõ sai.
+- Bàn phím ảo có layout **JIS** (mặc định) và **US**.
+- Bấm sai phím thì con trỏ đứng yên, nên không cần dùng Backspace.
+- Tốc độ tính bằng số phím mỗi phút (打/分), mục tiêu 35–75 phím/phút, phù hợp lứa tuổi.
 
-👉 **[HƯỚNG DẪN SỬ DỤNG CHI TIẾT (VIETNAMESE)](file:///Users/tranhaibang/.gemini/antigravity/scratch/english-air-battle/USER_GUIDE.md)** 👈
-
----
-
-## 🌟 Key Features
-
-### 🧑‍🏫 1. 10-Finger Typing Coach
-*   **Virtual Hands (SVG palms)**: Real-time hand guide overlays highlighting exactly which finger and key to use for the next character without looking down.
-*   **Interactive Home Row Practice**: Muscle memory drill mode for basic posture layout (`A S D F J K L ; Space`) before launching into battle.
-*   **Keyboard Layout Compatibility**: Optimized for QWERTY layouts with dynamic overlays.
-
-### 🎮 2. High-Octane Game Modes
-*   **Endless Combat**: Continuously falling target wave vocabulary where the speed scales up over time. Keep your base shields up!
-*   **Time Attack**: Typing speed frenzy for 60 seconds. Unlimited lives, maximum intensity.
-*   **Boss Battles**: Giant vocabulary bosses with shield meters and custom word-spawning cannons.
-
-### 📚 3. Vocabulary & Spaced Repetition (SLS)
-*   **Diverse Curriculums**: Built-in libraries for Alphabet, Kids simple words, Japanese Eiken Grades (5 Kyu to 1 Kyu), TOEIC, IELTS, and TOEFL exams.
-*   **SLS Smart Review Engine**: Automatically marks missed words, calculates mastery scores, and houses a dedicated starred words review queue.
-*   **Custom Word List Cockpit**: Drag-and-drop support for CSV, Excel, and JSON list uploads, or manual vocabulary additions.
-
-### 🎨 4. Rich Themes & Shooter Characters
-*   **Cyberpunk Theme (👦)**: Dynamic green neon and electric orange ambient console style.
-*   **Magical Theme (👧)**: Cozy pink hearts, soft violet colors, and starry highlights tailored for girls.
-*   **Cute Shooters**: Cyber Fighter (🛸), Steel Tank (🚜), Neon Butterfly (🦋), and the newly added **Cute Pink Turtle (🐢)** with its customized magic lasers.
-
-### ⚙️ 5. Advanced Accessibility & Customization
-*   **Kids Speed Preset**: Supports extremely slow drops (`0.3x` to `0.2x` flight speed) for young learners.
-*   **Audio SFX & Ambient Soundtracks**: Configurable volumes with English Text-to-Speech (TTS) pronunciation audio cues upon target destruction (supporting US and UK accents).
-
----
-
-## 🛠️ Technology Stack
-*   **Core Logic & UI**: React 19.x & TypeScript 6.x
-*   **Build Tooling**: Vite 8.x
-*   **Styling Engine**: TailwindCSS v4 & Custom CSS glow overrides
-*   **File Parsing**: XLSX.js (for Excel and CSV importing)
-
----
-
-## 🚀 Running Locally
-
-To start the local development server, run the following commands in the project directory:
+## Chạy
 
 ```bash
-# Install dependencies
 npm install
-
-# Start Vite development server
-npm run dev
-
-# Compile and build for production
-npm run build
+npm run dev          # http://localhost:5173
+npm run build        # tsc + vite build → dist/
+npm run lint
 ```
+
+## Từ vựng (英級アップ)
+
+`public/data/vocab/{5,4,3,pre2,2,pre1,1}.json` được sinh từ dữ liệu public của eikyu-up:
+
+```bash
+npm run sync:vocab                                            # đọc checkout ../../eiken-guru
+EIKYU_SRC=https://eiken-compass.pages.dev npm run sync:vocab  # hoặc lấy thẳng từ site
+```
+
+Script gom khoảng 170 nhãn danh mục nội bộ của eikyu-up thành 28 chủ đề thân thiện với trẻ. Script cũng bỏ dấu (café → cafe) và loại những từ không gõ được trên bàn phím thường.
+
+Audio được phát trực tiếp từ route public `…/api/media/audio/vocab/*.mp3` của eikyu-up. Nếu thiếu file hoặc mất mạng, app chuyển sang giọng đọc TTS của trình duyệt. Muốn đổi domain thì đặt biến `VITE_EIKYU_BASE` lúc build.
+
+## Cấu trúc
+
+```
+src/
+  App.tsx              khung app + hash router (#/typing/1-1, #/study/5/family/0 …)
+  index.css            token màu Chotto (sáng/tối), nút, thẻ
+  lib/
+    curriculum.ts      lộ trình gõ phím, sinh bài tập, chấm sao
+    keyboard.ts        layout JIS/US, phím → ngón tay
+    typing.ts          đọc phím (IME/Caps), hook gõ một dòng
+    vocab.ts           tải từ vựng, chủ đề, cấp độ
+    store.ts           settings + tiến độ (localStorage `t4e:*`), Leitner
+    learning.ts        số liệu dẫn xuất dùng chung giữa các trang
+    audio.ts           audio eikyu-up + TTS dự phòng + hiệu ứng âm thanh
+    i18n.tsx, ruby.ts  t()/s()/p(), cú pháp furigana "[漢字|かんじ]"
+  i18n/{ja,vi,en}.ts   bản dịch (en là khuôn kiểu)
+  components/          Keyboard, Hands, TypingLine, ui
+  pages/               Home, Course, Lesson, Words, Study, Game, Progress, Settings
+```
+
+Deploy: xem [CLOUDFLARE_DEPLOYMENT.md](CLOUDFLARE_DEPLOYMENT.md). App là bundle tĩnh dùng hash routing, nên không cần cấu hình rewrite.

@@ -1,0 +1,134 @@
+{
+  "source": "eikyu-up",
+  "syncedAt": "2026-09-25",
+  "grades": {
+    "1": {
+      "count": 1787,
+      "topics": {
+        "academic": 429,
+        "verbs": 251,
+        "adjectives": 278,
+        "history": 169,
+        "science": 121,
+        "law": 130,
+        "arts": 160,
+        "connectors": 129,
+        "food": 28,
+        "weather": 41,
+        "society": 36,
+        "feelings": 15
+      }
+    },
+    "2": {
+      "count": 1503,
+      "topics": {
+        "weather": 154,
+        "verbs": 230,
+        "connectors": 124,
+        "adjectives": 227,
+        "law": 112,
+        "feelings": 29,
+        "numbers": 36,
+        "arts": 102,
+        "history": 33,
+        "society": 17,
+        "science": 58,
+        "business": 54,
+        "idioms": 56,
+        "academic": 206,
+        "communication": 26,
+        "more": 39
+      }
+    },
+    "3": {
+      "count": 984,
+      "topics": {
+        "academic": 231,
+        "verbs": 165,
+        "adjectives": 201,
+        "weather": 63,
+        "law": 42,
+        "society": 57,
+        "feelings": 45,
+        "communication": 30,
+        "school": 42,
+        "business": 42,
+        "daily": 66
+      }
+    },
+    "4": {
+      "count": 781,
+      "topics": {
+        "daily": 93,
+        "places": 39,
+        "communication": 189,
+        "sports": 60,
+        "body": 35,
+        "feelings": 36,
+        "adjectives": 128,
+        "society": 42,
+        "connectors": 48,
+        "more": 87,
+        "verbs": 24
+      }
+    },
+    "5": {
+      "count": 699,
+      "topics": {
+        "family": 16,
+        "school": 30,
+        "body": 16,
+        "food": 32,
+        "animals": 22,
+        "colors": 12,
+        "numbers": 83,
+        "places": 37,
+        "things": 56,
+        "weather": 22,
+        "clothing": 15,
+        "people": 20,
+        "verbs": 112,
+        "adjectives": 86,
+        "connectors": 64,
+        "more": 76
+      }
+    },
+    "pre2": {
+      "count": 1272,
+      "topics": {
+        "business": 181,
+        "science": 187,
+        "verbs": 258,
+        "idioms": 65,
+        "adjectives": 191,
+        "law": 40,
+        "weather": 41,
+        "history": 61,
+        "arts": 76,
+        "academic": 37,
+        "school": 35,
+        "more": 27,
+        "daily": 73
+      }
+    },
+    "pre1": {
+      "count": 1577,
+      "topics": {
+        "academic": 358,
+        "verbs": 239,
+        "adjectives": 247,
+        "science": 197,
+        "society": 176,
+        "idioms": 31,
+        "connectors": 46,
+        "law": 76,
+        "feelings": 44,
+        "arts": 33,
+        "business": 52,
+        "weather": 36,
+        "history": 29,
+        "more": 13
+      }
+    }
+  }
+}
