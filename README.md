@@ -59,6 +59,7 @@ src/
   i18n/{ja,vi,en}.ts   bản dịch (en là khuôn kiểu)
   components/          Keyboard, Hands, TypingLine, ui
   pages/               Home, Course, Lesson, Words, Study, Game, Progress, Settings
+functions/index.ts     Pages Function: typing4english.pages.dev → typing4english.chottoday.com (301)
 ```
 
 ## Liên kết với Chotto

@@ -66,7 +66,7 @@ npx wrangler pages deploy dist --project-name=typing4english
 
 ## 🌐 Tên miền `typing4english.chottoday.com`
 
-Đây là domain chính thức, cùng kiểu với `eikyu-up.chottoday.com`. `typing4english.pages.dev` vẫn chạy, nhưng mọi liên kết đều trỏ về domain chính.
+Đây là domain chính thức, cùng kiểu với `eikyu-up.chottoday.com`. `functions/index.ts` chuyển `typing4english.pages.dev` sang domain này bằng redirect 301. Function chỉ chạy ở đường dẫn `/`. Các bản preview (`<hash>.typing4english.pages.dev`) không bị chuyển.
 
 1. Vào Cloudflare Dashboard → **Workers & Pages** → project `typing4english` → tab **Custom domains** → **Set up a custom domain**.
 2. Nhập `typing4english.chottoday.com` → **Continue** → **Activate domain**. Zone `chottoday.com` đã nằm ở Cloudflare nên bản ghi CNAME được tạo tự động.
@@ -78,5 +78,5 @@ Zone `chottoday.com` đang bật Bot Fight Mode. Với trình duyệt thì khôn
 
 ## ⚠️ Lưu Ý Khi Hoạt Động Trên Cloudflare Pages
 
-- **Không cần file `_redirects`.** App dùng hash routing (`#/typing/1-1`), nên tải lại trang ở bất kỳ màn hình nào cũng không bị lỗi 404.
+- **Không cần file `_redirects`** (redirect domain nằm ở `functions/index.ts`). App dùng hash routing (`#/typing/1-1`), nên tải lại trang ở bất kỳ màn hình nào cũng không bị lỗi 404.
 - **Audio phát âm** được lấy trực tiếp từ eikyu-up (`https://eikyu-up.chottoday.com`). Nếu eikyu-up đổi domain, thêm biến môi trường `VITE_EIKYU_BASE` trong phần build settings.
