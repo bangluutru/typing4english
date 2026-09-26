@@ -12,15 +12,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Apply the saved theme before first paint so the page never flashes the wrong colours. -->
+    <!-- Apply the saved theme, language and tab title before first paint so nothing flashes.
+         The language pick mirrors takeLangParam/detectLang in src/lib/store.ts;
+         the titles come from 'meta.title' in src/i18n (injected by vite.config.ts). -->
     <script>
       try {
         var s = JSON.parse(localStorage.getItem('t4e:settings') || '{}');
         var dark = s.theme === 'dark' || (s.theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        var q = new URLSearchParams(location.search).get('lang'); // see takeLangParam in src/lib/store.ts
-        var lang = q === 'ja' || q === 'vi' || q === 'en' ? q : s.uiLang;
-        if (lang) document.documentElement.lang = lang;
+        var titles = __T4E_TITLES__;
+        var q = new URLSearchParams(location.search).get('lang');
+        var nav = (navigator.language || 'ja').toLowerCase();
+        var has = function (k) { return Object.prototype.hasOwnProperty.call(titles, k); }; // not ?lang=toString
+        var lang = has(q) ? q : has(s.uiLang) ? s.uiLang : nav.indexOf('vi') === 0 ? 'vi' : nav.indexOf('en') === 0 ? 'en' : 'ja';
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
       } catch (e) {
         document.documentElement.dataset.theme = 'light';
       }

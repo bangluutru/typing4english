@@ -30,8 +30,8 @@ function useApplySettings() {
   const [s] = useSettings();
   const { p } = useT();
   const title = p('meta.title');
-  // index.html keeps the Japanese title for crawlers and the first paint; the
-  // tab then follows the interface language.
+  // index.html sets the same title before first paint; this keeps it in step
+  // when the language changes in Settings.
   useEffect(() => { document.title = title; }, [title]);
   useEffect(() => {
     const root = document.documentElement;
