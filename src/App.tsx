@@ -50,15 +50,20 @@ function useApplySettings() {
 }
 
 /**
- * Thin Mực strip above the header on wide screens, the same one 英級アップ
- * carries: "Chotto › Study tools › Typing4English" on the left, the sister app
+ * Thin Mực strip above the header, the same one 英級アップ carries on wide
+ * screens: "Chotto › Study tools › Typing4English" on the left, the sister app
  * on the right. It is what ties the subdomain back to chottoday.com at a glance
  * when someone arrives from its "Ứng dụng của Chotto" block.
+ *
+ * Shown on phones too, where most readers come from: the header there is icons
+ * only, so without the strip nothing on screen says Chotto. Below `sm` the
+ * middle crumb goes, because all four items do not fit in 375px at 13px.
+ * The strip is not sticky, so it scrolls away and costs no room while typing.
  */
 function ChottoStrip() {
   const { t, lang } = useT();
   return (
-    <div className="hidden h-9 md:block" style={{ background: MUC, color: PAPER }}>
+    <div className="h-9" style={{ background: MUC, color: PAPER }}>
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-3 px-4 text-[13px]">
         <nav aria-label="Chotto">
           <ol className="flex list-none items-center gap-1.5 whitespace-nowrap">
@@ -66,8 +71,8 @@ function ChottoStrip() {
               <a href={CHOTTO_URL} className="font-display font-extrabold underline-offset-2 hover:underline">Chotto</a>
             </li>
             <li aria-hidden="true" className="opacity-60">›</li>
-            <li className="opacity-80">{t('brand.stripTools')}</li>
-            <li aria-hidden="true" className="opacity-60">›</li>
+            <li className="hidden opacity-80 sm:list-item">{t('brand.stripTools')}</li>
+            <li aria-hidden="true" className="hidden opacity-60 sm:list-item">›</li>
             <li aria-current="page" className="font-bold" style={{ borderBottom: '2px solid var(--teal)' }}>Typing4English</li>
           </ol>
         </nav>

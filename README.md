@@ -66,7 +66,7 @@ functions/index.ts     Pages Function: typing4english.pages.dev → typing4engli
 
 App chạy ở **https://typing4english.chottoday.com** và có thẻ trong khối "Ứng dụng của Chotto" trên trang chủ chottoday.com (`src/data/apps.js` của repo chottoday). Để người dùng thấy đây vẫn là Chotto khi chuyển sang:
 
-- Trên màn hình rộng, phía trên header có dải màu Mực *Chotto › Công cụ học tập › Typing4English*. Dải này giống dải của 英級アップ.
+- Phía trên header có dải màu Mực *Chotto › Công cụ học tập › Typing4English*, giống dải của 英級アップ. Trên điện thoại dải vẫn hiện nhưng bỏ cấp giữa, thành *Chotto › Typing4English*.
 - Cạnh logo có chữ "by Chotto", chân trang có link về chottoday.com.
 - Bảng màu, font và kiểu thẻ lấy từ token của chottoday (`src/index.css`).
 - Thêm `?lang=vi|ja|en` vào bất kỳ URL nào để chọn ngôn ngữ giao diện. Tham số này thắng lựa chọn đã lưu, sau đó được lưu lại và xoá khỏi thanh địa chỉ. chottoday.com dẫn sang bằng `?lang=vi`. Lý do: nhiều người Việt ở Nhật để điện thoại tiếng Nhật, nếu đoán theo trình duyệt họ sẽ gặp giao diện tiếng Nhật.
