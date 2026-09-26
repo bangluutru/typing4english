@@ -23,6 +23,7 @@ export const ja: Dict = {
   'footer.vocab': 'たんご・[音声|おんせい]：',
   'brand.stripTools': '[学習|がくしゅう]ツール',
   'brand.home': 'Chotto ホーム',
+  'meta.title': 'Typing4English — タイピングで英語をおぼえよう',
 
   'home.hello': 'こんにちは！👋',
   'home.welcomeBack': 'おかえりなさい！👋',

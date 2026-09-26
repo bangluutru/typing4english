@@ -22,6 +22,7 @@ export const vi: Dict = {
   'footer.vocab': 'Từ vựng & âm thanh:',
   'brand.stripTools': 'Công cụ học tập',
   'brand.home': 'Trang chủ Chotto',
+  'meta.title': 'Typing4English — Gõ phím, học từ vựng tiếng Anh',
 
   'home.hello': 'Xin chào! 👋',
   'home.welcomeBack': 'Chào mừng con quay lại! 👋',

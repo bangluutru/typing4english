@@ -20,6 +20,7 @@ export const en = {
   'footer.vocab': 'Words & audio:',
   'brand.stripTools': 'Study tools',
   'brand.home': 'Chotto home',
+  'meta.title': 'Typing4English — Learn English words by typing',
 
   'home.hello': 'Hi there! 👋',
   'home.welcomeBack': 'Welcome back! 👋',

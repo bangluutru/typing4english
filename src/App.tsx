@@ -28,6 +28,11 @@ const NAV: { path: string; icon: ReactNode; key: TKey; color: string }[] = [
 
 function useApplySettings() {
   const [s] = useSettings();
+  const { p } = useT();
+  const title = p('meta.title');
+  // index.html keeps the Japanese title for crawlers and the first paint; the
+  // tab then follows the interface language.
+  useEffect(() => { document.title = title; }, [title]);
   useEffect(() => {
     const root = document.documentElement;
     root.lang = s.uiLang;
