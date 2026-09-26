@@ -6,7 +6,7 @@ import { settingsStore } from './store';
    If a file is missing or the network is down, fall back to browser TTS.
    -------------------------------------------------------------------------- */
 
-export const EIKYU_BASE: string = (import.meta.env.VITE_EIKYU_BASE as string | undefined) ?? 'https://eiken-compass.pages.dev';
+export const EIKYU_BASE: string = (import.meta.env.VITE_EIKYU_BASE as string | undefined) ?? 'https://eikyu-up.chottoday.com';
 const VOCAB_AUDIO = `${EIKYU_BASE}/api/media/audio/vocab/`;
 
 let player: HTMLAudioElement | null = null;

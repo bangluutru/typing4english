@@ -34,7 +34,7 @@ npm run lint
 
 ```bash
 npm run sync:vocab                                            # đọc checkout ../../eiken-guru
-EIKYU_SRC=https://eiken-compass.pages.dev npm run sync:vocab  # hoặc lấy thẳng từ site
+EIKYU_SRC=https://eikyu-up.chottoday.com npm run sync:vocab  # hoặc lấy thẳng từ site
 ```
 
 Script gom khoảng 170 nhãn danh mục nội bộ của eikyu-up thành 28 chủ đề thân thiện với trẻ. Script cũng bỏ dấu (café → cafe) và loại những từ không gõ được trên bàn phím thường.
@@ -60,5 +60,14 @@ src/
   components/          Keyboard, Hands, TypingLine, ui
   pages/               Home, Course, Lesson, Words, Study, Game, Progress, Settings
 ```
+
+## Liên kết với Chotto
+
+App chạy ở **https://typing4english.chottoday.com** và có thẻ trong khối "Ứng dụng của Chotto" trên trang chủ chottoday.com (`src/data/apps.js` của repo chottoday). Để người dùng thấy đây vẫn là Chotto khi chuyển sang:
+
+- Trên màn hình rộng, phía trên header có dải màu Mực *Chotto › Công cụ học tập › Typing4English*. Dải này giống dải của 英級アップ.
+- Cạnh logo có chữ "by Chotto", chân trang có link về chottoday.com.
+- Bảng màu, font và kiểu thẻ lấy từ token của chottoday (`src/index.css`).
+- Thêm `?lang=vi|ja|en` vào bất kỳ URL nào để chọn ngôn ngữ giao diện. Tham số này thắng lựa chọn đã lưu, sau đó được lưu lại và xoá khỏi thanh địa chỉ. chottoday.com dẫn sang bằng `?lang=vi`. Lý do: nhiều người Việt ở Nhật để điện thoại tiếng Nhật, nếu đoán theo trình duyệt họ sẽ gặp giao diện tiếng Nhật.
 
 Deploy: xem [CLOUDFLARE_DEPLOYMENT.md](CLOUDFLARE_DEPLOYMENT.md). App là bundle tĩnh dùng hash routing, nên không cần cấu hình rewrite.

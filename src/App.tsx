@@ -15,6 +15,8 @@ import { SettingsPage } from './pages/SettingsPage';
 import type { GradeId } from './lib/store';
 
 const CHOTTO_URL = 'https://chottoday.com';
+const MUC = '#1E2A44'; // Chotto "Mực", same in both themes, like the strip on chottoday.com's sister apps
+const PAPER = '#FBF9F5';
 
 const NAV: { path: string; icon: ReactNode; key: TKey; color: string }[] = [
   { path: '', icon: <Home size={20} />, key: 'nav.home', color: 'teal' },
@@ -42,6 +44,36 @@ function useApplySettings() {
   }, [s.uiLang, s.furigana, s.theme]);
 }
 
+/**
+ * Thin Mực strip above the header on wide screens, the same one 英級アップ
+ * carries: "Chotto › Study tools › Typing4English" on the left, the sister app
+ * on the right. It is what ties the subdomain back to chottoday.com at a glance
+ * when someone arrives from its "Ứng dụng của Chotto" block.
+ */
+function ChottoStrip() {
+  const { t, lang } = useT();
+  return (
+    <div className="hidden h-9 md:block" style={{ background: MUC, color: PAPER }}>
+      <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-3 px-4 text-[13px]">
+        <nav aria-label="Chotto">
+          <ol className="flex list-none items-center gap-1.5 whitespace-nowrap">
+            <li>
+              <a href={CHOTTO_URL} className="font-display font-extrabold underline-offset-2 hover:underline">Chotto</a>
+            </li>
+            <li aria-hidden="true" className="opacity-60">›</li>
+            <li className="opacity-80">{t('brand.stripTools')}</li>
+            <li aria-hidden="true" className="opacity-60">›</li>
+            <li aria-current="page" className="font-bold" style={{ borderBottom: '2px solid var(--teal)' }}>Typing4English</li>
+          </ol>
+        </nav>
+        <a href={`${EIKYU_BASE}/?lang=${lang}`} className="whitespace-nowrap opacity-90 underline-offset-2 hover:underline">
+          英級アップ <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function Header({ section }: { section: string }) {
   const { t, p } = useT();
   return (
@@ -52,6 +84,13 @@ function Header({ section }: { section: string }) {
           <span className="hidden font-display text-lg font-black leading-none sm:block">
             Typing<span className="text-teal-ink">4</span>English
           </span>
+        </a>
+        <a
+          href={CHOTTO_URL}
+          className="-ml-2 mr-2 hidden self-center pt-1 text-xs font-bold text-muted hover:text-ink hover:underline sm:block"
+          title={p('brand.home')}
+        >
+          by Chotto
         </a>
         <nav className="flex flex-1 items-center justify-end gap-1 sm:justify-center" aria-label={p('nav.menu')}>
           {NAV.map(n => {
@@ -86,7 +125,7 @@ function Header({ section }: { section: string }) {
 }
 
 function Footer() {
-  const { t } = useT();
+  const { t, lang } = useT();
   return (
     <footer className="mt-12 border-t border-line">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm text-muted">
@@ -98,7 +137,7 @@ function Footer() {
         </a>
         <span>
           {t('footer.vocab')}{' '}
-          <a href={EIKYU_BASE} target="_blank" rel="noopener" className="font-bold text-coral-ink hover:underline">英級アップ</a>
+          <a href={`${EIKYU_BASE}/?lang=${lang}`} target="_blank" rel="noopener" className="font-bold text-coral-ink hover:underline">英級アップ</a>
         </span>
       </div>
     </footer>
@@ -141,6 +180,7 @@ export default function App() {
   const navSection = section === 'study' ? 'words' : section;
   return (
     <div className="flex min-h-screen flex-col">
+      <ChottoStrip />
       <Header section={navSection} />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">{page}</main>
       {!focusMode && <Footer />}

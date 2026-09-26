@@ -20,6 +20,8 @@ export const vi: Dict = {
 
   'footer.chotto': 'Công cụ nhỏ của Chotto',
   'footer.vocab': 'Từ vựng & âm thanh:',
+  'brand.stripTools': 'Công cụ học tập',
+  'brand.home': 'Trang chủ Chotto',
 
   'home.hello': 'Xin chào! 👋',
   'home.welcomeBack': 'Chào mừng con quay lại! 👋',

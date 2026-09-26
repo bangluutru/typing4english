@@ -21,6 +21,8 @@ export const ja: Dict = {
 
   'footer.chotto': 'Chotto のミニツール',
   'footer.vocab': 'たんご・[音声|おんせい]：',
+  'brand.stripTools': '[学習|がくしゅう]ツール',
+  'brand.home': 'Chotto ホーム',
 
   'home.hello': 'こんにちは！👋',
   'home.welcomeBack': 'おかえりなさい！👋',

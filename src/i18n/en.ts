@@ -18,6 +18,8 @@ export const en = {
 
   'footer.chotto': 'A Chotto mini tool',
   'footer.vocab': 'Words & audio:',
+  'brand.stripTools': 'Study tools',
+  'brand.home': 'Chotto home',
 
   'home.hello': 'Hi there! 👋',
   'home.welcomeBack': 'Welcome back! 👋',

@@ -42,7 +42,33 @@ export interface Progress {
 const SETTINGS_KEY = 't4e:settings';
 const PROGRESS_KEY = 't4e:progress';
 
+/**
+ * `?lang=ja|vi|en` picks the interface language.
+ *
+ * chottoday.com is a Vietnamese site and links here with ?lang=vi: many
+ * Vietnamese families in Japan keep their phone in Japanese, so guessing from
+ * the browser would land them on the Japanese screen. An explicit parameter wins
+ * over a saved choice, is then saved like any other choice, and is removed from
+ * the address bar so a reload does not undo a later change in Settings.
+ * index.html reads the same parameter to set <html lang> before first paint.
+ */
+function takeLangParam(): UiLang | null {
+  try {
+    const url = new URL(window.location.href);
+    const v = url.searchParams.get('lang');
+    if (v === null) return null;
+    url.searchParams.delete('lang');
+    history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+    return v === 'ja' || v === 'vi' || v === 'en' ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+const URL_LANG = takeLangParam();
+
 function detectLang(): UiLang {
+  if (URL_LANG) return URL_LANG;
   const l = (navigator.language || 'ja').toLowerCase();
   if (l.startsWith('vi')) return 'vi';
   if (l.startsWith('en')) return 'en';
@@ -100,6 +126,10 @@ function createStore<T extends object>(key: string, fallback: () => T) {
 
 export const settingsStore = createStore<Settings>(SETTINGS_KEY, defaultSettings);
 export const progressStore = createStore<Progress>(PROGRESS_KEY, emptyProgress);
+
+// A first visit already got URL_LANG through detectLang(); a returning one has
+// saved settings, so only the interface language changes (not meaningLang).
+if (URL_LANG) settingsStore.set(s => (s.uiLang === URL_LANG ? s : { ...s, uiLang: URL_LANG }));
 
 export function useSettings(): [Settings, (patch: Partial<Settings>) => void] {
   const s = useSyncExternalStore(settingsStore.subscribe, settingsStore.get);

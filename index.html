@@ -18,7 +18,9 @@
         var s = JSON.parse(localStorage.getItem('t4e:settings') || '{}');
         var dark = s.theme === 'dark' || (s.theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        if (s.uiLang) document.documentElement.lang = s.uiLang;
+        var q = new URLSearchParams(location.search).get('lang'); // see takeLangParam in src/lib/store.ts
+        var lang = q === 'ja' || q === 'vi' || q === 'en' ? q : s.uiLang;
+        if (lang) document.documentElement.lang = lang;
       } catch (e) {
         document.documentElement.dataset.theme = 'light';
       }
