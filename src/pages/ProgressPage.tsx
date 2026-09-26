@@ -109,7 +109,8 @@ export function ProgressPage() {
             <p className="text-sm text-muted">{t('progress.noWeak')}</p>
           )}
           <div className="mt-4">
-            <Keyboard layout={settings.layout} heat={heat} compact />
+            {/* Same as the lesson intro: on phones the keyboard reaches into the card's padding. */}
+            <div className="-mx-4 sm:mx-0"><Keyboard layout={settings.layout} heat={heat} compact /></div>
             <p className="mt-2 text-xs text-muted">{t('progress.heatNote')}</p>
           </div>
         </section>

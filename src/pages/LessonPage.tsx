@@ -141,7 +141,8 @@ function LessonRunner({ lesson, index }: { lesson: Lesson; index: number }) {
           )}
           {lesson.id === '1-1' && <p className="mx-auto mt-5 max-w-xl rounded-2xl bg-note p-4 font-semibold text-ink">{t('lesson.homeTip')}</p>}
 
-          <div className="mt-6">
+          {/* On phones the keyboard reaches into the card's padding: every pixel is key size there. */}
+          <div className="-mx-4 mt-6 sm:mx-0">
             <Keyboard layout={settings.layout} focus={lesson.newKeys} compact />
           </div>
           <div className="mt-6 flex flex-col items-center gap-2">
