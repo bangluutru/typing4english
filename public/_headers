@@ -33,3 +33,8 @@
 # mọi đường dẫn khác và các bản preview vẫn phục vụ. Không để Google index chúng.
 https://:project.pages.dev/*
   X-Robots-Tag: noindex
+
+# Bản preview (<hash>.typing4english.pages.dev, <nhánh>.typing4english.pages.dev).
+# Luật trên không khớp chúng — đã thử trên preview của PR #1.
+https://:preview.:project.pages.dev/*
+  X-Robots-Tag: noindex
