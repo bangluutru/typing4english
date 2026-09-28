@@ -79,4 +79,6 @@ Zone `chottoday.com` đang bật Bot Fight Mode. Với trình duyệt thì khôn
 ## ⚠️ Lưu Ý Khi Hoạt Động Trên Cloudflare Pages
 
 - **Không cần file `_redirects`** (redirect domain nằm ở `functions/index.ts`). App dùng hash routing (`#/typing/1-1`), nên tải lại trang ở bất kỳ màn hình nào cũng không bị lỗi 404.
+- **`public/404.html`**: có file này thì Pages trả 404 thật cho đường dẫn lạ, không trả `index.html` với mã 200. An toàn chỉ vì app dùng hash routing. Nếu sau này thêm route dạng đường dẫn thật (`/words/5`), phải thêm dòng rewrite trong `_redirects`, không thì route đó thành 404.
+- **`public/_headers`**: header bảo mật, `noindex` và bỏ CORS cho `/data/*`, `noindex` cho bản `*.pages.dev`. `public/robots.txt` sinh từ `src/config/crawlerPolicy.js` của repo chottoday. Chặn bot AI/SEO thật sự làm ở cấp zone Cloudflare, không bằng Function, để khỏi tốn lượt gọi.
 - **Audio phát âm** được lấy trực tiếp từ eikyu-up (`https://eikyu-up.chottoday.com`). Nếu eikyu-up đổi domain, thêm biến môi trường `VITE_EIKYU_BASE` trong phần build settings.

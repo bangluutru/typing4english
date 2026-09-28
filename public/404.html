@@ -1,0 +1,27 @@
+<!doctype html>
+<!--
+  Có file này thì Cloudflare Pages trả 404 thật cho đường dẫn lạ, thay vì trả
+  index.html với mã 200. An toàn vì app dùng hash routing (#/typing/1-1):
+  mọi màn hình đều nằm sau "/", không có route nào là đường dẫn thật.
+-->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>404 — Typing4English</title>
+    <style>
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #FBF9F5; color: #1E2A44; font-family: system-ui, sans-serif; text-align: center; padding: 16px; }
+      a { color: #1E2A44; font-weight: 700; }
+      @media (prefers-color-scheme: dark) { body { background: #151b2c; color: #eef1f7; } a { color: #eef1f7; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>404</h1>
+      <p>ページが見つかりません · Không tìm thấy trang · Page not found</p>
+      <p><a href="/">Typing4English →</a></p>
+    </main>
+  </body>
+</html>

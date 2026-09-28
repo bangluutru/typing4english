@@ -1,0 +1,35 @@
+# Header phản hồi của Cloudflare Pages.
+#
+# Không file nào ở đây được thêm "noindex" cho /*: trang chủ cần lên Google.
+# Chỉ /data/* (JSON từ vựng) và bản *.pages.dev bị noindex.
+#
+# Chưa có CSP đầy đủ (script-src…): index.html có script inline, font Google
+# và audio từ eikyu-up — viết sai một nguồn là trang vỡ. Làm sau, bằng
+# Content-Security-Policy-Report-Only trước.
+
+/*
+  # Tuyên bố không cho dùng làm dữ liệu huấn luyện. Không ép được ai, nhưng
+  # đây là thứ các bot có tôn trọng opt-out tìm đọc.
+  X-Robots-Tag: noai, noimageai
+  # Không cho site khác nhúng nguyên app vào khung của họ.
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  # App không dùng camera, micro, vị trí. Phát audio không cần quyền nào.
+  Permissions-Policy: browsing-topics=(), interest-cohort=(), camera=(), microphone=(), geolocation=()
+  # Không includeSubDomains, không preload: header này chỉ nói cho host này.
+  Strict-Transport-Security: max-age=15552000
+
+# Từ vựng: 8.600 từ tải được một phát. Trang tự fetch cùng origin
+# (src/lib/vocab.ts), nên bỏ "Access-Control-Allow-Origin: *" mặc định của
+# Pages không ảnh hưởng gì tới app — chỉ chặn trang khác đọc thẳng từ trình
+# duyệt. Không Disallow trong robots.txt vì bot tìm kiếm cần tải nó để render.
+/data/*
+  ! Access-Control-Allow-Origin
+  X-Robots-Tag: noindex, noai, noimageai
+
+# Bản pages.dev: trang chủ đã 301 về tên miền chính (functions/index.ts), nhưng
+# mọi đường dẫn khác và các bản preview vẫn phục vụ. Không để Google index chúng.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex

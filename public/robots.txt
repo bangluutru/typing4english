@@ -1,4 +1,255 @@
+# Typing4English — https://typing4english.chottoday.com
+#
+# File này sinh từ src/config/crawlerPolicy.js của repo chottoday
+# (buildRobotsTxt). Sửa danh sách bot ở đó rồi sinh lại, đừng sửa tay ở đây.
+#
+# Không Disallow /data/: trang tải từ vựng ở đó để hiển thị, bot tìm kiếm
+# cần đọc được. Việc không index JSON do X-Robots-Tag trong public/_headers lo.
+
+# --- Các bot tìm kiếm và xem trước liên kết được phép ---
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: coccocbot
+Allow: /
+
+User-agent: coccocbot-web
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Zalo
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+# --- Bot huấn luyện AI và bot thu thập SEO: không được phép ---
+
+# OpenAI training crawler
+User-agent: GPTBot
+Disallow: /
+
+# OpenAI search index
+User-agent: OAI-SearchBot
+Disallow: /
+
+# ChatGPT browsing on a user prompt
+User-agent: ChatGPT-User
+Disallow: /
+
+# Anthropic crawler
+User-agent: ClaudeBot
+Disallow: /
+
+# Anthropic crawler
+User-agent: Claude-Web
+Disallow: /
+
+# Anthropic search index
+User-agent: Claude-SearchBot
+Disallow: /
+
+# Anthropic crawler
+User-agent: anthropic-ai
+Disallow: /
+
+# Common Crawl — the corpus most models are trained on
+User-agent: CCBot
+Disallow: /
+
+# Gemini training (does not affect Google Search)
+User-agent: Google-Extended
+Disallow: /
+
+# Apple Intelligence training (Applebot stays allowed)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Meta language-model training
+User-agent: FacebookBot
+Disallow: /
+
+# Meta AI crawler
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Meta AI fetcher
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+# ByteDance/TikTok training crawler, notoriously aggressive
+User-agent: Bytespider
+Disallow: /
+
+# Perplexity index
+User-agent: PerplexityBot
+Disallow: /
+
+# Perplexity fetch on a user prompt
+User-agent: Perplexity-User
+Disallow: /
+
+# Amazon/Alexa crawler
+User-agent: Amazonbot
+Disallow: /
+
+# Cohere crawler
+User-agent: cohere-ai
+Disallow: /
+
+# You.com crawler
+User-agent: YouBot
+Disallow: /
+
+# Commercial content-extraction service
+User-agent: Diffbot
+Disallow: /
+
+# Image dataset crawler
+User-agent: ImagesiftBot
+Disallow: /
+
+# Resells crawled text as training data
+User-agent: Omgilibot
+Disallow: /
+
+# Resells crawled text as training data
+User-agent: Omgili
+Disallow: /
+
+# Webz.io dataset crawler
+User-agent: Webzio-Extended
+Disallow: /
+
+# Allen Institute dataset crawler
+User-agent: AI2Bot
+Disallow: /
+
+# Allen Institute Dolma corpus
+User-agent: Ai2Bot-Dolma
+Disallow: /
+
+# Dataset crawler
+User-agent: Timpibot
+Disallow: /
+
+# Huawei PanGu training crawler
+User-agent: PanguBot
+Disallow: /
+
+# DuckDuckGo AI answers (DuckDuckBot stays allowed)
+User-agent: DuckAssistBot
+Disallow: /
+
+# Bulk image-dataset tool
+User-agent: img2dataset
+Disallow: /
+
+# Undisclosed dataset crawler
+User-agent: FriendlyCrawler
+Disallow: /
+
+# Undisclosed dataset crawler
+User-agent: ISSCyberRiskCrawler
+Disallow: /
+
+# Ahrefs backlink index
+User-agent: AhrefsBot
+Disallow: /
+
+# Semrush index
+User-agent: SemrushBot
+Disallow: /
+
+# Majestic index
+User-agent: MJ12bot
+Disallow: /
+
+# Moz index
+User-agent: DotBot
+Disallow: /
+
+# Moz site crawler
+User-agent: rogerbot
+Disallow: /
+
+# DataForSEO resells crawl results
+User-agent: DataForSeoBot
+Disallow: /
+
+# WebMeUp backlink index
+User-agent: BLEXBot
+Disallow: /
+
+# Serpstat index
+User-agent: serpstatbot
+Disallow: /
+
+# Babbar backlink index
+User-agent: Barkrowler
+Disallow: /
+
+# Contact-data harvester
+User-agent: ZoominfoBot
+Disallow: /
+
+# Semrush audit crawler
+User-agent: SiteAuditBot
+Disallow: /
+
+# Desktop site-mirroring crawler
+User-agent: Screaming Frog SEO Spider
+Disallow: /
+
+# Huawei Petal index
+User-agent: PetalBot
+Disallow: /
+
+# Seekport index
+User-agent: SeekportBot
+Disallow: /
+
+# --- Mọi bot khác ---
+
 User-agent: *
 Allow: /
+# Xin đọc chậm lại, site này do một nhóm nhỏ vận hành.
+Crawl-delay: 5
 
 Sitemap: https://typing4english.chottoday.com/sitemap.xml
