@@ -12,6 +12,8 @@ import { StudyPage } from './pages/StudyPage';
 import { GamePage } from './pages/GamePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LegalPage } from './pages/LegalPage';
+import { LEGAL, CONTACT_EMAIL } from './lib/legal';
 import type { GradeId } from './lib/store';
 
 const CHOTTO_URL = 'https://chottoday.com';
@@ -149,6 +151,12 @@ function Footer() {
           {t('footer.vocab')}{' '}
           <a href={`${EIKYU_BASE}/?lang=${lang}`} target="_blank" rel="noopener" className="font-bold text-coral-ink hover:underline">英級アップ</a>
         </span>
+        <nav className="flex w-full flex-wrap gap-x-5 gap-y-1" aria-label={LEGAL[lang].nav.about}>
+          <a href={href('about')} className="hover:text-ink hover:underline">{LEGAL[lang].nav.about}</a>
+          <a href={href('privacy')} className="hover:text-ink hover:underline">{LEGAL[lang].nav.privacy}</a>
+          <a href={href('terms')} className="hover:text-ink hover:underline">{LEGAL[lang].nav.terms}</a>
+          <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-ink hover:underline">{LEGAL[lang].nav.contact}</a>
+        </nav>
       </div>
     </footer>
   );
@@ -182,6 +190,11 @@ export default function App() {
       break;
     case 'settings':
       page = <SettingsPage />;
+      break;
+    case 'about':
+    case 'privacy':
+    case 'terms':
+      page = <LegalPage kind={section} />;
       break;
     default:
       page = <HomePage />;
